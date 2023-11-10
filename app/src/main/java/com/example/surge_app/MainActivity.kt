@@ -7,8 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.surge_app.ui.theme.SurgeAppTheme
 
@@ -31,9 +37,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+    var userName by remember { mutableStateOf("") }
+    TextField(
+        value = userName,
+        onValueChange = {userName = it},
+        label = {Text(stringResource(R.string.username))},
     )
 }
 
@@ -44,4 +52,3 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
-// This is a test
