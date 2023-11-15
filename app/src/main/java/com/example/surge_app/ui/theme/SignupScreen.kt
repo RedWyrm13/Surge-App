@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
 @Composable
-private fun signUpScreen()
+ fun signUpScreen()
 {
     var email by remember {mutableStateOf("")}
     var firstName by remember{mutableStateOf("")}

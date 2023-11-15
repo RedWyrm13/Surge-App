@@ -11,7 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.surge_app.R
 
 @Composable
-fun LogInOrCreateAccount(){
+fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
+                         onSignUpButtonClicked: () -> Unit)
+{
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center    ) {
         Button(onClick = {/* TODO */}){
@@ -25,8 +27,10 @@ fun LogInOrCreateAccount(){
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun LogInOrCreateAccountScreenPreview() {
     SurgeAppTheme {
-        LogInOrCreateAccount()
+        LogInOrCreateAccount(
+            onLoginButtonClicked = {},
+            onSignUpButtonClicked = {})
     }
 }
