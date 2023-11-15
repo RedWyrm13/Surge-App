@@ -86,8 +86,8 @@ import com.example.surge_app.R
                 color = Color.Red)
         }
         Row(){
-            Button(onClick = { /*TODO Cancel Button*/ }) {Text(stringResource(R.string.cancel))}
-            Button(onClick = { /*TODO Sign Up Button. This button needs to create a new user*/ })
+            Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
+            Button(onClick = onSignUpButtomClicked )
             {
                 Text(stringResource(R.string.create_account))
             }

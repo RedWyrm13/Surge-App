@@ -28,8 +28,9 @@ fun SurgeApp(navController: NavHostController = rememberNavController()){
 
         }
         composable(route = Screens.SignUp.name){
-            SignUpScreen(onSignUpButtomClicked = {/* TO DO */},
-            onCancelButtonClicked = {navController.navigate(Screens.LoginOrCreateAccount.name)})
+            SignUpScreen(
+                onSignUpButtomClicked = {/* TO DO */},
+                onCancelButtonClicked = {navController.navigate(Screens.LoginOrCreateAccount.name)})
         }
         composable(route = Screens.Login.name){
             LoginScreen(
