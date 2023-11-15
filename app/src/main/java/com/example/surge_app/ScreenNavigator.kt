@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.example.surge_app.ui.theme.LogInOrCreateAccount
 import com.example.surge_app.ui.theme.signUpScreen
 
 
@@ -18,8 +19,14 @@ fun SurgeApp(navController: NavHostController = rememberNavController()){
     NavHost(navController = navController,
         startDestination = Screens.loginOrCreateAccount.name){
         composable(route = Screens.loginOrCreateAccount.name){
-            signUpScreen()
+            LogInOrCreateAccount(
+                onLoginButtonClicked = {/* TODO */},
+                onSignUpButtonClicked = {navController.navigate(Screens.createAccount.name)}
+                )
 
+        }
+        composable(route = Screens.createAccount.name){
+            signUpScreen()
         }
 
 

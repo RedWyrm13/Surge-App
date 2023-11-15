@@ -16,10 +16,10 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
 {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center    ) {
-        Button(onClick = {/* TODO */}){
+        Button(onClick = onLoginButtonClicked){
             Text(text = stringResource(R.string.log_in))
         }
-        Button(onClick = {/* TODO */}){
+        Button(onClick = onSignUpButtonClicked){
             Text(text = stringResource(R.string.sign_up))
         }
     }
