@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
 @Composable
- fun SignUpScreen()
+ fun SignUpScreen(onSignUpButtomClicked: () -> Unit,
+                  onCancelButtonClicked: () -> Unit)
 {
     var email by remember {mutableStateOf("")}
     var firstName by remember{mutableStateOf("")}
@@ -109,5 +110,6 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
 @Preview
 fun signUpScreenPreview()
 {
-    SignUpScreen()
+    SignUpScreen(onCancelButtonClicked = {},
+        onSignUpButtomClicked = {})
 }

@@ -2,6 +2,8 @@ package com.example.surge_app.ui.theme
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -18,7 +20,8 @@ import com.example.surge_app.R
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(onSignUpButtonClicked: () -> Unit,
+                onLoginButtonClicked: () -> Unit){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(
@@ -41,11 +44,16 @@ fun LoginScreen(){
                     style = LocalTextStyle.current.copy(fontSize = 8.sp))
             }
         )
-    }
+        Row{
+            Button(onClick = onSignUpButtonClicked){Text(stringResource(R.string.sign_up))}
+            Button(onClick = onLoginButtonClicked){Text(stringResource(R.string.log_in))}
+        }
+    } // End of column
 }
 
 @Preview
 @Composable
 fun LoginScreenPreview(){
-    LoginScreen()
+    LoginScreen(onLoginButtonClicked = {},
+        onSignUpButtonClicked = {})
 }
