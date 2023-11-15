@@ -109,5 +109,5 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
 @Preview
 fun signUpScreenPreview()
 {
-    signUpScreen()
+    SignUpScreen()
 }
