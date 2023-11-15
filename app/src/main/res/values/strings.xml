@@ -10,4 +10,6 @@
     <string name="passwords_do_not_match">Passwords do not match!</string>
     <string name="cancel">Cancel</string>
     <string name="create_account">Create Account</string>
+    <string name="surge">Surge</string>
+    <string name="Surge_Moto">Moving the future forward</string>
 </resources>
