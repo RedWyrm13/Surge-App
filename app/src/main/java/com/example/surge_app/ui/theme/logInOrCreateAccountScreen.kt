@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
@@ -26,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
 @Composable
-
 fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                          onSignUpButtonClicked: () -> Unit)
 {Surface(modifier = Modifier.fillMaxSize(),
@@ -34,7 +36,8 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
+        modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Text(
             text = stringResource(R.string.surge),
