@@ -42,7 +42,7 @@ fun Greeting() {
 @Composable
 fun LogInOrCreateAccount(){
     Column(horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center) {
+    verticalArrangement = Arrangement.Center    ) {
         Button(onClick = {/* TODO */}){
             Text(text = stringResource(R.string.log_in))
         }
