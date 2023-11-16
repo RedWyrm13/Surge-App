@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
@@ -36,15 +37,15 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Text(
             text = stringResource(R.string.surge),
-            fontSize = 80.sp,
+            fontSize = 60.sp,
             color = Color.White
         )
-        Spacer(modifier = Modifier.size(100.dp))
+        //Spacer(modifier = Modifier.size(100.dp))
         Image(
             painter = painterResource(id = R.drawable.surge_image),
             contentDescription = null,
@@ -52,13 +53,14 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                 .size(400.dp, 400.dp)
                 .clip(CircleShape)
         )
-        Spacer(modifier = Modifier.size(20.dp))
+      //  Spacer(modifier = Modifier.size(20.dp))
         Text(text = stringResource(R.string.Surge_Moto),
             fontSize = 30.sp,
             color = Color.White,
         )
-        Spacer( modifier = Modifier.size(120.dp))
-        Row {
+      //  Spacer( modifier = Modifier.size(120.dp))
+        Row (
+        ){
             Button(
                 onClick = onSignUpButtonClicked,
                 colors = ButtonDefaults.buttonColors(
@@ -69,19 +71,18 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                 Text(text = stringResource(R.string.sign_up))
 
             }
-            Spacer(modifier = Modifier.size(60.dp))
+      //      Spacer(modifier = Modifier.size(60.dp))
 
             Button(
                 onClick = onLoginButtonClicked,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black,  // Set the background color
-                    contentColor = Color.White
+                    contentColor = Color.White,
                 )
             ) {
                 Text(text = stringResource(R.string.log_in))
             }
         }
-        Spacer(modifier = Modifier.padding(20.dp))
     }
 }
 }
