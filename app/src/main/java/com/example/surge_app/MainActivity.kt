@@ -9,10 +9,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.surge_app.ui.theme.LogInOrCreateAccount
 import com.example.surge_app.ui.theme.SurgeAppTheme
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             SurgeAppTheme {
                 // A surface container using the 'background' color from the theme
