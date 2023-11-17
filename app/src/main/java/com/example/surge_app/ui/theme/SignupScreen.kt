@@ -99,7 +99,7 @@ import com.example.surge_app.R
                 onSignUpButtonClicked(email, password)
             }
                              },
-                enabled = isFormValid)
+                enabled = isFormValid) // set to isFormValid
             {
                 Text(stringResource(R.string.create_account))
             }

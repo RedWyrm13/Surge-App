@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.SurgeApp" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Use a parent theme that is a descendant of Theme.AppCompat -->
+    <style name="Theme.SurgeApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Your theme customizations go here -->
+    </style>
 </resources>
