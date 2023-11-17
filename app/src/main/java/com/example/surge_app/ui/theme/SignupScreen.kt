@@ -1,6 +1,5 @@
 package com.example.surge_app.ui.theme
 
-import AuthenticationManager
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import com.example.surge_app.R
 
 @Composable
  fun SignUpScreen(
-    authenticationManager: AuthenticationManager,
     onSignUpButtomClicked: () -> Unit,
     onCancelButtonClicked: () -> Unit)
 {
@@ -114,23 +112,7 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
     else
         return false
 }
-@Composable
-fun onSignUpButtonClicked(password: String,
-                          confirmPassword: String,
-                          authenticationManager: AuthenticationManager,
-                          email: String) {
-    val context = LocalContext.current
-    authenticationManager.signUpUser(email, password) { success, message ->
-        if (success) {
 
-
-        } else {
-            // If there is an error
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show() // Show error message
-        }
-
-    }
-}
 
 
 
@@ -139,9 +121,7 @@ fun onSignUpButtonClicked(password: String,
 @Preview
 fun signUpScreenPreview()
 {
-    val authenticationManager = AuthenticationManager()
     SignUpScreen(
-        authenticationManager = authenticationManager,
         onCancelButtonClicked = {},
         onSignUpButtomClicked = {})
 }
