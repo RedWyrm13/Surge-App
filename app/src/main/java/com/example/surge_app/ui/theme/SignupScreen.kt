@@ -56,7 +56,7 @@ import com.example.surge_app.R
             onValueChange = { lastName = it },
             label = {
                 Text(
-                    "Last Name",
+                    stringResource(R.string.last_name),
                     style = LocalTextStyle.current.copy(fontSize = 8.sp)
                 )
             },
@@ -92,9 +92,7 @@ import com.example.surge_app.R
             Text(stringResource(R.string.passwords_do_not_match),
                 color = Color.Red)
         }
-        else
-        {isFormValid = true
-        }
+
         Row(){
             Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
             Button(onClick = {if (isFormValid){
