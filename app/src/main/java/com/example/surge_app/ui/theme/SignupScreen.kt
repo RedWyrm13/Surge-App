@@ -1,6 +1,7 @@
 package com.example.surge_app.ui.theme
 
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,7 @@ import com.example.surge_app.R
 
 @Composable
  fun SignUpScreen(
-    onSignUpButtomClicked: () -> Unit,
+    onSignUpButtonClicked: (String, String) -> Unit,
     onCancelButtonClicked: () -> Unit)
 {
     var email by remember {mutableStateOf("")}
@@ -34,7 +35,8 @@ import com.example.surge_app.R
     var lastName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember {mutableStateOf("")}
-    var isFormValid = false
+    var isFormValid = email.isNotBlank() && password.isNotBlank() &&
+            password == confirmPassword
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center)
     {
@@ -95,7 +97,10 @@ import com.example.surge_app.R
         }
         Row(){
             Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
-            Button(onClick = onSignUpButtomClicked,
+            Button(onClick = {if (isFormValid){
+                onSignUpButtonClicked(email, password)
+            }
+                             },
                 enabled = isFormValid)
             {
                 Text(stringResource(R.string.create_account))
@@ -123,6 +128,7 @@ fun signUpScreenPreview()
 {
     SignUpScreen(
         onCancelButtonClicked = {},
-        onSignUpButtomClicked = {})
+        onSignUpButtonClicked = {_,_ -> }
+    )
 }
 
