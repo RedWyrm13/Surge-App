@@ -19,7 +19,7 @@
             android:theme="@style/Theme.SurgeApp" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginCreateAccountActivity"
             android:exported="true"
             android:label="@string/surge"
             android:theme="@style/Theme.SurgeApp">

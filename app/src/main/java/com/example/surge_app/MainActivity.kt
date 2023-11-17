@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.surge_app.ui.theme.SurgeAppTheme
 import com.google.firebase.FirebaseApp
 
-class MainActivity : ComponentActivity() {
+class LoginCreateAccountActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
