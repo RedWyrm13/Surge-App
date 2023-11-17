@@ -20,8 +20,9 @@ class MainActivity : ComponentActivity() {
             SurgeAppTheme {
                 SurgeApp(onSignUpButtonClicked = { email, password ->
                     authManager.signUpUser(email, password,
-                        nextActivityClass = MainScreenActivity::class.java)
-                }
+                        nextActivityClass = MainScreenActivity::class.java)},
+                    onLoginButtonClicked = {email,password ->
+                        authManager.loginUser(email,password, MainScreenActivity::class.java)}
                 )
             }
         }

@@ -17,11 +17,29 @@ class AuthenticationManager(private val context: Context, private val currentAct
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // User sign-up successful, start new activity
-                   context.startActivity(Intent(context,nextActivityClass))
+                    context.startActivity(Intent(context, nextActivityClass))
                     // Finish the current activity
                     currentActivity.finish()
                 } else {
                     // User sign-up failed
+                    task.exception?.message?.let {
+                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+    }
+
+    fun loginUser(email: String, password: String, nextActivityClass: Class<*>) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(currentActivity) { task ->
+                if (task.isSuccessful) {
+                    // User login successful, start new activity
+                    val intent = Intent(context, nextActivityClass)
+                    context.startActivity(intent)
+                    // Finish the current activity
+                    currentActivity.finish()
+                } else {
+                    // User login failed
                     task.exception?.message?.let {
                         Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                     }

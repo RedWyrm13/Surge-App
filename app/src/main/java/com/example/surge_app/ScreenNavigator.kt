@@ -20,7 +20,8 @@ enum class Screens{
 
 @Composable
 fun SurgeApp(
-    onSignUpButtonClicked: (String, String,) -> Unit,
+    onSignUpButtonClicked: (String, String) -> Unit,
+    onLoginButtonClicked: (String, String)-> Unit,
     navController: NavHostController = rememberNavController()){
     NavHost(navController = navController,
         startDestination = Screens.LoginOrCreateAccount.name){
@@ -38,7 +39,7 @@ fun SurgeApp(
         }
         composable(route = Screens.Login.name){
             LoginScreen(
-                onLoginButtonClicked = {/* TO DO */},
+                onLoginButtonClicked = onLoginButtonClicked,
                 onSignUpButtonClicked = {navController.navigate(Screens.SignUp.name)}
             )
         }

@@ -19,13 +19,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun LoginScreen(onSignUpButtonClicked: () -> Unit,
-                onLoginButtonClicked: () -> Unit){
+fun LoginScreen(
+    onSignUpButtonClicked: () -> Unit,
+    onLoginButtonClicked: (String, String) -> Unit
+){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isFormValid = email!= "" && password != ""
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -49,7 +51,10 @@ fun LoginScreen(onSignUpButtonClicked: () -> Unit,
         )
         Row{
             Button(onClick = onSignUpButtonClicked){Text(stringResource(R.string.sign_up))}
-            Button(onClick = onLoginButtonClicked){Text(stringResource(R.string.log_in))}
+            Button(onClick = {if (isFormValid){
+                onLoginButtonClicked(email, password)} },
+                enabled = isFormValid)
+            {Text(stringResource(R.string.log_in))}
         }
     } // End of column
 }
@@ -57,6 +62,7 @@ fun LoginScreen(onSignUpButtonClicked: () -> Unit,
 @Preview
 @Composable
 fun LoginScreenPreview(){
-    LoginScreen(onLoginButtonClicked = {},
+    LoginScreen(
+        onLoginButtonClicked = {_,_ ->},
         onSignUpButtonClicked = {})
 }
