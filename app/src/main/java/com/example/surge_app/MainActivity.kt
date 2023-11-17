@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 }
         }
     }
-    private fun signUpUser(email: String, password: String) {
+     fun signUpUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-
     }
 }
 
