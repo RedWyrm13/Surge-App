@@ -14,6 +14,7 @@ enum class Screens{
     LoginOrCreateAccount,
     SignUp,
     Login,
+    MainScreen,
 }
 
 @Composable
