@@ -17,7 +17,8 @@ enum class Screens{
 }
 
 @Composable
-fun SurgeApp(navController: NavHostController = rememberNavController()){
+fun SurgeApp(
+    navController: NavHostController = rememberNavController()){
     NavHost(navController = navController,
         startDestination = Screens.LoginOrCreateAccount.name){
         composable(route = Screens.LoginOrCreateAccount.name){

@@ -1,8 +1,6 @@
-package com.example.surge_app
-
 import com.google.firebase.auth.FirebaseAuth
 
-class User(val firstName: String, val lastName: String, val email: String, val password: String) {
+class AuthenticationManager {
 
     fun signUpUser(email: String, password: String, onComplete: (Boolean, String) -> Unit) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)

@@ -1,5 +1,7 @@
 package com.example.surge_app.ui.theme
 
+import AuthenticationManager
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,21 +17,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
+
 @Composable
- fun SignUpScreen(onSignUpButtomClicked: () -> Unit,
-                  onCancelButtonClicked: () -> Unit)
+ fun SignUpScreen(
+    authenticationManager: AuthenticationManager,
+    onSignUpButtomClicked: () -> Unit,
+    onCancelButtonClicked: () -> Unit)
 {
     var email by remember {mutableStateOf("")}
     var firstName by remember{mutableStateOf("")}
     var lastName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember {mutableStateOf("")}
+    var isFormValid = false
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center)
     {
@@ -85,9 +92,13 @@ import com.example.surge_app.R
             Text(stringResource(R.string.passwords_do_not_match),
                 color = Color.Red)
         }
+        else
+        {isFormValid = true
+        }
         Row(){
             Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
-            Button(onClick = onSignUpButtomClicked )
+            Button(onClick = onSignUpButtomClicked,
+                enabled = isFormValid)
             {
                 Text(stringResource(R.string.create_account))
             }
@@ -103,6 +114,24 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
     else
         return false
 }
+@Composable
+fun onSignUpButtonClicked(password: String,
+                          confirmPassword: String,
+                          authenticationManager: AuthenticationManager,
+                          email: String) {
+    val context = LocalContext.current
+    authenticationManager.signUpUser(email, password) { success, message ->
+        if (success) {
+
+
+        } else {
+            // If there is an error
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show() // Show error message
+        }
+
+    }
+}
+
 
 
 
@@ -110,6 +139,10 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
 @Preview
 fun signUpScreenPreview()
 {
-    SignUpScreen(onCancelButtonClicked = {},
+    val authenticationManager = AuthenticationManager()
+    SignUpScreen(
+        authenticationManager = authenticationManager,
+        onCancelButtonClicked = {},
         onSignUpButtomClicked = {})
 }
+
