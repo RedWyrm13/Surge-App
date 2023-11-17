@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SurgeApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.theme.LogInSignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/surge"
