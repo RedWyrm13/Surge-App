@@ -34,7 +34,7 @@ import com.example.surge_app.R
     var lastName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember {mutableStateOf("")}
-    var isFormValid = email.isNotBlank() && password.isNotBlank() &&
+    val isFormValid = email.isNotBlank() && password.isNotBlank() &&
             password == confirmPassword
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -93,7 +93,7 @@ import com.example.surge_app.R
                 color = Color.Red)
         }
 
-        Row(){
+        Row{
             Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
             Button(onClick = {if (isFormValid){
                 onSignUpButtonClicked(email, password)
@@ -110,10 +110,7 @@ import com.example.surge_app.R
 }
 
 fun checkPassword(password: String, confirmPassword: String): Boolean {
-    if(password == confirmPassword)
-        return true
-    else
-        return false
+    return(password == confirmPassword)
 }
 
 
@@ -122,7 +119,7 @@ fun checkPassword(password: String, confirmPassword: String): Boolean {
 
 @Composable
 @Preview
-fun signUpScreenPreview()
+fun SignUpScreenPreview()
 {
     SignUpScreen(
         onCancelButtonClicked = {},

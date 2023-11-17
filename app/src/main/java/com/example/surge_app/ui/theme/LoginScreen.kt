@@ -27,7 +27,7 @@ fun LoginScreen(
 ){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isFormValid = email!= "" && password != ""
+    val isFormValid = email!= "" && password != ""
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
