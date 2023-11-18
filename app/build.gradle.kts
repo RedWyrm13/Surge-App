@@ -68,10 +68,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation ("androidx.navigation:navigation-compose:<version>")
-    implementation ("com.google.firebase:firebase-auth:21.0.1")
+    implementation ("com.google.firebase:firebase-auth:22.2.0")
     implementation ("com.google.firebase:firebase-firestore:24.0.2")
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
     implementation ("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
+    implementation ("com.google.android.gms:play-services-location:17.0.0")
 
 
 
