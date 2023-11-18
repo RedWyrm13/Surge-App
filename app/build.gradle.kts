@@ -70,6 +70,9 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:<version>")
     implementation ("com.google.firebase:firebase-auth:21.0.1")
     implementation ("com.google.firebase:firebase-firestore:24.0.2")
+    implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
+
 
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
