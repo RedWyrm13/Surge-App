@@ -15,6 +15,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
 
+
 @Composable
 fun GoogleMapComposable() {
     if (LocalInspectionMode.current) {
