@@ -29,13 +29,22 @@ class LoginCreateAccountActivity : ComponentActivity() {
     }
 }
 class MainScreenActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_SurgeApp)
         super.onCreate(savedInstanceState)
 
-        setContent{
+        setContent {
             SurgeAppTheme {
                 SurgeMain()
+                CheckAndRequestPermission(
+                    onPermissionGranted = {
+                        // Handle permission granted
+                    },
+                    onPermissionDenied = {
+                        // Handle permission denied
+                    }
+                )
             }
         }
     }
