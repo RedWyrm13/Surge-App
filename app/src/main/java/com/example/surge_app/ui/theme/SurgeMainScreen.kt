@@ -4,6 +4,7 @@ import android.location.Location
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -36,20 +37,19 @@ fun SurgeMainScreen() {
                     Text(text = "")
 
                 }
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
-        var location by remember { mutableStateOf<Location?>(null) }
-
+        var location by remember {
+            mutableStateOf(Location("").apply {
+                latitude = 36.08   // Latitude for Harry Reid International Airport
+                longitude = -115.15 // Longitude for Harry Reid International Airport
+            })
+        }
         LocationComponent { newLocation ->
             location = newLocation
         }
-        if (location?.latitude != null && location?.longitude  != null){
-            GoogleMapComposable(lat = location!!.latitude, lon = location!!.longitude)
-
-        }
-
-
-
+            GoogleMapComposable(lat = location.latitude, lon = location.longitude)
 
     }
 }
