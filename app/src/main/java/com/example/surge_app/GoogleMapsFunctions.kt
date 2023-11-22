@@ -1,6 +1,6 @@
 package com.example.surge_app
 
-
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
@@ -33,6 +34,19 @@ fun GoogleMapComposable(lat: Double, lon: Double) {
             MapsInitializer.initialize(context)
             val location = LatLng(lat, lon)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
+
+            // Check if location permission is granted
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                googleMap.isMyLocationEnabled = true
+            }
         }
     }
 

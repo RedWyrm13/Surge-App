@@ -22,7 +22,7 @@ import com.example.surge_app.viewModel.LocationViewModel
 
 @Composable
 fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel()) {
-    var address by remember { mutableStateOf("") }
+    var destination by remember { mutableStateOf("") }
 
     val location by locationViewModel.userLocation.observeAsState()
 
@@ -40,9 +40,9 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel()) {
         modifier = Modifier.fillMaxSize()
     ) {
         TextField(
-            value = address,
-            onValueChange = { address = it },
-            label = { Text(text = if (address.isEmpty()) "Where do you want to go?" else "") },
+            value = destination,
+            onValueChange = { destination = it },
+            label = { Text(text = if (destination.isEmpty()) "Where do you want to go?" else "") },
             modifier = Modifier.fillMaxWidth()
         )
 
