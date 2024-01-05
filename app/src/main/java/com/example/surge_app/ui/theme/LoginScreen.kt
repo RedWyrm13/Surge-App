@@ -21,18 +21,24 @@ import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
 @Composable
+//Renders the login page that takes in the users email and password then navigates to the
+// main page. Alternatively users can navigate to the signup page if they realize they do
+// not have an account.
 fun LoginScreen(
     onSignUpButtonClicked: () -> Unit,
     onLoginButtonClicked: (String, String) -> Unit
 ){
+    //Creates state variables for each of the text fields
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val isFormValid = email!= "" && password != ""
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    ){TextField(
+        horizontalAlignment = Alignment.CenterHorizontally, //aligns column horizontally
+        verticalArrangement = Arrangement.Center, //aligns column vertically
+        modifier = Modifier.fillMaxSize() // ensures column takes up full size of screen
+    ){
+        //User will use this text field to enter their email address
+        TextField(
         value = email,
         onValueChange = { email = it },
         label = {
@@ -41,6 +47,9 @@ fun LoginScreen(
                 style = LocalTextStyle.current.copy(fontSize = 8.sp)
             )
         })
+
+        // User will use this textfield to enter their password
+        //This needs to be updated to be more secure. I do not know how to do that yet
         TextField(
             value = password,
             onValueChange = {password = it},
@@ -50,7 +59,11 @@ fun LoginScreen(
             }
         )
         Row{
+            //Buttons to navigate to the appropriate screen
             Button(onClick = onSignUpButtonClicked){Text(stringResource(R.string.sign_up))}
+
+            //isFormValid is a simple temporary check to make sure
+            // password and email are not empty
             Button(onClick = {if (isFormValid){
                 onLoginButtonClicked(email, password)} },
                 enabled = isFormValid)

@@ -2,6 +2,8 @@ package com.example.surge_app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Color values used within the app.
+//val colorName declares the color variable, which can be called with Color.colorName
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

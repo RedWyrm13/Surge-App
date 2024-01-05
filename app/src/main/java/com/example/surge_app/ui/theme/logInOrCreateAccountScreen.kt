@@ -26,22 +26,30 @@ import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 
 @Composable
+//Creates the very first screen of the app. It is a column containing the name, logo,
+//slogan and two buttons to either sign up or log into the app
+//Function receives two functions as parameters to define what happens for each button
+//Each function navigates to the appropriate screen
 fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                          onSignUpButtonClicked: () -> Unit)
-{Surface(modifier = Modifier.fillMaxSize(),
-    color = Color.Blue
+{   //This ensurces the container takes the full size of the screen and is black
+    Surface(modifier = Modifier.fillMaxSize(),
+    color = Color.Black
 ) {
     Column(
+        //Creates a column within the container that is arranged as shown
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
+        //Name of app, top of column
         Text(
             text = stringResource(R.string.surge),
             fontSize = 60.sp,
             color = Color.White
         )
         //Spacer(modifier = Modifier.size(100.dp))
+        //Image of surge Icon
         Image(
             painter = painterResource(id = R.drawable.surge_image),
             contentDescription = null,
@@ -50,11 +58,13 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                 .clip(CircleShape)
         )
       //  Spacer(modifier = Modifier.size(20.dp))
+        //Slogan
         Text(text = stringResource(R.string.Surge_Moto),
             fontSize = 30.sp,
             color = Color.White,
         )
       //  Spacer( modifier = Modifier.size(120.dp))
+        //The two buttons to navigate to the nex screens
         Row (
         ){
             Button(

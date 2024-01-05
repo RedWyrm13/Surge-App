@@ -74,6 +74,9 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("androidx.compose.runtime:runtime-livedata:1.3.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 
 
 

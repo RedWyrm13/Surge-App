@@ -19,6 +19,26 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+data class GeocodingResponse(
+    val results: List<Result>,
+    val status: String
+)
+
+data class Result(
+    val geometry: Geometry
+)
+
+data class Geometry(
+    val location: Location
+)
+
+data class Location(
+    val lat: Double,
+    val lng: Double
+)
 
 @Composable
 fun GoogleMapComposable(lat: Double, lon: Double) {
@@ -65,3 +85,11 @@ fun GoogleMapComposable(lat: Double, lon: Double) {
         AndroidView({ mapView }, Modifier.fillMaxSize())
     }
 }
+interface GeocodingApiService {
+    @GET("maps/api/geocode/json")
+    suspend fun getCoordinates(
+        @Query("address") address: String,
+        @Query("key") apiKey: String
+    ): GeocodingResponse
+}
+
