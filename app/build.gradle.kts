@@ -80,7 +80,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.10"))
     implementation ("com.google.android.libraries.places:places:3.3.0")
-    implementation ("com.github.arthur3486.compose-autocomplete:googleplaces:1.1.0")
 
 
 
