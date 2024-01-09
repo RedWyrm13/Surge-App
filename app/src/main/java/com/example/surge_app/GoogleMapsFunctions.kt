@@ -24,7 +24,6 @@ import com.google.android.libraries.places.api.Places
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.IOException
-import java.util.Properties
 
 data class GeocodingResponse(
     val results: List<Result>,
@@ -105,14 +104,9 @@ object PlacesApiManager {
     fun initializePlaces(context: Context) {
         if (!initialized) {
             try {
-                val properties = Properties()
-                val inputStream = context.assets.open("secrets.properties")
-                properties.load(inputStream)
-                val apiKey = properties.getProperty(context.getString(R.string.places_apikey_new))
-
-                // Initialize Places API with the application context and API key
-                Places.initialize(context, apiKey)
-
+                val apiKeyInstance = ApiKey(context)
+                val apiKeyValue = apiKeyInstance.apiKey
+                Places.initialize(context, apiKeyValue)
                 initialized = true
             } catch (e: IOException) {
                 // Handle any exceptions when reading the API key from the properties file

@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import java.io.InputStream
+import java.util.Properties
 
 
 class AuthenticationManager(private val context: Context, private val currentActivity: Activity) {
@@ -59,6 +61,18 @@ class AuthenticationManager(private val context: Context, private val currentAct
             }
     }
 }
+data class ApiKey(val context: Context) {
+    val properties = Properties()
+    val inputStream: InputStream
+
+    init {
+        inputStream = context.assets.open("secrets.properties")
+        properties.load(inputStream)
+    }
+
+    public val apiKey: String = properties.getProperty(context.getString(R.string.places_apikey_new))
+}
+
 @Composable
 fun CheckAndRequestPermission(
     onPermissionGranted: () -> Unit,

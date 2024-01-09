@@ -29,15 +29,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.surge_app.ApiKey
 import com.example.surge_app.GoogleMapComposable
 import com.example.surge_app.R
 import com.example.surge_app.viewModel.LocationViewModel
+import com.google.android.libraries.places.api.Places
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
-import java.util.Properties
 
 @Composable
 //This is the main screen of the app. It creates a google map view of where the user is at
@@ -111,34 +112,34 @@ fun CreatePlacesTextField(context: Context) {
 
     // Function to fetch latitude and longitude from Google Places API
     fun fetchCoordinates(context: Context) {
-        val properties = Properties()
-        val inputStream = context.assets.open("secrets.properties")
-        properties.load(inputStream)
-        val apiKey = properties.getProperty("apiKey")
-        val url = "https://maps.googleapis.com/maps/api/geocode/json?address=$destination&key=$apiKey"
+        val apiKeyInstance = ApiKey(context)
+        val apiKeyValue = apiKeyInstance.apiKey
+        Places.initialize(context, apiKeyValue)
+
+        val url = "https://maps.googleapis.com/maps/api/geocode/json?address=$destination&key=$apiKeyValue"
+
 
 
 
         scope.launch {
-            try {
                 val response = withContext(Dispatchers.IO) {
                     URL(url).readText()
                 }
 
                 val jsonObject = JSONObject(response)
                 val results = jsonObject.getJSONArray("results")
+                Log.d("MyTag", "$results!")
+
                 if (results.length() > 0) {
                     val location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
                     latitude = location.getDouble("lat")
                     longitude = location.getDouble("lng")
                     Log.d("MyTagLatitude", "$latitude")
-                    Log.d("MyTagLongtitude", "$longitude")
+                    Log.d("MyTagLongitude", "$longitude")
                 }
-            } catch (e: Exception) {
-                //
-
-
-            }
+            else {
+                Log.d("MyTag", "I have failed you!")
+                }
         }
     }
 
