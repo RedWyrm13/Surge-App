@@ -111,17 +111,11 @@ fun CreatePlacesTextField(context: Context) {
 
     // Function to fetch latitude and longitude from Google Places API
     fun fetchCoordinates(context: Context) {
-        Log.d("tag", "0")
         val properties = Properties()
-        Log.d("tag", "1")
         val inputStream = context.assets.open("secrets.properties")
-        Log.d("tag", "2")
         properties.load(inputStream)
-        Log.d("tag", "3")
         val apiKey = properties.getProperty("apiKey")
-        Log.d("tag", "4")
         val url = "https://maps.googleapis.com/maps/api/geocode/json?address=$destination&key=$apiKey"
-        Log.d("tag", "5")
 
 
 
@@ -137,9 +131,11 @@ fun CreatePlacesTextField(context: Context) {
                     val location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
                     latitude = location.getDouble("lat")
                     longitude = location.getDouble("lng")
+                    Log.d("MyTagLatitude", "$latitude")
+                    Log.d("MyTagLongtitude", "$longitude")
                 }
             } catch (e: Exception) {
-                Log.d("MyTagForMeOnly", "$apiKey")
+                //
 
 
             }
