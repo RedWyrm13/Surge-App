@@ -1,5 +1,6 @@
 package com.example.surge_app
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -50,12 +51,13 @@ fun SurgeApp(
 }
 @Composable
 fun SurgeMain(
-    navController: NavHostController = rememberNavController()){
+    navController: NavHostController = rememberNavController(),
+    context: Context){
 
     NavHost(navController = navController,
         startDestination = Screens.MainScreen.name){
         composable(route = Screens.MainScreen.name){
-            SurgeMainScreen()
+            SurgeMainScreen(context = context)
         }
     }
 }

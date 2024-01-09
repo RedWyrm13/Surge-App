@@ -36,8 +36,9 @@ class MainScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val context = this
             SurgeAppTheme {
-                SurgeMain()
+                SurgeMain(context = context)
                 CheckAndRequestPermission(
                     onPermissionGranted = {
                         // Handle permission granted
