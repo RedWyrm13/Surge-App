@@ -31,7 +31,8 @@ class LoginCreateAccountActivity : ComponentActivity() {
 class MainScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_SurgeApp)
+        PlacesApiManager.initializePlaces(applicationContext)
+       setTheme(R.style.Theme_SurgeApp)
         super.onCreate(savedInstanceState)
 
         setContent {

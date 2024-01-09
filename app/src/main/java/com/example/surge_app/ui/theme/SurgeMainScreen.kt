@@ -1,5 +1,6 @@
 package com.example.surge_app.ui.theme
 
+import android.content.Context
 import android.location.Location
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,11 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
 import com.example.surge_app.viewModel.LocationViewModel
+import com.google.android.libraries.places.api.Places
+import java.util.Properties
 
 @Composable
 //This is the main screen of the app. It creates a google map view of where the user is at
 // and it will allow the user to type in a destination for a Surge ride
 fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel()) {
+
     //State variables
     var destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }

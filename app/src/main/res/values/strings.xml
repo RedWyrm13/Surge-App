@@ -13,4 +13,6 @@
     <string name="surge">Surge</string>
     <string name="Surge_Moto">Moving the future forward</string>
     <string name="last_name">Last Name</string>
+    <string name="secrets_properties">secrets.properties</string>
+    <string name="places_apikey_new">Places_APIKey_NEW</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.surge_app
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box
@@ -19,8 +20,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.io.IOException
+import java.util.Properties
 
 data class GeocodingResponse(
     val results: List<Result>,
@@ -93,3 +97,27 @@ interface GeocodingApiService {
     ): GeocodingResponse
 }
 
+
+
+object PlacesApiManager {
+    private var initialized = false
+
+    fun initializePlaces(context: Context) {
+        if (!initialized) {
+            try {
+                val properties = Properties()
+                val inputStream = context.assets.open("secrets.properties")
+                properties.load(inputStream)
+                val apiKey = properties.getProperty("apiKey")
+
+                // Initialize Places API with the application context and API key
+                Places.initialize(context, apiKey)
+
+                initialized = true
+            } catch (e: IOException) {
+                // Handle any exceptions when reading the API key from the properties file
+                e.printStackTrace()
+            }
+        }
+    }
+}
