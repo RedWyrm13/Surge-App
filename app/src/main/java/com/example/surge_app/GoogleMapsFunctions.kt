@@ -108,7 +108,7 @@ object PlacesApiManager {
                 val properties = Properties()
                 val inputStream = context.assets.open("secrets.properties")
                 properties.load(inputStream)
-                val apiKey = properties.getProperty("apiKey")
+                val apiKey = properties.getProperty(context.getString(R.string.places_apikey_new))
 
                 // Initialize Places API with the application context and API key
                 Places.initialize(context, apiKey)

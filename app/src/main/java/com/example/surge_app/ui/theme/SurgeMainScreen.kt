@@ -2,13 +2,15 @@ package com.example.surge_app.ui.theme
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,11 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
+import com.example.surge_app.R
 import com.example.surge_app.viewModel.LocationViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +44,7 @@ import java.util.Properties
 // and it will allow the user to type in a destination for a Surge ride
 fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
                     context: Context) {
+
 
     //State variables
     val destination by remember { mutableStateOf("") }
@@ -105,12 +110,20 @@ fun CreatePlacesTextField(context: Context) {
     val scope = rememberCoroutineScope()
 
     // Function to fetch latitude and longitude from Google Places API
-    fun fetchCoordinates() {
+    fun fetchCoordinates(context: Context) {
+        Log.d("tag", "0")
         val properties = Properties()
+        Log.d("tag", "1")
         val inputStream = context.assets.open("secrets.properties")
+        Log.d("tag", "2")
         properties.load(inputStream)
+        Log.d("tag", "3")
         val apiKey = properties.getProperty("apiKey")
+        Log.d("tag", "4")
         val url = "https://maps.googleapis.com/maps/api/geocode/json?address=$destination&key=$apiKey"
+        Log.d("tag", "5")
+
+
 
         scope.launch {
             try {
@@ -126,22 +139,26 @@ fun CreatePlacesTextField(context: Context) {
                     longitude = location.getDouble("lng")
                 }
             } catch (e: Exception) {
-                // Handle error, e.g., network error, JSON parsing error, etc.
+                Log.d("MyTagForMeOnly", "$apiKey")
+
+
             }
         }
     }
 
-    BasicTextField(
+    TextField(modifier = Modifier.fillMaxWidth(),
         value = destination,
         onValueChange = {
             destination = it
             latitude = 0.0 // Reset the coordinates when the destination changes
             longitude = 0.0
         },
+        label = { Text(text = stringResource(R.string.where_do_you_want_to_go))},
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
-            fetchCoordinates() // Fetch coordinates when the user presses "Done"
+
+            fetchCoordinates(context) // Fetch coordinates when the user presses "Done"
         }),
         textStyle = TextStyle(color = Color.Black)
     )

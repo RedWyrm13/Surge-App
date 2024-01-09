@@ -1,5 +1,6 @@
 package com.example.surge_app.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +33,8 @@ import com.example.surge_app.R
 //Each function navigates to the appropriate screen
 fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
                          onSignUpButtonClicked: () -> Unit)
-{   //This ensurces the container takes the full size of the screen and is black
+{
+    //This ensurces the container takes the full size of the screen and is black
     Surface(modifier = Modifier.fillMaxSize(),
     color = Color.Black
 ) {

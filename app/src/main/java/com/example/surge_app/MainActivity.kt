@@ -1,6 +1,7 @@
 package com.example.surge_app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -31,8 +32,9 @@ class LoginCreateAccountActivity : ComponentActivity() {
 class MainScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         PlacesApiManager.initializePlaces(applicationContext)
-       setTheme(R.style.Theme_SurgeApp)
+        setTheme(R.style.Theme_SurgeApp)
         super.onCreate(savedInstanceState)
 
         setContent {
