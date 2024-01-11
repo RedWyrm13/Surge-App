@@ -153,10 +153,7 @@ fun CreatePlacesTextField(context: Context) {
         label = { Text(text = stringResource(R.string.where_do_you_want_to_go))},
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions(onDone = {
-
-            fetchCoordinates(context) // Fetch coordinates when the user presses "Done"
-        }),
+        keyboardActions = KeyboardActions(onDone = {fetchCoordinates(context)}),
         textStyle = TextStyle(color = Color.Black)
     )
 

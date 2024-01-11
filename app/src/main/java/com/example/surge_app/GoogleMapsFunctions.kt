@@ -115,3 +115,8 @@ object PlacesApiManager {
         }
     }
 }
+
+@Composable
+fun AutoFillDestination(){
+
+}

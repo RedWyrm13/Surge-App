@@ -24,3 +24,7 @@ Waiting for pickup - This will show a tracker for where the driver is along with
 Ride Screen - The user will be able to see the ride progress including the distance and estimated time until reaching their destination. Once the ride is over, we move to the post ride screen.
 
 Post Ride Screen - The passengers will rate the driver. After rating the driver, the app will display the main screen again.
+
+
+Changing the name to Blytzz because it represents our service: quick and efficient. Bought the domian Blytzz.com and Blytzz.org.
+I changed the name because it was going to be too difficult to get Surge.com as a domain name. Coke owns it.
