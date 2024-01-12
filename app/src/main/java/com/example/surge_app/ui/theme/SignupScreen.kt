@@ -10,10 +10,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
+import com.example.surge_app.viewModel.LoginCreateAccountViewModel
 
 
 @Composable
@@ -30,25 +27,19 @@ import com.example.surge_app.R
 // Firebase has built in password requirements. I forget what they are, but it will
 // automatically display an error message if the requirements are not met
  fun SignUpScreen(
+    loginCreateAccountViewModel: LoginCreateAccountViewModel,
     onSignUpButtonClicked: (String, String) -> Unit,
     onCancelButtonClicked: () -> Unit)
 {
-    //Creates severl state variables to be used in the following text fields
-    var email by remember {mutableStateOf("")}
-    var firstName by remember{mutableStateOf("")}
-    var lastName by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember {mutableStateOf("")}
-    val isFormValid = email.isNotBlank() && password.isNotBlank() &&
-            password == confirmPassword
+
     Column(horizontalAlignment = Alignment.CenterHorizontally, //center column horizontally
         verticalArrangement = Arrangement.Center, //center column vertically
         modifier = Modifier.fillMaxSize()) //ensure column takes up full screen
     {
         TextField(
             //Gets user's first name
-            value = firstName,
-            onValueChange = { firstName = it },
+            value = loginCreateAccountViewModel.firstName,
+            onValueChange = { loginCreateAccountViewModel.firstName = it },
             label = {
                 Text(
                     stringResource(R.string.first_name),
@@ -59,8 +50,8 @@ import com.example.surge_app.R
         )
         TextField(
             //Gets user's last name
-            value = lastName,
-            onValueChange = { lastName = it },
+            value = loginCreateAccountViewModel.lastName,
+            onValueChange = { loginCreateAccountViewModel.lastName = it },
             label = {
                 Text(
                     stringResource(R.string.last_name),
@@ -71,8 +62,8 @@ import com.example.surge_app.R
         )
         TextField(
             //Gets user's email
-            value = email,
-            onValueChange = { email = it },
+            value = loginCreateAccountViewModel.email,
+            onValueChange = { loginCreateAccountViewModel.email = it },
             label = {
                 Text(
                     stringResource(R.string.email_address),
@@ -83,36 +74,37 @@ import com.example.surge_app.R
         )
         TextField(
             //User creates a password
-            value = password,
-            onValueChange = {password = it},
+            value = loginCreateAccountViewModel.password,
+            onValueChange = {loginCreateAccountViewModel.password = it},
             label = {Text(
                 stringResource(R.string.password),
                 style = LocalTextStyle.current.copy(fontSize = 8.sp))}
         )
         TextField(
             //User confirms a password
-            value = confirmPassword,
-            onValueChange = {confirmPassword = it},
+            value = loginCreateAccountViewModel.confirmPassword,
+            onValueChange = {loginCreateAccountViewModel.confirmPassword = it},
             label = {Text(
                 stringResource(R.string.re_enter_password),
                 style = LocalTextStyle.current.copy(fontSize = 8. sp))
             }
         )
         //Check to see if passwords match
-        if (!checkPassword(password = password, confirmPassword = confirmPassword))
+        if (!loginCreateAccountViewModel.isCreateAccountValid())
         {
-            Text(stringResource(R.string.passwords_do_not_match),
+            Text(stringResource(R.string.invalid_signup_information),
                 color = Color.Red)
         }
 
         Row{
             //Buttons to finish account creation or back out
             Button(onClick = onCancelButtonClicked ) {Text(stringResource(R.string.cancel))}
-            Button(onClick = {if (isFormValid){
-                onSignUpButtonClicked(email, password)
+            Button(onClick = {if (loginCreateAccountViewModel.isCreateAccountValid()){
+                onSignUpButtonClicked(loginCreateAccountViewModel.email,
+                    loginCreateAccountViewModel.password)
             }
                              },
-                enabled = isFormValid) // set to isFormValid
+                enabled = loginCreateAccountViewModel.isCreateAccountValid()) // set to isFormValid
             {
                 Text(stringResource(R.string.create_account))
             }
@@ -122,19 +114,13 @@ import com.example.surge_app.R
 
 }
 
-fun checkPassword(password: String, confirmPassword: String): Boolean {
-    return(password == confirmPassword)
-}
-
-
-
-
-
 @Composable
 @Preview
 fun SignUpScreenPreview()
 {
+    val viewModel = LoginCreateAccountViewModel()
     SignUpScreen(
+        loginCreateAccountViewModel = viewModel,
         onCancelButtonClicked = {},
         onSignUpButtonClicked = {_,_ -> }
     )
