@@ -25,7 +25,6 @@ fun LoginScreen(loginCreateAccountViewModel: LoginCreateAccountViewModel,
     onSignUpButtonClicked: () -> Unit,
     onLoginButtonClicked: (String, String) -> Unit
 ){
-    //Creates state variables for each of the text fields
 
     val isFormValid = loginCreateAccountViewModel.email!= "" && loginCreateAccountViewModel.password != ""
     Column(

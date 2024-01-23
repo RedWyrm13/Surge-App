@@ -1,10 +1,10 @@
 package com.example.surge_app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.example.surge_app.network.PlacesApiManager
 import com.example.surge_app.ui.theme.SurgeAppTheme
 import com.google.firebase.FirebaseApp
 

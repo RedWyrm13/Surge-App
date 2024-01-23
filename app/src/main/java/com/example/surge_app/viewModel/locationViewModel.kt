@@ -8,7 +8,7 @@ import android.location.LocationManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.surge_app.GeocodingApiService
+import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

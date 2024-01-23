@@ -88,35 +88,12 @@ fun GoogleMapComposable(lat: Double, lon: Double) {
         AndroidView({ mapView }, Modifier.fillMaxSize())
     }
 }
-interface GeocodingApiService {
-    @GET("maps/api/geocode/json")
-    suspend fun getCoordinates(
-        @Query("address") address: String,
-        @Query("key") apiKey: String
-    ): GeocodingResponse
-}
 
 
 
-object PlacesApiManager {
-    private var initialized = false
-
-    fun initializePlaces(context: Context) {
-        if (!initialized) {
-            try {
-                val apiKeyInstance = ApiKey(context)
-                val apiKeyValue = apiKeyInstance.apiKey
-                Places.initialize(context, apiKeyValue)
-                initialized = true
-            } catch (e: IOException) {
-                // Handle any exceptions when reading the API key from the properties file
-                e.printStackTrace()
-            }
-        }
-    }
-}
 
 @Composable
 fun AutoFillDestination(){
 
 }
+
