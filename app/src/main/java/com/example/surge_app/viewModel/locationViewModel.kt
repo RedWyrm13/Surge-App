@@ -8,6 +8,7 @@ import android.location.LocationManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             try {
                 // Use the GeocodingApiService to fetch coordinates for the given address
-                val response = geocodingApiService.getCoordinates(address, "AIzaSyC5ejGE4cTIsppRPCQLJDoU92BbPDLG8v8")
+                val response = geocodingApiService.getCoordinates(address, ApiKey.apiKey)
                 if (response.status == "OK" && response.results.isNotEmpty()) {
                     val location = response.results[0].geometry.location
                     resultLocation.postValue(Location("").apply {
