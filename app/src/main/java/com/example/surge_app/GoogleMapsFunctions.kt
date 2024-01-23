@@ -1,6 +1,5 @@
 package com.example.surge_app
 
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box
@@ -20,28 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.Places
-import retrofit2.http.GET
-import retrofit2.http.Query
-import java.io.IOException
 
-data class GeocodingResponse(
-    val results: List<Result>,
-    val status: String
-)
-
-data class Result(
-    val geometry: Geometry
-)
-
-data class Geometry(
-    val location: Location
-)
-
-data class Location(
-    val lat: Double,
-    val lng: Double
-)
 
 @Composable
 fun GoogleMapComposable(lat: Double, lon: Double) {

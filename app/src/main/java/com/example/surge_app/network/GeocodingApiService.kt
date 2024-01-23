@@ -1,6 +1,6 @@
 package com.example.surge_app.network
 
-import com.example.surge_app.GeocodingResponse
+import com.example.surge_app.data.GeocodingResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -8,10 +8,9 @@ import android.location.LocationManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 // Creates a class called LocationViewModel which is used when rendering the view of the user's
 // current location.
@@ -25,14 +24,9 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         userLocation.postValue(location)
     }
 
-    // Create a Retrofit instance for making API requests to Google's Geocoding service
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://maps.googleapis.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
     // Create a GeocodingApiService using Retrofit
-    private val geocodingApiService = retrofit.create(GeocodingApiService::class.java)
+    private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
 
     // This is the constructor block, it gets executed when an instance of LocationViewModel is created
     init {
@@ -85,3 +79,4 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         locationManager.removeUpdates(locationListener)
     }
 }
+
