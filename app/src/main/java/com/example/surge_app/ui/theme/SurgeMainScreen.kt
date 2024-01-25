@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
+import com.example.surge_app.data.SearchRequest
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
 
@@ -91,18 +92,22 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 //This function renders the text field to prompt users for destination inputs. It will return long/lat coordinates
 //so that a driving path may be established
 fun CreatePlacesTextField() {
+    var query by remember { mutableStateOf("") }
+
     val destinationViewModel: DestinationViewModel = viewModel()
-    TextField(value = destinationViewModel.address,
-        onValueChange ={destinationViewModel.address = it},
+
+    TextField(value = query,
+        onValueChange = { newValue -> query = newValue },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Go
         ),
         keyboardActions = KeyboardActions(onGo = {
-            Log.d("My Tag", destinationViewModel.address)
+            destinationViewModel.query = query
+            Log.d("My Tag", "${destinationViewModel.query}")
             destinationViewModel.getDestination()
         })
     )
-    
+
 }
 
 
@@ -113,3 +118,4 @@ fun SurgeMainScreenPreview() {
     val context = LocalContext.current // Get the current Context using LocalContext
     SurgeMainScreen(context = context)
 }
+

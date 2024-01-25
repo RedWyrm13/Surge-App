@@ -1,34 +1,31 @@
 package com.example.surge_app.network
 
 import com.example.surge_app.data.ApiKey
-import com.example.surge_app.data.Center
-import com.example.surge_app.data.Circle
-import com.example.surge_app.data.GooglePlaces
-import com.example.surge_app.data.LocationRestriction
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.example.surge_app.data.SearchRequest
+import com.squareup.okhttp.ResponseBody
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.Headers
+import retrofit2.http.POST
 
 object FieldMask{
     val mask = "places.formattedAddress,places.displayName"
-    //We need to refactor the geocoding api so that we can use the coordinates of the
-    //user defined destination for the center of the circle
-    val locationRestriction = LocationRestriction(
-        circle = Circle(
-            center = Center(
-                latitude = 0.0, // Default latitude
-                longitude = 0.0 // Default longitude
-            ),
-            radius = 25.0 // Default radius
-        )    )
-
 }
+/*https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyDmcIQskDfuV7-mn33TTHCX8H635UNifGI&query=pizza&location=37.7749,-122.4194&radius=500&type=restaurant&fields=name,address,rating&language=en
+is a working url and the getDestination call needs to follow this url format
+*/
 
 interface PlacesNewApiService {
+//Base Url for this api is https://places.googleapis.com
+    @Headers("Content-Type: application/json")
+    @POST("/v1/places:searchText")
+    suspend fun searchText(
+        @Body request: SearchRequest,
+        @Header("X-Goog-Api-Key") apiKey: String = ApiKey.apiKey,
+        @Header("X-Goog-FieldMask") fieldMask: String = FieldMask.mask
+        ): Response<ResponseBody>
 
-
-    @GET("v1/places:nearbyText")
-    suspend fun getDestination(@Query("fields") fieldMask:String = FieldMask.mask,
-                               @Query("locationRestriction") locationRestriction: LocationRestriction = FieldMask.locationRestriction,
-                               @Query("query") address: String,
-                               @Query("key") apiKey: String = ApiKey.apiKey): List<GooglePlaces>
 }
+
+
