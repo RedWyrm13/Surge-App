@@ -10,21 +10,17 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 object FieldMask{
-    val mask = "places.formattedAddress,places.displayName"
+    const val mask = "places.formattedAddress,places.displayName"
 }
-/*https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyDmcIQskDfuV7-mn33TTHCX8H635UNifGI&query=pizza&location=37.7749,-122.4194&radius=500&type=restaurant&fields=name,address,rating&language=en
-is a working url and the getDestination call needs to follow this url format
-*/
 
 interface PlacesNewApiService {
 //Base Url for this api is https://places.googleapis.com
-    @Headers("Content-Type: application/json")
-    @POST("/v1/places:searchText")
-    suspend fun searchText(
-        @Body request: SearchRequest,
-        @Header("X-Goog-Api-Key") apiKey: String = ApiKey.apiKey,
-        @Header("X-Goog-FieldMask") fieldMask: String = FieldMask.mask
-        ): Response<ResponseBody>
+    @Headers("Content-Type: application/json",
+        "X-Goog-Api-Key: ${ApiKey.apiKey}",
+        "X-Goog-FieldMask: ${FieldMask.mask}"
+    )
+    @POST("v1/places:searchText")
+    suspend fun searchText(@Body textQuery: String): Response<ResponseBody>
 
 }
 

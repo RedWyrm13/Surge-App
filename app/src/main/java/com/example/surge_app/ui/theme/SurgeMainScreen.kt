@@ -24,7 +24,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
-import com.example.surge_app.data.SearchRequest
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
 
@@ -39,7 +38,9 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
     val destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
-    
+    val destinationViewModel: DestinationViewModel = viewModel()
+    val responseData by destinationViewModel.responseData.observeAsState()
+
 
     //If we cannot retrieve the user's location it will display Las Vegas on the google map view
     // because Vegas is where I had the idea for the app. This can be changed to something more
@@ -71,7 +72,18 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         modifier = Modifier.fillMaxSize()
     ) {
         //Function and its description are in this file, scroll down.
-        CreatePlacesTextField()
+        CreatePlacesTextField(destinationViewModel=destinationViewModel)
+
+        responseData?.let { response ->
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                responseBody?.let { body ->
+                    Text("API Response Data: ${body.string()}")
+                }
+            } else {
+                Text("API Request Failed")
+            }
+        }
 
         //This draws the google map viewing of the user's current location.
         if (isLocationInitialized) {
@@ -80,6 +92,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
             //If the map is not ready to view, this text is displayed in place of the map
             Text("Fetching location...")
         }
+
 
         //I do not know what this is
         geocodedLocation?.let {
@@ -91,10 +104,9 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 @Composable
 //This function renders the text field to prompt users for destination inputs. It will return long/lat coordinates
 //so that a driving path may be established
-fun CreatePlacesTextField() {
+fun CreatePlacesTextField(destinationViewModel: DestinationViewModel) {
     var query by remember { mutableStateOf("") }
 
-    val destinationViewModel: DestinationViewModel = viewModel()
 
     TextField(value = query,
         onValueChange = { newValue -> query = newValue },
@@ -103,7 +115,7 @@ fun CreatePlacesTextField() {
         ),
         keyboardActions = KeyboardActions(onGo = {
             destinationViewModel.query = query
-            Log.d("My Tag", "${destinationViewModel.query}")
+            Log.d("My Tag", destinationViewModel.query)
             destinationViewModel.getDestination()
         })
     )
