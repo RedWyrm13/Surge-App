@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
+
 
 android {
     namespace = "com.example.surge_app"
@@ -89,6 +91,7 @@ dependencies {
     implementation("com.google.android.libraries.places:places:3.3.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
 
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
