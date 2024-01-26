@@ -88,6 +88,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.10"))
     implementation("com.google.android.libraries.places:places:3.3.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

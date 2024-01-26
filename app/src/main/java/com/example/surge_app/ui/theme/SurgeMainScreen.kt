@@ -32,14 +32,11 @@ import com.example.surge_app.viewModel.LocationViewModel
 // and it will allow the user to type in a destination for a Surge ride
 fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
                     context: Context) {
-
-
     //State variables
     val destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
     val destinationViewModel: DestinationViewModel = viewModel()
-    val responseData by destinationViewModel.responseData.observeAsState()
 
 
     //If we cannot retrieve the user's location it will display Las Vegas on the google map view
@@ -73,17 +70,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
     ) {
         //Function and its description are in this file, scroll down.
         CreatePlacesTextField(destinationViewModel=destinationViewModel)
-
-        responseData?.let { response ->
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                responseBody?.let { body ->
-                    Text("API Response Data: ${body.string()}")
-                }
-            } else {
-                Text("API Request Failed")
-            }
-        }
+        Text(text = destinationViewModel.destinationUiState.toString())
 
         //This draws the google map viewing of the user's current location.
         if (isLocationInitialized) {
@@ -102,25 +89,19 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 }
 
 @Composable
-//This function renders the text field to prompt users for destination inputs. It will return long/lat coordinates
-//so that a driving path may be established
 fun CreatePlacesTextField(destinationViewModel: DestinationViewModel) {
     var query by remember { mutableStateOf("") }
 
-
-    TextField(value = query,
+    TextField(
+        value = query,
         onValueChange = { newValue -> query = newValue },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Go
         ),
-        keyboardActions = KeyboardActions(onGo = {
-            destinationViewModel.query = query
-            Log.d("My Tag", destinationViewModel.query)
-            destinationViewModel.getDestination()
-        })
+        keyboardActions = KeyboardActions(onGo = { destinationViewModel.getDestination(query) })
     )
-
 }
+
 
 
 
