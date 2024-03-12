@@ -7,13 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.surge_app.data.GooglePlacesList
-import com.example.surge_app.data.convertFromJsonStringToGooglePlacesList
-import com.example.surge_app.network.placesPostRequest
+import com.example.surge_app.data.RouteResponse
+import com.example.surge_app.data.convertFromJsonStringToRoutesResponse
+import com.example.surge_app.network.routesPostRequest
 import kotlinx.coroutines.launch
 
 sealed interface DestinationUiState{
-    data class Success(val googlePlacesList: GooglePlacesList?): DestinationUiState
+    data class Success(val routeResponse: RouteResponse?): DestinationUiState
     object Error: DestinationUiState
     object Loading: DestinationUiState
 }
@@ -28,7 +28,8 @@ class DestinationViewModel: ViewModel(){
             try {
                 //This will be changed to a routesPostRequest once I implement the routesPostRequestFunction
                 destinationUiState = DestinationUiState.Success(
-                    convertFromJsonStringToGooglePlacesList(placesPostRequest(query, locationViewModel)))
+                    convertFromJsonStringToRoutesResponse(routesPostRequest())
+                )
 
             }
             catch (e: Throwable){

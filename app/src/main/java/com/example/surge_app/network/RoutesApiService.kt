@@ -1,11 +1,13 @@
 package com.example.surge_app.network
 
+import android.util.Log
+import com.example.surge_app.data.ApiKey
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-suspend fun routesPostRequest() {
-    val apiKey = "YOUR_API_KEY"
+suspend fun routesPostRequest(): String {
+    val apiKey = ApiKey.apiKey
     val urlString = "https://routes.googleapis.com/directions/v2:computeRoutes"
     val jsonData = """
         {
@@ -55,8 +57,9 @@ suspend fun routesPostRequest() {
     println("Response Code: $responseCode")
 
     val response = connection.inputStream.bufferedReader().use { it.readText() }
-    println("Response: $response")
+    Log.d("Response", response)
 
     connection.disconnect()
 
+    return response
 }
