@@ -1,10 +1,10 @@
 package com.example.surge_app.viewModel
-
 import android.app.Application
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,50 +13,56 @@ import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
 
-// Creates a class called LocationViewModel which is used when rendering the view of the user's
-// current location.
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
-    // Creates a variable that defines and updates the user's current location
+
+    // Store the most recent location data in these variables
+    private var latestLatitude: Double = 0.0
+    private var latestLongitude: Double = 0.0
+
+    // LiveData to observe changes in the location data
     val userLocation = MutableLiveData<Location>()
+
     private val locationManager = application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-    // Defines a LocationListener to receive updates on the user's location
     private val locationListener = LocationListener { location ->
+        latestLatitude = location.latitude
+        latestLongitude = location.longitude
         userLocation.postValue(location)
     }
 
-
-    // Create a GeocodingApiService using Retrofit
     private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
 
-    // This is the constructor block, it gets executed when an instance of LocationViewModel is created
     init {
-        fetchLocation() // Calls the function to start fetching user's location
+        fetchLocation()
     }
 
-    // Function to request and listen for the user's location updates
     private fun fetchLocation() {
         viewModelScope.launch {
-            // Check and request location permissions here
             try {
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, // Using GPS for location updates
-                    0L, // Minimum time interval between updates (0 milliseconds)
-                    0f, // Minimum distance interval between updates (0 meters)
-                    locationListener // Listener to handle location updates
-                )
+                if (ContextCompat.checkSelfPermission(
+                        getApplication(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION
+                    ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+                ) {
+                    locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        0L,
+                        0f,
+                        locationListener
+                    )
+                } else {
+                    // Handle permission not granted
+                }
             } catch (e: SecurityException) {
-                // Handle the security exception if permissions are denied
+                // Handle security exception if permissions are denied
             }
         }
     }
 
-    // Function to geocode an address and return its location as a MutableLiveData
     fun geocodeAddress(address: String): MutableLiveData<Location> {
-        val resultLocation = MutableLiveData<Location>() // Create MutableLiveData for the result
+        val resultLocation = MutableLiveData<Location>()
         viewModelScope.launch {
             try {
-                // Use the GeocodingApiService to fetch coordinates for the given address
                 val response = geocodingApiService.getCoordinates(address, ApiKey.apiKey)
                 if (response.status == "OK" && response.results.isNotEmpty()) {
                     val location = response.results[0].geometry.location
@@ -71,13 +77,21 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
                 // Handle network or other errors
             }
         }
-        return resultLocation // Return the MutableLiveData with geocoded location
+        return resultLocation
     }
 
-    // This method is called when the ViewModel is no longer in use, and it removes location updates
+    // Function to provide the most recent latitude
+    fun getLatestLatitude(): Double {
+        return latestLatitude
+    }
+
+    // Function to provide the most recent longitude
+    fun getLatestLongitude(): Double {
+        return latestLongitude
+    }
+
     override fun onCleared() {
         super.onCleared()
         locationManager.removeUpdates(locationListener)
     }
 }
-

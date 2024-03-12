@@ -10,7 +10,7 @@
     @Serializable
     data class DisplayName(
         val text: String,
-        val languageCode: String
+        val languageCode: String?
     )
 
     @Serializable
@@ -21,23 +21,22 @@
 
     @Serializable
     data class GooglePlacesList(
-        val places: List<Place>
+        val places: List<Place>?
     )
 
 
     fun convertFromJsonStringToGooglePlacesList( jsonString: String): GooglePlacesList?{
         var googlePlacesList: GooglePlacesList? = null
         try {
+            Log.d("My Tag 2", jsonString)
             // Deserialize the JSON string into a GooglePlacesList object
             val json = Json { ignoreUnknownKeys = true } // Create a JSON instance
             googlePlacesList = json.decodeFromString<GooglePlacesList>(jsonString)
 
-            // Now you can work with the GooglePlacesList object
-            println("Display name: ${googlePlacesList.places[0].displayName.text}")
-            println("Formatted address: ${googlePlacesList.places[0].formattedAddress}")
+
         } catch (e: Throwable) {
             // Handle JSON parsing exceptions here
-            Log.d("My Tag", "${e.message}")
+            Log.d("My Tag 1", "${e.message}")
         }
         return googlePlacesList
 

@@ -2,7 +2,6 @@ package com.example.surge_app.ui.theme
 
 import android.content.Context
 import android.location.Location
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
+import com.example.surge_app.viewModel.DestinationUiState
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
 
@@ -69,8 +69,10 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         modifier = Modifier.fillMaxSize()
     ) {
         //Function and its description are in this file, scroll down.
-        CreatePlacesTextField(destinationViewModel=destinationViewModel)
-        Text(text = destinationViewModel.destinationUiState.toString())
+        CreatePlacesTextField(destinationViewModel=destinationViewModel, locationViewModel)
+        if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
+            Text(text = destinationViewModel.destinationUiState.toString())
+        }
 
         //This draws the google map viewing of the user's current location.
         if (isLocationInitialized) {
@@ -89,7 +91,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 }
 
 @Composable
-fun CreatePlacesTextField(destinationViewModel: DestinationViewModel) {
+fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationViewModel: LocationViewModel) {
     var query by remember { mutableStateOf("") }
 
     TextField(
@@ -98,7 +100,7 @@ fun CreatePlacesTextField(destinationViewModel: DestinationViewModel) {
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Go
         ),
-        keyboardActions = KeyboardActions(onGo = { destinationViewModel.getDestination(query) })
+        keyboardActions = KeyboardActions(onGo = { destinationViewModel.getDestination(query, locationViewModel) })
     )
 }
 

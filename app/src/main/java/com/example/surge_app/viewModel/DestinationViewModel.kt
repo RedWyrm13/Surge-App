@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.surge_app.data.GooglePlacesList
 import com.example.surge_app.data.convertFromJsonStringToGooglePlacesList
-import com.example.surge_app.network.postRequest
+import com.example.surge_app.network.placesPostRequest
 import kotlinx.coroutines.launch
 
 sealed interface DestinationUiState{
@@ -21,18 +21,18 @@ sealed interface DestinationUiState{
 class DestinationViewModel: ViewModel(){
     //Mutable variable to keep the state of the coroutine that is fetching the destination
     var destinationUiState: DestinationUiState by mutableStateOf(DestinationUiState.Loading)
-    var query by mutableStateOf("")
 
-    fun getDestination(query: String){
+    fun getDestination(query: String, locationViewModel: LocationViewModel){
         viewModelScope.launch {
             destinationUiState = DestinationUiState.Loading
             try {
+                //This will be changed to a routesPostRequest once I implement the routesPostRequestFunction
                 destinationUiState = DestinationUiState.Success(
-                    convertFromJsonStringToGooglePlacesList(postRequest(query)))
+                    convertFromJsonStringToGooglePlacesList(placesPostRequest(query, locationViewModel)))
 
             }
             catch (e: Throwable){
-                Log.d("My Tag", "${e.message}")
+                Log.d("My Tag 1", "${e.message}")
             }
         }
 
