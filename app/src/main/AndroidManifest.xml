@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SurgeApp"
         tools:targetApi="31">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDmcIQskDfuV7-mn33TTHCX8H635UNifGI"/>

@@ -2,14 +2,18 @@ package com.example.surge_app.network
 
 import android.util.Log
 import com.example.surge_app.data.ApiKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
 suspend fun routesPostRequest(): String {
-    val apiKey = ApiKey.apiKey
-    val urlString = "https://routes.googleapis.com/directions/v2:computeRoutes"
-    val jsonData = """
+    return withContext(Dispatchers.IO) {
+        Log.d("Response", "routesPostRequest is running")
+        val apiKey = ApiKey.apiKey
+        val urlString = "https://routes.googleapis.com/directions/v2:computeRoutes"
+        val jsonData = """
         {
           "origin":{
             "location":{
@@ -41,25 +45,31 @@ suspend fun routesPostRequest(): String {
         }
     """.trimIndent()
 
-    val url = URL(urlString)
-    val connection = url.openConnection() as HttpURLConnection
-    connection.requestMethod = "POST"
-    connection.setRequestProperty("Content-Type", "application/json")
-    connection.setRequestProperty("X-Goog-Api-Key", apiKey)
-    connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline")
-    connection.doOutput = true
+        val url = URL(urlString)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.setRequestProperty("X-Goog-Api-Key", apiKey)
+        connection.setRequestProperty("Authorization","ya29.a0Ad52N39A7n8-kFoUB2mIHyFdburrSMqTJkYaWcSN8mmeWK204TM9t7AxUIXhIfflL89M6YEQyRylk8l7wevmHNDGeu_Xhm_w_uzx9tdt5uis7gIcmWdT39JbQpSQzlrMXWUjcl7I07sz_LLDx4Kx7VBbmxJ81YcHJuTVaCgYKAQwSARASFQHGX2MijYl6xf2kY0ye24B8cH-1Og0171")
+        connection.setRequestProperty("X-Goog-User-Project","surge-f7068")
+        connection.setRequestProperty(
+            "X-Goog-FieldMask",
+            "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline"
+        )
+        connection.doOutput = true
 
-    val outputStreamWriter = OutputStreamWriter(connection.outputStream)
-    outputStreamWriter.write(jsonData)
-    outputStreamWriter.flush()
+        val outputStreamWriter = OutputStreamWriter(connection.outputStream)
+        outputStreamWriter.write(jsonData)
+        outputStreamWriter.flush()
 
-    val responseCode = connection.responseCode
-    println("Response Code: $responseCode")
+        val responseCode = connection.responseCode
+        println("Response Code: $responseCode")
 
-    val response = connection.inputStream.bufferedReader().use { it.readText() }
-    Log.d("Response", response)
+        val response = connection.inputStream.bufferedReader().use { it.readText() }
+        Log.d("Response", response)
 
-    connection.disconnect()
+        connection.disconnect()
 
-    return response
+        response.toString()
+    }
 }
