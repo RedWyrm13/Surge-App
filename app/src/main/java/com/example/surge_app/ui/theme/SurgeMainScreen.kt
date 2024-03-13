@@ -69,7 +69,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         modifier = Modifier.fillMaxSize()
     ) {
         //Function and its description are in this file, scroll down.
-        CreatePlacesTextField(destinationViewModel=destinationViewModel, locationViewModel)
+        CreatePlacesTextField(destinationViewModel=destinationViewModel, userLocation)
         if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
             Text(text = destinationViewModel.destinationUiState.toString())
         }
@@ -96,7 +96,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 }
 
 @Composable
-fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationViewModel: LocationViewModel,) {
+fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, userLocation: Location?) {
     var query by remember { mutableStateOf("") }
 
     TextField(
@@ -106,7 +106,7 @@ fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationVi
             imeAction = ImeAction.Go
         ),
         keyboardActions = KeyboardActions(onGo = {
-            destinationViewModel.getDestination(query, locationViewModel)
+            destinationViewModel.getDestination(query, userLocation)
         })
     )
 }

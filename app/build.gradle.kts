@@ -94,6 +94,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation ("com.google.maps.android:places-ktx:2.0.0")
     implementation ("com.google.maps.android:android-maps-utils:2.2.2")
+    implementation ("com.google.android.gms:play-services-auth:21.0.0")
+
 
 
 

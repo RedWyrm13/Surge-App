@@ -1,15 +1,16 @@
 package com.example.surge_app.network
 
+import android.location.Location
 import android.util.Log
 import com.example.surge_app.data.ApiKey
+import com.example.surge_app.data.GeocodingResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
-suspend fun routesPostRequest(): String {
+
+suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String {
     return withContext(Dispatchers.IO) {
         Log.d("MyTag", "Coroutine starting!")
 
@@ -20,16 +21,16 @@ suspend fun routesPostRequest(): String {
               "origin":{
                 "location":{
                   "latLng":{
-                    "latitude": 37.419734,
-                    "longitude": -122.0827784
+                    "latitude": ${userLocation!!.latitude},
+                    "longitude": ${userLocation!!.longitude}
                   }
                 }
               },
               "destination":{
                 "location":{
                   "latLng":{
-                    "latitude": 37.417670,
-                    "longitude": -122.079595
+                    "latitude": ${geocodingResponse.results[0].geometry.location.lat},
+                    "longitude": ${geocodingResponse.results[0].geometry.location.lng}
                   }
                 }
               },
