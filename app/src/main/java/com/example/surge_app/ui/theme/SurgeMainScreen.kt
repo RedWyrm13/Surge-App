@@ -75,9 +75,14 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         }
 
         //This draws the google map viewing of the user's current location.
-        if (isLocationInitialized) {
+        if (isLocationInitialized && destinationViewModel.encodedPolyline == null ) {
             GoogleMapComposable(lat = userLocation!!.latitude, lon = userLocation!!.longitude)
-        } else {
+        }
+        else if(isLocationInitialized && destinationViewModel.encodedPolyline != null){
+            GoogleMapComposable(lat = userLocation!!.latitude, lon = userLocation!!.longitude, encodedPolyline = destinationViewModel.encodedPolyline)
+        }
+
+        else {
             //If the map is not ready to view, this text is displayed in place of the map
             Text("Fetching location...")
         }
@@ -91,7 +96,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
 }
 
 @Composable
-fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationViewModel: LocationViewModel) {
+fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationViewModel: LocationViewModel,) {
     var query by remember { mutableStateOf("") }
 
     TextField(
@@ -100,12 +105,11 @@ fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, locationVi
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Go
         ),
-        keyboardActions = KeyboardActions(onGo = { destinationViewModel.getDestination(query, locationViewModel) })
+        keyboardActions = KeyboardActions(onGo = {
+            destinationViewModel.getDestination(query, locationViewModel)
+        })
     )
 }
-
-
-
 
 @Composable
 @Preview

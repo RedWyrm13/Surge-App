@@ -21,16 +21,15 @@ sealed interface DestinationUiState{
 class DestinationViewModel: ViewModel(){
     //Mutable variable to keep the state of the coroutine that is fetching the destination
     var destinationUiState: DestinationUiState by mutableStateOf(DestinationUiState.Loading)
+    var encodedPolyline: String? = null
 
     fun getDestination(query: String, locationViewModel: LocationViewModel){
         viewModelScope.launch {
             destinationUiState = DestinationUiState.Loading
             try {
-                //This will be changed to a routesPostRequest once I implement the routesPostRequestFunction
-                destinationUiState = DestinationUiState.Success(
-                    convertFromJsonStringToRoutesResponse(routesPostRequest())
-                )
-
+                val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest())
+                destinationUiState = DestinationUiState.Success(routesResponse)
+                encodedPolyline = routesResponse.routes[0].polyline.encodedPolyline
             }
             catch (e: Throwable){
                 Log.d("My Tag 1", "${e.message}")

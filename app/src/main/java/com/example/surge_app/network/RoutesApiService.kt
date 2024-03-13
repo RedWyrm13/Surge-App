@@ -13,7 +13,7 @@ suspend fun routesPostRequest(): String {
     return withContext(Dispatchers.IO) {
         Log.d("MyTag", "Coroutine starting!")
 
-        val apiKey = "YOUR_API_KEY"
+        val apiKey = ApiKey.apiKey
         val urlString = "https://routes.googleapis.com/directions/v2:computeRoutes"
         val jsonData = """
             {
@@ -35,7 +35,6 @@ suspend fun routesPostRequest(): String {
               },
               "travelMode": "DRIVE",
               "routingPreference": "TRAFFIC_AWARE",
-              "departureTime": "2024-03-13T15:01:23.045123456Z",
               "computeAlternativeRoutes": false,
               "routeModifiers": {
                 "avoidTolls": false,

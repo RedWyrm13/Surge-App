@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.viewinterop.AndroidView
@@ -19,10 +20,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
+
 
 
 @Composable
-fun GoogleMapComposable(lat: Double, lon: Double) {
+fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = null) {
     val context = LocalContext.current
     val mapView = remember {
         MapView(context).apply {
@@ -48,6 +52,16 @@ fun GoogleMapComposable(lat: Double, lon: Double) {
             ) {
                 googleMap.isMyLocationEnabled = true
             }
+
+            // Draw polyline if not null
+            encodedPolyline?.let { polyline ->
+                val decodedPolyline = PolyUtil.decode(polyline)
+                val polylineOptions = PolylineOptions()
+                    .addAll(decodedPolyline)
+                    .width(25f)
+                    .color(R.color.blue)
+                googleMap.addPolyline(polylineOptions)
+            }
         }
     }
 
@@ -66,7 +80,6 @@ fun GoogleMapComposable(lat: Double, lon: Double) {
         AndroidView({ mapView }, Modifier.fillMaxSize())
     }
 }
-
 
 
 
