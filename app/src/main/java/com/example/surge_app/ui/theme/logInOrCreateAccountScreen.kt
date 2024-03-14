@@ -79,6 +79,15 @@ fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
 
             }
       //      Spacer(modifier = Modifier.size(60.dp))
+            Button(
+                onClick = onGoogleAccountSignUpButtonClicked,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.White,
+                )
+            ){
+                Text(text = stringResource(R.string.sign_up_using_google))
+            }
 
             Button(
                 onClick = onLoginButtonClicked,

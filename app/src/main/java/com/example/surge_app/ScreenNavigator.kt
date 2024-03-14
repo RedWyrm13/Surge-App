@@ -57,7 +57,7 @@ fun SurgeApp(
         }
         composable(route = Screens.GoogleAccountSignUp.name){
             GoogleAccountSignUpScreen(
-                onGoogleSignUpButtonClicked = { onGoogleAccountSignUpButtonClicked },
+                onGoogleSignUpButtonClicked = onGoogleAccountSignUpButtonClicked,
                 onCancelButtonClicked = {navController.navigate(Screens.LoginOrCreateAccount.name)}
                 )
         }

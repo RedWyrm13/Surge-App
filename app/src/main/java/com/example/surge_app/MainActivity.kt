@@ -1,6 +1,8 @@
 package com.example.surge_app
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,21 +16,48 @@ class LoginCreateAccountActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
-        //Firebase account manager stuff
+        // Firebase account manager stuff
         val authManager = AuthenticationManager(this, this)
 
         setContent {
             SurgeAppTheme {
-                SurgeApp(onSignUpButtonClicked = { email, password ->
-                    authManager.signUpUser(email, password,
-                        nextActivityClass = MainScreenActivity::class.java)},
-                    onLoginButtonClicked = {email,password ->
-                        authManager.loginUser(email,password, MainScreenActivity::class.java)}
+                SurgeApp(
+                    onSignUpButtonClicked = { email, password ->
+                        authManager.signUpUser(
+                            email, password,
+                            nextActivityClass = MainScreenActivity::class.java
+                        )
+                    },
+                    onLoginButtonClicked = { email, password ->
+                        authManager.loginUser(
+                            email, password, MainScreenActivity::class.java
+                        )
+                    },
+                    onGoogleAccountSignUpButtonClicked = { checkAndRequestPermission(this) }
                 )
             }
         }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == GET_ACCOUNTS_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with accessing accounts
+                handleOAuth2Authentication(this)
+            } else {
+                // Permission denied, handle accordingly
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
+
 class MainScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
