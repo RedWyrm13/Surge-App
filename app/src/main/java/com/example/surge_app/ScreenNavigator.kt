@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.surge_app.ui.theme.GoogleAccountSignUpScreen
 import com.example.surge_app.ui.theme.LogInOrCreateAccount
 import com.example.surge_app.ui.theme.LoginScreen
 import com.example.surge_app.ui.theme.SignUpScreen
@@ -18,6 +19,7 @@ import com.example.surge_app.viewModel.LoginCreateAccountViewModel
 enum class Screens{
     LoginOrCreateAccount,
     SignUp,
+    GoogleAccountSignUp,
     Login,
     MainScreen,
 }
@@ -26,6 +28,7 @@ enum class Screens{
 fun SurgeApp(
     onSignUpButtonClicked: (String, String) -> Unit,
     onLoginButtonClicked: (String, String)-> Unit,
+    onGoogleAccountSignUpButtonClicked: () -> Unit,
     navController: NavHostController = rememberNavController()){
 
     val viewModel = viewModel<LoginCreateAccountViewModel>()
@@ -34,7 +37,8 @@ fun SurgeApp(
         composable(route = Screens.LoginOrCreateAccount.name){
             LogInOrCreateAccount(
                 onLoginButtonClicked = {navController.navigate(Screens.Login.name)},
-                onSignUpButtonClicked = {navController.navigate(Screens.SignUp.name)}
+                onSignUpButtonClicked = {navController.navigate(Screens.SignUp.name)},
+                onGoogleAccountSignUpButtonClicked = {navController.navigate(Screens.GoogleAccountSignUp.name)}
                 )
 
         }
@@ -51,9 +55,12 @@ fun SurgeApp(
                 onSignUpButtonClicked = {navController.navigate(Screens.SignUp.name)}
             )
         }
-
-
-
+        composable(route = Screens.GoogleAccountSignUp.name){
+            GoogleAccountSignUpScreen(
+                onGoogleSignUpButtonClicked = { onGoogleAccountSignUpButtonClicked },
+                onCancelButtonClicked = {navController.navigate(Screens.LoginOrCreateAccount.name)}
+                )
+        }
     }
 }
 @Composable

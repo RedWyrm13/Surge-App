@@ -10,11 +10,11 @@ import com.google.firebase.FirebaseApp
 
 class LoginCreateAccountActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
+        //Firebase account manager stuff
         val authManager = AuthenticationManager(this, this)
 
         setContent {

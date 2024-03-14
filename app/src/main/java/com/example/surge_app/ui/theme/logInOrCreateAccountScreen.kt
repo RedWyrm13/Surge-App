@@ -31,7 +31,8 @@ import com.example.surge_app.R
 //Function receives two functions as parameters to define what happens for each button
 //Each function navigates to the appropriate screen
 fun LogInOrCreateAccount(onLoginButtonClicked: () -> Unit,
-                         onSignUpButtonClicked: () -> Unit)
+                         onSignUpButtonClicked: () -> Unit,
+                         onGoogleAccountSignUpButtonClicked: () -> Unit)
 {
     //This ensures the container takes the full size of the screen and is black
     Surface(modifier = Modifier.fillMaxSize(),
@@ -99,6 +100,7 @@ fun LogInOrCreateAccountScreenPreview() {
     SurgeAppTheme {
         LogInOrCreateAccount(
             onLoginButtonClicked = {},
-            onSignUpButtonClicked = {})
+            onSignUpButtonClicked = {},
+            onGoogleAccountSignUpButtonClicked = {})
     }
 }
