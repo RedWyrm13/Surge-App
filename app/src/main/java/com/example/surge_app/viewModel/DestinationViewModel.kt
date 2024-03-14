@@ -34,6 +34,7 @@ class DestinationViewModel: ViewModel(){
 
         var coordinatesOfDestination: GeocodingResponse
         viewModelScope.launch {
+            destinationUiState = DestinationUiState.Loading
             try {
                  coordinatesOfDestination = geocodingApiService.getCoordinates(query, ApiKey.apiKey)
                 val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest(coordinatesOfDestination, userLocation))
@@ -42,9 +43,12 @@ class DestinationViewModel: ViewModel(){
                 Log.d("My Tag", encodedPolyline!!)
             }
             catch (e: Throwable){
+                destinationUiState = DestinationUiState.Error
+
                 Log.d("My Tag", "The following error message is from the first try block of getDestination in DestinationViewModel ${e.message}")
             }
-            destinationUiState = DestinationUiState.Loading
+            Log.d("My Tag", destinationUiState.toString())
+
         }
 
     }

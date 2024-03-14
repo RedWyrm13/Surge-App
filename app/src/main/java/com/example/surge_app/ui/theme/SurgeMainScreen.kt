@@ -2,6 +2,7 @@ package com.example.surge_app.ui.theme
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -79,7 +80,7 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
                 destinationViewModel.getDestination(destination, userLocation)
             })
         )
-
+        Log.d("My Tag Main Screen", destinationViewModel.destinationUiState.toString())
         if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
             Text(text = destinationViewModel.destinationUiState.toString())
         }
