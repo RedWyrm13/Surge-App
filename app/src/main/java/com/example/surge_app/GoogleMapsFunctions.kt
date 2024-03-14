@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +28,7 @@ import com.google.maps.android.PolyUtil
 
 @Composable
 fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = null) {
+
     val context = LocalContext.current
     val mapView = remember {
         MapView(context).apply {

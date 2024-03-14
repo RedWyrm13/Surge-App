@@ -33,7 +33,7 @@ import com.example.surge_app.viewModel.LocationViewModel
 fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
                     context: Context) {
     //State variables
-    val destination by remember { mutableStateOf("") }
+    var destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
     val destinationViewModel: DestinationViewModel = viewModel()
@@ -69,13 +69,23 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         modifier = Modifier.fillMaxSize()
     ) {
         //Function and its description are in this file, scroll down.
-        CreatePlacesTextField(destinationViewModel=destinationViewModel, userLocation)
+        TextField(
+            value = destination,
+            onValueChange = { newValue -> destination = newValue },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Go
+            ),
+            keyboardActions = KeyboardActions(onGo = {
+                destinationViewModel.getDestination(destination, userLocation)
+            })
+        )
+
         if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
             Text(text = destinationViewModel.destinationUiState.toString())
         }
 
         //This draws the google map viewing of the user's current location.
-        if (isLocationInitialized && destinationViewModel.encodedPolyline == null ) {
+        if (isLocationInitialized && destinationViewModel.encodedPolyline == null) {
             GoogleMapComposable(lat = userLocation!!.latitude, lon = userLocation!!.longitude)
         }
         else if(isLocationInitialized && destinationViewModel.encodedPolyline != null){
@@ -93,22 +103,6 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
             Text("Geocoded Location: Lat: ${it.latitude}, Lon: ${it.longitude}")
         }
     }
-}
-
-@Composable
-fun CreatePlacesTextField(destinationViewModel: DestinationViewModel, userLocation: Location?) {
-    var query by remember { mutableStateOf("") }
-
-    TextField(
-        value = query,
-        onValueChange = { newValue -> query = newValue },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Go
-        ),
-        keyboardActions = KeyboardActions(onGo = {
-            destinationViewModel.getDestination(query, userLocation)
-        })
-    )
 }
 
 @Composable
