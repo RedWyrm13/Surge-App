@@ -1,10 +1,12 @@
 package com.example.surge_app
 
+import android.accounts.AccountManager
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.surge_app.network.PlacesApiManager
 import com.example.surge_app.ui.theme.SurgeAppTheme
@@ -13,6 +15,13 @@ import com.google.firebase.FirebaseApp
 class LoginCreateAccountActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+         val chooseAccountLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                // Handle the selected account here
+                val accountName = result.data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
+                // Do something with the selected account
+            }
+        }
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
@@ -33,29 +42,13 @@ class LoginCreateAccountActivity : ComponentActivity() {
                             email, password, MainScreenActivity::class.java
                         )
                     },
-                    onGoogleAccountSignUpButtonClicked = { checkAndRequestPermission(this) }
+                    onGoogleAccountSignUpButtonClicked = { handleOAuth2Authentication(this, chooseAccountLauncher) }
                 )
             }
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == GET_ACCOUNTS_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with accessing accounts
-                handleOAuth2Authentication(this)
-            } else {
-                // Permission denied, handle accordingly
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 }
 
 class MainScreenActivity : AppCompatActivity() {

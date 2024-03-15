@@ -1,16 +1,16 @@
 package com.example.surge_app
 
+import android.Manifest
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.widget.Toast
-import android.Manifest
-import android.accounts.Account
-import android.accounts.AccountManager
-import android.app.AlertDialog
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -112,63 +111,14 @@ fun CheckAndRequestPermission(
 }
 
 
-//Below this point handles OAuth2 authentication and permission necessary for this from the user
-fun handleOAuth2Authentication(context: Context) {
-    // Query AccountManager for a list of accounts
-    val am: AccountManager = AccountManager.get(context)
-    val accounts: Array<out Account> = am.accounts
-    Log.d("My Tag", "handleOAuth2Authentication is running")
+fun handleOAuth2Authentication(context: Context, chooseAccountLauncher: ActivityResultLauncher<Intent>){
+    Log.d("My Tag", "handleOAuthentication is running")
+    launchAccountPicker(context, chooseAccountLauncher)
 
-    // Now you have an array of Google accounts, you can handle further processing
-    if (accounts.isNotEmpty()) {
-        // Show a dialog to let the user choose an account
-        val accountNames = accounts.map { it.name }.toTypedArray()
-        AlertDialog.Builder(context)
-            .setTitle("Choose an Account")
-            .setItems(accountNames) { _, which ->
-                // User has selected an account (index: 'which')
-                val selectedAccount = accounts[which]
-                // Proceed with OAuth2 authentication using 'selectedAccount'
-                // For example, you can start an authentication flow here
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-                // Handle cancellation if needed
-            }
-            .show()
-    } else {
-
-        Log.d("My Tag", "No Google Accounts Found")
-    }
 }
+fun launchAccountPicker(context: android.content.Context, chooseAccountLauncher: ActivityResultLauncher<Intent>) {
+    Log.d("My Tag", "launchAccountPicker is running")
 
-val GET_ACCOUNTS_PERMISSION_CODE = 101 // Any unique code for the permission request
-
-fun checkAndRequestPermission(context: Context) {
-    // Check if the permission is not granted
-    if (ContextCompat.checkSelfPermission(context, Manifest.permission.GET_ACCOUNTS)
-        != PackageManager.PERMISSION_GRANTED
-    ) {
-        // Permission is not granted, request it
-        ActivityCompat.requestPermissions(
-            context as Activity,
-            arrayOf(Manifest.permission.GET_ACCOUNTS),
-            GET_ACCOUNTS_PERMISSION_CODE
-        )
-    } else {
-        // Permission already granted, proceed with accessing accounts
-        handleOAuth2Authentication(context)
-    }
-}
-fun checkAccountType(context: Context, accountName: String) {
-    Log.d("My Tag", "checkAccountType running!")
-    val am: AccountManager = AccountManager.get(context)
-    val accounts: Array<out Account> = am.getAccounts()
-
-    for (account in accounts) {
-        if (account.name == accountName) {
-            Log.d("My Tag", "Account Type for $accountName: ${account.type}")
-            break
-        }
-    }
+    val intent = AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), null, null, null, null)
+    chooseAccountLauncher.launch(intent)
 }
