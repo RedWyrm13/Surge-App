@@ -12,8 +12,6 @@ import java.net.URL
 
 suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String {
     return withContext(Dispatchers.IO) {
-        Log.d("MyTag", "Coroutine starting!")
-
         val apiKey = ApiKey.apiKey
         val urlString = "https://routes.googleapis.com/directions/v2:computeRoutes"
         val jsonData = """
@@ -47,19 +45,12 @@ suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation
             }
         """.trimIndent()
 
-        val accessToken = ApiKey.accessToken
-        val url = URL(urlString)
+        val url = URL("$urlString?key=$apiKey")
         val connection = url.openConnection() as HttpURLConnection
         try {
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("X-Goog-Api-Key", apiKey)
-            connection.setRequestProperty("Authorization", "Bearer $accessToken")
-            connection.setRequestProperty("X-Goog-User-Project", ApiKey.projectId)
-            connection.setRequestProperty(
-                "X-Goog-FieldMask",
-                "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline"
-            )
+            connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline")
             connection.doOutput = true
 
             val outputStreamWriter = OutputStreamWriter(connection.outputStream)
