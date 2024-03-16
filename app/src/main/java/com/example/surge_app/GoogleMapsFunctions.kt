@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
@@ -95,9 +96,11 @@ class PolylineManager {
                 val decodedPolyline = PolyUtil.decode(polyline)
                 val polylineOptions = PolylineOptions()
                     .addAll(decodedPolyline)
-                    .width(25f)
-                    .color(Color.Blue.toArgb()) // Note: Convert Color to ARGB
+                    .width(15f)
+                    .color(Color.Blue.toArgb())
                 currentPolyline = googleMap.addPolyline(polylineOptions)
+                val lastPoint = LatLng(decodedPolyline.last().latitude, decodedPolyline.last().longitude)
+                googleMap.addMarker(MarkerOptions().position(lastPoint))
             }
         }
     }
