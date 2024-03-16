@@ -1,4 +1,4 @@
-package com.example.surge_app.ui.theme
+package com.example.surge_app.ui.theme.Screens
 
 import android.content.Context
 import android.location.Location
@@ -80,9 +80,8 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
                 destinationViewModel.getDestination(destination, userLocation)
             })
         )
-        Log.d("My Tag Main Screen", destinationViewModel.destinationUiState.toString())
         if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
-            Text(text = destinationViewModel.destinationUiState.toString())
+            //Text(text = destinationViewModel.destinationUiState.toString())
         }
 
         //This draws the google map viewing of the user's current location.

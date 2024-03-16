@@ -1,4 +1,4 @@
-package com.example.surge_app.ui.theme
+package com.example.surge_app.ui.theme.Screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
+import com.example.surge_app.ui.theme.SurgeAppTheme
 
 @Composable
 //Creates the very first screen of the app. It is a column containing the name, logo,

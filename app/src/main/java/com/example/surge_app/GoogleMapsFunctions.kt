@@ -1,5 +1,4 @@
 package com.example.surge_app
-
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box
@@ -11,19 +10,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.example.surge_app.PolylineManager.Companion.drawPolyline
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
-
 
 
 @Composable
@@ -36,11 +40,13 @@ fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = nul
         }
     }
 
-    LaunchedEffect(key1 = mapView) {
+    LaunchedEffect(key1 = mapView, key2 = encodedPolyline) {
         mapView.getMapAsync { googleMap ->
             MapsInitializer.initialize(context)
             val location = LatLng(lat, lon)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
+
+            googleMap.clear()
 
             // Check if location permission is granted
             if (ContextCompat.checkSelfPermission(
@@ -56,14 +62,7 @@ fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = nul
             }
 
             // Draw polyline if not null
-            encodedPolyline?.let { polyline ->
-                val decodedPolyline = PolyUtil.decode(polyline)
-                val polylineOptions = PolylineOptions()
-                    .addAll(decodedPolyline)
-                    .width(25f)
-                    .color(R.color.blue)
-                googleMap.addPolyline(polylineOptions)
-            }
+            drawPolyline(googleMap, encodedPolyline)
         }
     }
 
@@ -83,8 +82,26 @@ fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = nul
     }
 }
 
+// Companion object to encapsulate the currentPolyline variable
+class PolylineManager {
+    companion object {
+        private var currentPolyline by mutableStateOf<Polyline?>(null)
 
+        fun drawPolyline(googleMap: GoogleMap, encodedPolyline: String?) {
+            // Remove existing polyline if there is one
+            currentPolyline?.remove()
 
+            encodedPolyline?.let { polyline ->
+                val decodedPolyline = PolyUtil.decode(polyline)
+                val polylineOptions = PolylineOptions()
+                    .addAll(decodedPolyline)
+                    .width(25f)
+                    .color(Color.Blue.toArgb()) // Note: Convert Color to ARGB
+                currentPolyline = googleMap.addPolyline(polylineOptions)
+            }
+        }
+    }
+}
 @Composable
 fun AutoFillDestination(){
 

@@ -2,17 +2,16 @@ package com.example.surge_app
 
 import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.surge_app.ui.theme.GoogleAccountSignUpScreen
-import com.example.surge_app.ui.theme.LogInOrCreateAccount
-import com.example.surge_app.ui.theme.LoginScreen
-import com.example.surge_app.ui.theme.SignUpScreen
-import com.example.surge_app.ui.theme.SurgeMainScreen
+import com.example.surge_app.ui.theme.Screens.GoogleAccountSignUpScreen
+import com.example.surge_app.ui.theme.Screens.LogInOrCreateAccount
+import com.example.surge_app.ui.theme.Screens.LoginScreen
+import com.example.surge_app.ui.theme.Screens.SignUpScreen
+import com.example.surge_app.ui.theme.Screens.SurgeMainScreen
 import com.example.surge_app.viewModel.LoginCreateAccountViewModel
 
 

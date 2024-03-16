@@ -40,14 +40,11 @@ class DestinationViewModel: ViewModel(){
                 val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest(coordinatesOfDestination, userLocation))
                 destinationUiState = DestinationUiState.Success(routesResponse)
                 encodedPolyline = routesResponse.routes[0].polyline.encodedPolyline
-                Log.d("My Tag", encodedPolyline!!)
             }
             catch (e: Throwable){
                 destinationUiState = DestinationUiState.Error
 
-                Log.d("My Tag", "The following error message is from the first try block of getDestination in DestinationViewModel ${e.message}")
             }
-            Log.d("My Tag", destinationUiState.toString())
 
         }
 
