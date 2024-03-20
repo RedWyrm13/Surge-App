@@ -2,7 +2,10 @@ package com.example.surge_app.network
 
 import android.content.Context
 import com.example.surge_app.ApiKey
+import com.example.surge_app.data.AutocompleteResponse
 import com.google.android.libraries.places.api.Places
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.IOException
 
 
@@ -25,5 +28,11 @@ object PlacesApiManager {
 }
 
 interface PlacesApiService{
+
+    @GET("maps/api/place/queryautocomplete")
+    suspend fun getPlacesAutoComplete(
+        @Query("input") input: String,
+        @Query("key") apiKey: String
+    ): AutocompleteResponse
 
 }

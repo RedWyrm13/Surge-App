@@ -19,7 +19,4 @@ object RetrofitClient{
     fun<T> buildService(service: Class<T>): T{
         return retrofit.create(service)
     }
-    fun changeRetrofitUrl(baseUrl: String){
-        RetrofitClient.baseUrl = baseUrl
-    }
 }
