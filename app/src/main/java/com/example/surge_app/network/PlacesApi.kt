@@ -23,3 +23,7 @@ object PlacesApiManager {
         }
     }
 }
+
+interface PlacesApiService{
+
+}
