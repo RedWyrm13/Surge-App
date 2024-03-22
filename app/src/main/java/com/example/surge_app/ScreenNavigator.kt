@@ -7,11 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.surge_app.ui.theme.Screens.GoogleAccountSignUpScreen
-import com.example.surge_app.ui.theme.Screens.LogInOrCreateAccount
-import com.example.surge_app.ui.theme.Screens.LoginScreen
-import com.example.surge_app.ui.theme.Screens.SignUpScreen
-import com.example.surge_app.ui.theme.Screens.SurgeMainScreen
+import com.example.surge_app.ui.theme.screens.GoogleAccountSignUpScreen
+import com.example.surge_app.ui.theme.screens.LogInOrCreateAccount
+import com.example.surge_app.ui.theme.screens.LoginScreen
+import com.example.surge_app.ui.theme.screens.SignUpScreen
+import com.example.surge_app.ui.theme.screens.SurgeMainScreen
 import com.example.surge_app.viewModel.LoginCreateAccountViewModel
 
 

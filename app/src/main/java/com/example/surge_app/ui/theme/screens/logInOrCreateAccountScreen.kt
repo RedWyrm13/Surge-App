@@ -1,4 +1,4 @@
-package com.example.surge_app.ui.theme.Screens
+package com.example.surge_app.ui.theme.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

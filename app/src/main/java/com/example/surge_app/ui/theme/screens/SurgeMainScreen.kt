@@ -1,8 +1,9 @@
-package com.example.surge_app.ui.theme.Screens
+package com.example.surge_app.ui.theme.screens
 
 import android.content.Context
 import android.location.Location
 import android.util.Log
+import android.widget.AutoCompleteTextView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,21 +25,22 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
-import com.example.surge_app.viewModel.DestinationUiState
+import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
 
 @Composable
-//This is the main screen of the app. It creates a google map view of where the user is at
-// and it will allow the user to type in a destination for a Surge ride
-fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
-                    context: Context) {
+fun SurgeMainScreen(
+    locationViewModel: LocationViewModel = viewModel(),
+    context: Context
+) {
     //State variables
     var destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
     val destinationViewModel: DestinationViewModel = viewModel()
 
+    Log.d("My Tag", "1") // Log message to indicate the start of the composable function
 
     //If we cannot retrieve the user's location it will display Las Vegas on the google map view
     // because Vegas is where I had the idea for the app. This can be changed to something more
@@ -52,6 +54,8 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
     //the default location
     val isLocationInitialized = userLocation != null && userLocation != defaultLocation
 
+    Log.d("My Tag", "2") // Log message to indicate after initializing variables
+
     //LaunchedEffect to observe destination changes
     //I don't really remember what this does. It will probably get changed later. I think I stole
     //this from ChatGPT
@@ -63,47 +67,49 @@ fun SurgeMainScreen(locationViewModel: LocationViewModel = viewModel(),
         }
     }
 
+    Log.d("My Tag", "3") // Log message after LaunchedEffect
+
     Column(
         //It is just a column
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        //Function and its description are in this file, scroll down.
-        TextField(
-            value = destination,
-            onValueChange = { newValue -> destination = newValue },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Go
-            ),
-            keyboardActions = KeyboardActions(onGo = {
-                destinationViewModel.getDestination(destination, userLocation)
-            })
-        )
-        if (destinationViewModel.destinationUiState != DestinationUiState.Loading) {
-            //Text(text = destinationViewModel.destinationUiState.toString())
+        Log.d("My Tag", "4") // Log message before AutocompleteTextView
+
+        userLocation?.let {
+            AutocompleteTextView(
+                destinationViewModel = destinationViewModel,
+                userLocation = it
+            )
         }
 
-        //This draws the google map viewing of the user's current location.
+        Log.d("My Tag", "5") // Log message after AutocompleteTextView
+
+
+                //This draws the google map viewing of the user's current location.
         if (isLocationInitialized && destinationViewModel.encodedPolyline == null) {
             GoogleMapComposable(lat = userLocation!!.latitude, lon = userLocation!!.longitude)
         }
         else if(isLocationInitialized && destinationViewModel.encodedPolyline != null){
             GoogleMapComposable(lat = userLocation!!.latitude, lon = userLocation!!.longitude, encodedPolyline = destinationViewModel.encodedPolyline)
         }
-
         else {
             //If the map is not ready to view, this text is displayed in place of the map
             Text("Fetching location...")
         }
 
+        Log.d("My Tag", "6") // Log message after GoogleMapComposable
 
         //I do not know what this is
         geocodedLocation?.let {
             Text("Geocoded Location: Lat: ${it.latitude}, Lon: ${it.longitude}")
         }
+
+        Log.d("My Tag", "7") // Log message at the end of the composable function
     }
 }
+
 
 @Composable
 @Preview
