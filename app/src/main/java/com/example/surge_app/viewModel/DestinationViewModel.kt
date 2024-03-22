@@ -42,6 +42,7 @@ class DestinationViewModel: ViewModel(){
     private val _predictions = mutableStateOf<List<Prediction>>(emptyList())
     val predictions: State<List<Prediction>> = _predictions
 
+    //This function is returning an empty list. Need to figure out why.
     fun getPredictions(query: String){
         viewModelScope.launch {
             try {

@@ -32,17 +32,22 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
     Column {
         TextField(
             value = searchText,
-            onValueChange = { searchText = it },
+            onValueChange = { searchText = it
+                if(searchText.length > 2) {
+                    destinationViewModel.getPredictions(searchText)
+                    isDropdownExpanded = true
+                }},
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Go
             ),
             keyboardActions = KeyboardActions(onGo = {
                 destinationViewModel.getDestination(searchText, userLocation)
+                isDropdownExpanded = false
             }),
 
         )
         Log.d("My Tag", "12")
-        destinationViewModel.getPredictions(searchText)
+
         Log.d("My Tag", "13")
 
         if (isDropdownExpanded) {
@@ -50,7 +55,10 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
                 expanded = isDropdownExpanded,
                 onDismissRequest = { isDropdownExpanded = false }
             ) {
-                Log.d("My Tag", "14")
+                Log.d("My Tag", destinationViewModel.predictions.value.toString())
+                Log.d("My Tag", "function is running")
+
+
                 destinationViewModel.predictions.value.filter { prediction ->
                     prediction.description.contains(
                         searchText,

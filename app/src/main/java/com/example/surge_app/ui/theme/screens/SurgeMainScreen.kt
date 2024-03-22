@@ -40,7 +40,6 @@ fun SurgeMainScreen(
     val userLocation by locationViewModel.userLocation.observeAsState()
     val destinationViewModel: DestinationViewModel = viewModel()
 
-    Log.d("My Tag", "1") // Log message to indicate the start of the composable function
 
     //If we cannot retrieve the user's location it will display Las Vegas on the google map view
     // because Vegas is where I had the idea for the app. This can be changed to something more
@@ -54,7 +53,6 @@ fun SurgeMainScreen(
     //the default location
     val isLocationInitialized = userLocation != null && userLocation != defaultLocation
 
-    Log.d("My Tag", "2") // Log message to indicate after initializing variables
 
     //LaunchedEffect to observe destination changes
     //I don't really remember what this does. It will probably get changed later. I think I stole
@@ -67,7 +65,6 @@ fun SurgeMainScreen(
         }
     }
 
-    Log.d("My Tag", "3") // Log message after LaunchedEffect
 
     Column(
         //It is just a column
@@ -75,7 +72,6 @@ fun SurgeMainScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        Log.d("My Tag", "4") // Log message before AutocompleteTextView
 
         userLocation?.let {
             AutocompleteTextView(
@@ -84,7 +80,6 @@ fun SurgeMainScreen(
             )
         }
 
-        Log.d("My Tag", "5") // Log message after AutocompleteTextView
 
 
                 //This draws the google map viewing of the user's current location.
@@ -99,14 +94,12 @@ fun SurgeMainScreen(
             Text("Fetching location...")
         }
 
-        Log.d("My Tag", "6") // Log message after GoogleMapComposable
 
         //I do not know what this is
         geocodedLocation?.let {
             Text("Geocoded Location: Lat: ${it.latitude}, Lon: ${it.longitude}")
         }
 
-        Log.d("My Tag", "7") // Log message at the end of the composable function
     }
 }
 
