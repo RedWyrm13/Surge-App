@@ -41,22 +41,19 @@ class DestinationViewModel: ViewModel(){
     var autocompleteUiState: AutocompleteUiState by mutableStateOf(AutocompleteUiState.Loading)
     private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
     private val placesApiService = RetrofitClient.retrofit.create(PlacesApiService::class.java)
-    var predictions: AutocompleteResponse = AutocompleteResponse(predictions = emptyList(), status = "Initializer")
-
+    private val _predictions = mutableStateOf(AutocompleteResponse(predictions = emptyList(), status = "Initializer"))
+    val predictions: State<AutocompleteResponse> = _predictions
 
 
     fun getPredictions(query: String) {
 
             viewModelScope.launch {
-            try {
-                // Perform the autocomplete query here
-                val predictions = placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey)
-                // Update the UI with autocomplete suggestions
-                autocompleteUiState = AutocompleteUiState.Success(predictions)
-                Log.d("My Tag Success 1: ", autocompleteUiState.toString())
-                Log.d("My Tag Success 2: ", predictions.toString())
-
-            } catch (e: Throwable) {
+                try {
+                    val newPredictions = placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey)
+                    _predictions.value = newPredictions
+                    Log.d("My Tag Success 1: ", _predictions.toString())
+                    Log.d("My Tag Success 2: ", predictions.toString())
+                } catch (e: Throwable) {
                 autocompleteUiState = AutocompleteUiState.Error
                 Log.d("My Tag Error: ", e.toString())
             }
