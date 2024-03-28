@@ -73,13 +73,13 @@ fun SurgeMainScreen(
         modifier = Modifier.fillMaxSize()
     ) {
 
+        //If the value of userLocation is not null, it calls the textfield compossable that takes in user input for their destination
         userLocation?.let {
             AutocompleteTextView(
                 destinationViewModel = destinationViewModel,
                 userLocation = it
             )
         }
-
 
 
                 //This draws the google map viewing of the user's current location.

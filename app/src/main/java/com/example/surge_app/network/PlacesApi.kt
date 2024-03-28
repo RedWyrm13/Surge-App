@@ -29,7 +29,7 @@ object PlacesApiManager {
 
 interface PlacesApiService{
 
-    @GET("maps/api/place/queryautocomplete")
+    @GET("maps/api/place/queryautocomplete/json")
     suspend fun getPlacesAutoComplete(
         @Query("input") input: String,
         @Query("key") apiKey: String

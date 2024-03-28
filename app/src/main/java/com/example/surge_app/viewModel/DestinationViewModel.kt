@@ -1,4 +1,4 @@
-
+//autocompleteUiState properly holds the list of predictions. I needto display this in a drop down menu.
 package com.example.surge_app.viewModel
 
 import android.location.Location
@@ -20,6 +20,8 @@ import com.example.surge_app.network.PlacesApiService
 import com.example.surge_app.network.routesPostRequest
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 sealed interface DestinationUiState{
     data class Success(val routeResponse: RouteResponse?): DestinationUiState
@@ -39,18 +41,24 @@ class DestinationViewModel: ViewModel(){
     var autocompleteUiState: AutocompleteUiState by mutableStateOf(AutocompleteUiState.Loading)
     private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
     private val placesApiService = RetrofitClient.retrofit.create(PlacesApiService::class.java)
-    private val _predictions = mutableStateOf<List<Prediction>>(emptyList())
-    val predictions: State<List<Prediction>> = _predictions
+    var predictions: AutocompleteResponse = AutocompleteResponse(predictions = emptyList(), status = "Initializer")
 
-    //This function is returning an empty list. Need to figure out why.
-    fun getPredictions(query: String){
-        viewModelScope.launch {
+
+
+    fun getPredictions(query: String) {
+
+            viewModelScope.launch {
             try {
-                autocompleteUiState = AutocompleteUiState.Success(placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey))
-            }
-            catch (e: Throwable)
-            {
+                // Perform the autocomplete query here
+                val predictions = placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey)
+                // Update the UI with autocomplete suggestions
+                autocompleteUiState = AutocompleteUiState.Success(predictions)
+                Log.d("My Tag Success 1: ", autocompleteUiState.toString())
+                Log.d("My Tag Success 2: ", predictions.toString())
+
+            } catch (e: Throwable) {
                 autocompleteUiState = AutocompleteUiState.Error
+                Log.d("My Tag Error: ", e.toString())
             }
         }
     }
