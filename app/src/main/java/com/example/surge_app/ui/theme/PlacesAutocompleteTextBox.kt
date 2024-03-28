@@ -23,15 +23,22 @@ import com.example.surge_app.viewModel.DestinationViewModel
 fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
                           userLocation: Location
 ) {
+    // Variable for text field that will be sent to getDestination function
     var searchText by remember { mutableStateOf("") }
+
+    //determines if the alert dialog is shown
     var showDialog by remember { mutableStateOf(false) }
+
+    // This variables holds the correctly formatted address
     val predictions = destinationViewModel.predictions.value
 
+    //This function is called when the go button on the keyboard is typed
     val onGoFunctionCall = {
             destinationViewModel.getPredictions(searchText)
             showDialog = true
     }
 
+    //Text field for the top of the screen
         TextField(
             value = searchText,
             onValueChange = { newValue ->
@@ -48,6 +55,7 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
         )
     //
 
+    // Creates alert dialog if predictions exist based off user input
     if (showDialog && predictions.predictions.isNotEmpty()) {
         Log.d("My Tag New", predictions.toString())
 

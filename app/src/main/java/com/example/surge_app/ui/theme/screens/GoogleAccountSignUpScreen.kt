@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.surge_app.R
 
+// Screen for users who opted to log in with google. This screen is useless as we havent added the google sign in logic yet.
 @Composable
 fun GoogleAccountSignUpScreen(
     onGoogleSignUpButtonClicked: () -> Unit,

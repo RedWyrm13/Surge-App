@@ -10,6 +10,9 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+// This file makes the PostRequest to the google routes API. This response is used to draw the route on the google map
+// from the user's current location to the input destination.
+
 suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String {
     return withContext(Dispatchers.IO) {
         val apiKey = ApiKey.apiKey

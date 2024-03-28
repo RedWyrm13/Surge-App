@@ -2,6 +2,7 @@ package com.example.surge_app.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+//Routes kotlin object to hold the information obtained from the Routes API.
 
 @Serializable
 data class RouteResponse(

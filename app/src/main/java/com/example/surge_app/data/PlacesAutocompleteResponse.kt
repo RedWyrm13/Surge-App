@@ -3,6 +3,7 @@ package com.example.surge_app.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+//This class holds the info for the places autocomplete query from the google places API
 @Serializable
 data class Prediction(
     val description: String,
