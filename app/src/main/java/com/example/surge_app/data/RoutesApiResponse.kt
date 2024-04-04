@@ -24,3 +24,11 @@ data class Polyline(
 fun convertFromJsonStringToRoutesResponse(jsonString: String): RouteResponse {
     return Json.decodeFromString<RouteResponse>(jsonString)
 }
+//This function is used to convert the time it takes to drive the returned route from seconds into hours and minutes
+//For example 3660 seconds would be converted into 1 hour and 1 minute.
+fun secondsToHoursMinutes(seconds: Int): Pair<Int, Int> {
+    val hours = seconds / 3600
+    val remainingSeconds = seconds % 3600
+    val minutes = remainingSeconds / 60
+    return Pair(hours, minutes)
+}

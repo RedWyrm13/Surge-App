@@ -4,14 +4,12 @@ import android.location.Location
 import android.util.Log
 import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.GeocodingResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import java.io.File
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
-
-// This file makes the PostRequest to the google routes API. This response is used to draw the route on the google map
-// from the user's current location to the input destination.
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String {
     return withContext(Dispatchers.IO) {
@@ -23,7 +21,7 @@ suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation
                 "location":{
                   "latLng":{
                     "latitude": ${userLocation!!.latitude},
-                    "longitude": ${userLocation!!.longitude}
+                    "longitude": ${userLocation.longitude}
                   }
                 }
               },
@@ -53,7 +51,7 @@ suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation
         try {
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline")
+            connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline,")
             connection.doOutput = true
 
             val outputStreamWriter = OutputStreamWriter(connection.outputStream)
@@ -61,17 +59,20 @@ suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation
             outputStreamWriter.flush()
 
             val responseCode = connection.responseCode
-            Log.d("MyTag", "Response Code: $responseCode")
 
             val response = if (responseCode == HttpURLConnection.HTTP_OK) {
                 connection.inputStream.bufferedReader().use { it.readText() }
             } else {
                 connection.errorStream.bufferedReader().use { it.readText() }
             }
-            Log.d("MyTag", "Response: $response")
+
+            // Write the response to a text file
+
+            Log.d("My Response From Routes", response)
 
             response
         } catch (e: Exception) {
+            // Log the error
             Log.e("MyTag", "Error: ${e.message}", e)
             ""
         }

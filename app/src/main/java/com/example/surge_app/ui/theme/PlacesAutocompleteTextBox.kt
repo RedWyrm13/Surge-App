@@ -57,7 +57,6 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
 
     // Creates alert dialog if predictions exist based off user input
     if (showDialog && predictions.predictions.isNotEmpty()) {
-        Log.d("My Tag New", predictions.toString())
 
         DestinationConfirmationAlertDialog(
             onDismissRequest = {showDialog = false},
@@ -68,7 +67,10 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
 
             },
             dialogTitle = stringResource(id = R.string.address_confirmation),
-            dialogText = "Did you mean ${predictions.predictions[0].description.toString()}?"
+            dialogText = stringResource(
+                R.string.did_you_mean,
+                predictions.predictions[0].description.toString()
+            )
             )
     }
 }

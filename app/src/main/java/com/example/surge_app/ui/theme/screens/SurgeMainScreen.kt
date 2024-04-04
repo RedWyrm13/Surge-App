@@ -2,15 +2,10 @@ package com.example.surge_app.ui.theme.screens
 
 import android.content.Context
 import android.location.Location
-import android.util.Log
-import android.widget.AutoCompleteTextView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,11 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
 import com.example.surge_app.ui.theme.AutocompleteTextView
+import com.example.surge_app.ui.theme.MainScreenBottomBar
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
 
@@ -35,7 +30,7 @@ fun SurgeMainScreen(
     context: Context
 ) {
     //State variables
-    var destination by remember { mutableStateOf("") }
+    val destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
     val destinationViewModel: DestinationViewModel = viewModel()
@@ -73,12 +68,15 @@ fun SurgeMainScreen(
         modifier = Modifier.fillMaxSize()
     ) {
 
-        //If the value of userLocation is not null, it calls the textfield compossable that takes in user input for their destination
+        //If the value of userLocation is not null, it calls the text field composable that takes in user input for their destination
         userLocation?.let {
             AutocompleteTextView(
                 destinationViewModel = destinationViewModel,
                 userLocation = it
             )
+        }
+        if (destinationViewModel.isSheetAvailable) {
+            MainScreenBottomBar(destinationViewModel = destinationViewModel)
         }
 
 
@@ -94,11 +92,6 @@ fun SurgeMainScreen(
             Text("Fetching location...")
         }
 
-
-        //I do not know what this is
-        geocodedLocation?.let {
-            Text("Geocoded Location: Lat: ${it.latitude}, Lon: ${it.longitude}")
-        }
 
     }
 }
