@@ -53,7 +53,7 @@ fun ChipInsideBottomBar(
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         InputChip(
-            label = { Text(text = stringResource(R.string.start_trip)) },
+            label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {onRideButtonClicked()}
         )
