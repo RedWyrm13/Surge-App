@@ -27,7 +27,8 @@ import com.example.surge_app.viewModel.LocationViewModel
 @Composable
 fun SurgeMainScreen(
     locationViewModel: LocationViewModel = viewModel(),
-    context: Context
+    context: Context,
+    onRideButtonClicked: () -> Unit
 ) {
     //State variables
     val destination by remember { mutableStateOf("") }
@@ -76,7 +77,8 @@ fun SurgeMainScreen(
             )
         }
         if (destinationViewModel.isSheetAvailable) {
-            MainScreenBottomBar(destinationViewModel = destinationViewModel)
+            MainScreenBottomBar(destinationViewModel = destinationViewModel,
+                onRideButtonClicked = onRideButtonClicked)
         }
 
 
@@ -101,6 +103,7 @@ fun SurgeMainScreen(
 @Preview
 fun SurgeMainScreenPreview() {
     val context = LocalContext.current // Get the current Context using LocalContext
-    SurgeMainScreen(context = context)
+    SurgeMainScreen(context = context,
+        onRideButtonClicked = { /*TODO: Implement RideButtonClicked*/ })
 }
 

@@ -22,7 +22,8 @@ import com.example.surge_app.viewModel.DestinationViewModel
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreenBottomBar(destinationViewModel: DestinationViewModel){
+fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
+                        onRideButtonClicked: () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
         modifier = Modifier.fillMaxSize()) {
@@ -34,7 +35,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel){
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -44,15 +45,17 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel){
 //This chip is in the bottom sheet
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChipInsideBottomBar(destinationViewModel: DestinationViewModel){
+fun ChipInsideBottomBar(
+    destinationViewModel: DestinationViewModel,
+    onRideButtonClicked: () -> Unit
+) {
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         InputChip(
             label = { Text(text = stringResource(R.string.start_trip)) },
             selected = true,
-            onClick = {
-            }
+            onClick = {onRideButtonClicked()}
         )
         InputChip(
             label = { Text(text = stringResource(R.string.cancel)) },

@@ -11,6 +11,7 @@ import com.example.surge_app.ui.theme.screens.GoogleAccountSignUpScreen
 import com.example.surge_app.ui.theme.screens.LogInOrCreateAccount
 import com.example.surge_app.ui.theme.screens.LoginScreen
 import com.example.surge_app.ui.theme.screens.SignUpScreen
+import com.example.surge_app.ui.theme.screens.StartRideScreen
 import com.example.surge_app.ui.theme.screens.SurgeMainScreen
 import com.example.surge_app.viewModel.LoginCreateAccountViewModel
 
@@ -21,6 +22,7 @@ enum class Screens{
     GoogleAccountSignUp,
     Login,
     MainScreen,
+    StartRideScreen,
 }
 
 @Composable
@@ -65,12 +67,17 @@ fun SurgeApp(
 @Composable
 fun SurgeMain(
     navController: NavHostController = rememberNavController(),
-    context: Context){
-
+    context: Context) {
+    fun onRideButtonClicked() {
+        navController.navigate(Screens.StartRideScreen.name)
+    }
     NavHost(navController = navController,
         startDestination = Screens.MainScreen.name){
         composable(route = Screens.MainScreen.name){
-            SurgeMainScreen(context = context)
+            SurgeMainScreen(context = context, onRideButtonClicked = { onRideButtonClicked() })
+        }
+        composable(route = Screens.StartRideScreen.name){
+            StartRideScreen()
         }
     }
 }
