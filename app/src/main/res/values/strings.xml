@@ -19,4 +19,5 @@
     <string name="sign_up_using_google">Google Sign In</string>
     <string name="address_confirmation">Address Confirmation</string>
     <string name="did_you_mean">Did you mean %1$s?</string>
+    <string name="start_trip">Start Trip</string>
 </resources>

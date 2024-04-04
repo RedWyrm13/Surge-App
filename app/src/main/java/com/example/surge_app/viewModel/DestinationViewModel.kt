@@ -41,6 +41,8 @@ class DestinationViewModel: ViewModel(){
     private val _predictions = mutableStateOf(AutocompleteResponse(predictions = emptyList(), status = "Initializer"))
     val predictions: State<AutocompleteResponse> = _predictions
     var isSheetAvailable by mutableStateOf(false)
+    var distanceOfRoute by mutableStateOf(0)
+    var durationOfRoute by mutableStateOf("0")
 
 
 
@@ -48,7 +50,7 @@ class DestinationViewModel: ViewModel(){
 
             viewModelScope.launch {
                 try {
-                    val newPredictions = placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey)
+                     val newPredictions = placesApiService.getPlacesAutoComplete(query, ApiKey.apiKey)
                     _predictions.value = newPredictions
                     Log.d("My Tag Success 1: ", _predictions.toString())
                     Log.d("My Tag Success 2: ", predictions.toString())
@@ -68,8 +70,9 @@ class DestinationViewModel: ViewModel(){
             try {
                  coordinatesOfDestination = geocodingApiService.getCoordinates(query, ApiKey.apiKey)
                 val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest(coordinatesOfDestination, userLocation))
-                destinationUiState = DestinationUiState.Success(routesResponse)
                 encodedPolyline = routesResponse.routes[0].polyline.encodedPolyline
+                distanceOfRoute = routesResponse.routes[0].distanceMeters
+                durationOfRoute = routesResponse.routes[0].duration
                 isSheetAvailable = true
             }
             catch (e: Throwable){
