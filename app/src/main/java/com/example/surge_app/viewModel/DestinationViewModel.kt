@@ -20,22 +20,9 @@ import com.example.surge_app.network.routesPostRequest
 import kotlinx.coroutines.launch
 
 
-sealed interface DestinationUiState{
-    data class Success(val routeResponse: RouteResponse?): DestinationUiState
-    object Error: DestinationUiState
-    object Loading: DestinationUiState
-}
-sealed interface AutocompleteUiState{
-    data class  Success( val autocompleteResponse: AutocompleteResponse?): AutocompleteUiState
-    object Error: AutocompleteUiState
-    object Loading: AutocompleteUiState
-}
-
 class DestinationViewModel: ViewModel(){
     //Mutable variable to keep the state of the coroutine that is fetching the destination
-    var destinationUiState: DestinationUiState by mutableStateOf(DestinationUiState.Loading)
     var encodedPolyline: String? = null
-    var autocompleteUiState: AutocompleteUiState by mutableStateOf(AutocompleteUiState.Loading)
     private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
     private val placesApiService = RetrofitClient.retrofit.create(PlacesApiService::class.java)
     private val _predictions = mutableStateOf(AutocompleteResponse(predictions = emptyList(), status = "Initializer"))
@@ -55,7 +42,6 @@ class DestinationViewModel: ViewModel(){
                     Log.d("My Tag Success 1: ", _predictions.toString())
                     Log.d("My Tag Success 2: ", predictions.toString())
                 } catch (e: Throwable) {
-                autocompleteUiState = AutocompleteUiState.Error
                 Log.d("My Tag Error: ", e.toString())
             }
         }
@@ -66,7 +52,7 @@ class DestinationViewModel: ViewModel(){
 
         var coordinatesOfDestination: GeocodingResponse
         viewModelScope.launch {
-            destinationUiState = DestinationUiState.Loading
+
             try {
                  coordinatesOfDestination = geocodingApiService.getCoordinates(query, ApiKey.apiKey)
                 val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest(coordinatesOfDestination, userLocation))
@@ -76,8 +62,7 @@ class DestinationViewModel: ViewModel(){
                 isSheetAvailable = true
             }
             catch (e: Throwable){
-                destinationUiState = DestinationUiState.Error
-
+                Log.d("My Tag Error: ", e.toString())
             }
 
         }

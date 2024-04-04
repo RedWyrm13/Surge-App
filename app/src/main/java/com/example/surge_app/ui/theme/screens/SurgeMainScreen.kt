@@ -104,6 +104,6 @@ fun SurgeMainScreen(
 fun SurgeMainScreenPreview() {
     val context = LocalContext.current // Get the current Context using LocalContext
     SurgeMainScreen(context = context,
-        onRideButtonClicked = { /*TODO: Implement RideButtonClicked*/ })
+        onRideButtonClicked = {  })
 }
 
