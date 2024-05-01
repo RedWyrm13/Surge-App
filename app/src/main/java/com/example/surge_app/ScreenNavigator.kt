@@ -14,7 +14,10 @@ import com.example.surge_app.ui.theme.screens.LoginScreen
 import com.example.surge_app.ui.theme.screens.SignUpScreen
 import com.example.surge_app.ui.theme.screens.StartRideScreen
 import com.example.surge_app.ui.theme.screens.SurgeMainScreen
+import com.example.surge_app.viewModel.DestinationViewModel
+import com.example.surge_app.viewModel.LocationViewModel
 import com.example.surge_app.viewModel.LoginCreateAccountViewModel
+import com.example.surge_app.viewModel.RideViewModel
 
 
 enum class Screens{
@@ -69,13 +72,19 @@ fun SurgeApp(
 fun SurgeMain(
     navController: NavHostController = rememberNavController(),
     context: Context) {
+    val locationViewModel = viewModel<LocationViewModel>()
+    val destinationViewModel = viewModel<DestinationViewModel>()
+
+
     NavHost(navController = navController,
         startDestination = Screens.MainScreen.name){
         composable(route = Screens.MainScreen.name){
-            SurgeMainScreen(context = context, onRideButtonClicked = { navController.navigate(Screens.StartRideScreen.name) })
+            SurgeMainScreen(context = context, onRideButtonClicked = { navController.navigate(Screens.StartRideScreen.name) },
+                locationViewModel = locationViewModel, destinationViewModel = destinationViewModel)
         }
         composable(route = Screens.StartRideScreen.name){
-            StartRideScreen()
+            val rideViewModel = RideViewModel(destinationViewModel = destinationViewModel, locationViewModel = locationViewModel)
+            StartRideScreen (rideViewModel = rideViewModel, locationViewModel = locationViewModel, destinationViewModel = destinationViewModel)
         }
     }
 }

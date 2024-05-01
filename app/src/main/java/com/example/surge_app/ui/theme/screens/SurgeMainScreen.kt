@@ -26,7 +26,8 @@ import com.example.surge_app.viewModel.LocationViewModel
 
 @Composable
 fun SurgeMainScreen(
-    locationViewModel: LocationViewModel = viewModel(),
+    locationViewModel: LocationViewModel,
+    destinationViewModel: DestinationViewModel = viewModel(),
     context: Context,
     onRideButtonClicked: () -> Unit
 ) {
@@ -35,7 +36,6 @@ fun SurgeMainScreen(
     val destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
     val userLocation by locationViewModel.userLocation.observeAsState()
-    val destinationViewModel: DestinationViewModel = viewModel()
 
 
     //If we cannot retrieve the user's location it will display Las Vegas on the google map view
@@ -105,7 +105,8 @@ fun SurgeMainScreen(
 @Preview
 fun SurgeMainScreenPreview() {
     val context = LocalContext.current // Get the current Context using LocalContext
-    SurgeMainScreen(context = context,
+    val locationViewModel: LocationViewModel = viewModel()
+    SurgeMainScreen(context = context, locationViewModel = locationViewModel,
         onRideButtonClicked = {  })
 }
 
