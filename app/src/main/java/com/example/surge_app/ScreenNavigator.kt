@@ -75,7 +75,6 @@ fun SurgeMain(
             SurgeMainScreen(context = context, onRideButtonClicked = { navController.navigate(Screens.StartRideScreen.name) })
         }
         composable(route = Screens.StartRideScreen.name){
-            Log.d("My Tag", "Ride Screen Composable")
             StartRideScreen()
         }
     }

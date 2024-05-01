@@ -19,7 +19,6 @@ fun StartRideScreen() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Log.d("My Tag", "Ride Screen Composable")
         val result by FirebaseManager.getDriverTest("Maciejunes Andrew").collectAsState(initial = Result.failure(RuntimeException("Loading...")))
 
         when (val unwrappedResult = result.getOrNull()) {

@@ -12,7 +12,6 @@ object FirebaseManager {
     private val db = Firebase.firestore
 
     fun getDriverTest(driverName: String): Flow<Result<Map<String, Any>>> = flow {
-        Log.d("My Tag", "getDriverTest function is running")
         try {
             val snapshot = db.collection("Drivers").document(driverName).get().await()
             if (snapshot.exists()) {
