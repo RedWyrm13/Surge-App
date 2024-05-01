@@ -30,6 +30,7 @@ fun SurgeMainScreen(
     context: Context,
     onRideButtonClicked: () -> Unit
 ) {
+
     //State variables
     val destination by remember { mutableStateOf("") }
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
@@ -78,7 +79,8 @@ fun SurgeMainScreen(
         }
         if (destinationViewModel.isSheetAvailable) {
             MainScreenBottomBar(destinationViewModel = destinationViewModel,
-                onRideButtonClicked = onRideButtonClicked)
+                onRideButtonClicked = onRideButtonClicked
+            )
         }
 
 

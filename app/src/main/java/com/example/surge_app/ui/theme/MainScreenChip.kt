@@ -1,5 +1,6 @@
 package com.example.surge_app.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
             ChipInsideBottomBar(destinationViewModel, onRideButtonClicked)
+            Log.d("My Tag", "onRideButtonClicked: " + onRideButtonClicked)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -49,6 +51,8 @@ fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
     onRideButtonClicked: () -> Unit
 ) {
+
+    Log.d("My Tag", "Chip inside bottom bar")
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
