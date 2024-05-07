@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 object FirebaseManager {
+
+
     private val db = Firebase.firestore
 
     fun getDriverTest(driverName: String): Flow<Result<Map<String, Any>>> = flow {

@@ -11,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.surge_app.network.PlacesApiManager
 import com.example.surge_app.ui.theme.SurgeAppTheme
 import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.app
 
 class LoginCreateAccountActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
          val chooseAccountLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 // Handle the selected account here
@@ -24,6 +27,7 @@ class LoginCreateAccountActivity : ComponentActivity() {
         }
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+        FirebaseFirestore.getInstance()
 
         // Firebase account manager stuff
         val authManager = AuthenticationManager(this, this)

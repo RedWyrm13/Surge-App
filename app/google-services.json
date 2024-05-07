@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "201633923016",
-    "project_id": "surgedatabasefordrivers",
-    "storage_bucket": "surgedatabasefordrivers.appspot.com"
+    "project_number": "1001421280573",
+    "project_id": "surge-f7068",
+    "storage_bucket": "surge-f7068.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201633923016:android:e48c8b1ca35fe26e774afd",
+        "mobilesdk_app_id": "1:1001421280573:android:62c951ab9e2558d9206154",
         "android_client_info": {
           "package_name": "com.example.surge_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDsSGmGIHxU-BMU-R0XB3DsvjQ0jGBXFhM"
+          "current_key": "AIzaSyCHLm48DPVkiejATWNOpmFBbuuwTIjR-mk"
         }
       ],
       "services": {
@@ -26,15 +26,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201633923016:android:fd407ef44e5ed17e774afd",
+        "mobilesdk_app_id": "1:1001421280573:android:57e1bca9749c0ec5206154",
         "android_client_info": {
-          "package_name": "com.example.surgedriver"
+          "package_name": "come.example.surge_app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDsSGmGIHxU-BMU-R0XB3DsvjQ0jGBXFhM"
+          "current_key": "AIzaSyCHLm48DPVkiejATWNOpmFBbuuwTIjR-mk"
         }
       ],
       "services": {

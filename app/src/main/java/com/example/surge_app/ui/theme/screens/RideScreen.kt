@@ -24,15 +24,10 @@ fun StartRideScreen(rideViewModel: RideViewModel, locationViewModel: LocationVie
     ) {
         val result by FirebaseManager.getDriverTest("Maciejunes Andrew").collectAsState(initial = Result.failure(RuntimeException("Loading...")))
 
-       /* when (val unwrappedResult = result.getOrNull()) {
+        when (val unwrappedResult = result.getOrNull()) {
             null -> Text("Error: ${result.exceptionOrNull()?.message ?: "Unknown error"}")
             else -> Text("Driver Data: $unwrappedResult")
-        }*/
-        Text(text = rideViewModel.encodedPolyline.toString() + "\n" + rideViewModel.distanceOfRoute.toString() + "\n" + rideViewModel.durationOfRoute.toString())
-        Text(text = destinationViewModel.encodedPolyline.toString() + "\n" + destinationViewModel.distanceOfRoute.toString() + "\n" + destinationViewModel.durationOfRoute.toString())
-
-        Log.d("RouteInfo for rideViewModel", "${rideViewModel.encodedPolyline}\n${rideViewModel.distanceOfRoute}\n${rideViewModel.durationOfRoute}")
-        Log.d("RouteInfo for destination", "${destinationViewModel.encodedPolyline}\n${destinationViewModel.distanceOfRoute}\n${destinationViewModel.durationOfRoute}")
+        }
 
     }
 }
