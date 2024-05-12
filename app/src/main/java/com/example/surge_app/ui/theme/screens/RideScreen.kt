@@ -6,10 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.example.surge_app.network.FirebaseManager
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
@@ -22,12 +26,28 @@ fun StartRideScreen(rideViewModel: RideViewModel, locationViewModel: LocationVie
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        val result by FirebaseManager.getDriverTest("Maciejunes Andrew").collectAsState(initial = Result.failure(RuntimeException("Loading...")))
+        val context = LocalContext.current
+        // Use remember to retain state across recompositions and mutableStateOf to make it observable
+        val text = remember { mutableStateOf("Loading...") }
 
-        when (val unwrappedResult = result.getOrNull()) {
-            null -> Text("Error: ${result.exceptionOrNull()?.message ?: "Unknown error"}")
-            else -> Text("Driver Data: $unwrappedResult")
+        val displayDriver = FirebaseManager.getDriverFirestore(context)
+
+        // Fetch the data once. To avoid fetching data on every recomposition, use LaunchedEffect or similar approach
+        LaunchedEffect(key1 = Unit) {
+            displayDriver.collection("Drivers").document("Maciejunes Andrew").get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    text.value = document.data.toString()  // Update state here
+                    Log.d("FirebaseManager", text.value)
+                } else {
+                    text.value = "Driver not found"
+                }
+            }.addOnFailureListener {
+                text.value = "Error fetching driver"
+            }
         }
+
+        // Text will recompose when text.value changes
+        Text(text = text.value)
 
     }
 }
