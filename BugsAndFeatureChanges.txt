@@ -11,8 +11,11 @@ Features to Fix/change/add - Pax
  -Allow pax to set $$ amounts for their rides as filters
     -A passenger sets a ride to be worth to them no more than $20. So the pax is shown drivers that can make the ride within that price range. They can request specific
       drivers to be sent the trip request to.
+ -Add error handling for incorrect username/password
+ -Add travel advisory to the routes api request. This information can then be added to the ride and displayed to the driver
 
 Features to fix/change/add -Driver
  -Change birthdate entry to a textfield that takes a string in the form MMDDYYYY instead of dropdown boxes
     -The user should type MMDDYYYY and the screen should display MM/DD/YYYY seamlessly
  -Make entire signup process less clunky and more seamless
+ -Add error handling for incorrect username/password

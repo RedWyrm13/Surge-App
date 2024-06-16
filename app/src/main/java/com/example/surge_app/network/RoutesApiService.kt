@@ -51,7 +51,9 @@ suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation
         try {
             connection.requestMethod = "POST"
             connection.setRequestProperty("Content-Type", "application/json")
-            connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline,")
+
+            //Check this link for all the possible return values for the API: https://developers.google.com/maps/documentation/routes/reference/rest/v2/TopLevel/computeRoutes#route
+            connection.setRequestProperty("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline,routes.warnings,routes.description")
             connection.doOutput = true
 
             val outputStreamWriter = OutputStreamWriter(connection.outputStream)

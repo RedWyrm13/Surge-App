@@ -13,7 +13,10 @@ data class RouteResponse(
 data class Route(
     val distanceMeters: Int,
     val duration: String,
-    val polyline: Polyline
+    val polyline: Polyline,
+    val warnings: List<String>? = null,
+    val description: String,
+
 )
 
 @Serializable
