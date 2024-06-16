@@ -16,15 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.surge_app.R
+import com.example.surge_app.data.Pax
+import com.example.surge_app.data.Ride
 import com.example.surge_app.data.metersToMiles
 import com.example.surge_app.data.secondsToHoursMinutes
+import com.example.surge_app.network.addRideToDatabase
 import com.example.surge_app.viewModel.DestinationViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
-                        onRideButtonClicked: () -> Unit) {
+                        onRideButtonClicked: () -> Unit,
+                        displayDriver: FirebaseFirestore
+) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
         modifier = Modifier.fillMaxSize()) {
@@ -36,8 +42,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked)
-            Log.d("My Tag", "onRideButtonClicked: " + onRideButtonClicked)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, displayDriver)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -49,17 +54,19 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
 @Composable
 fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
-    onRideButtonClicked: () -> Unit
+    onRideButtonClicked: () -> Unit,
+    displayDriver: FirebaseFirestore
 ) {
-
-    Log.d("My Tag", "Chip inside bottom bar")
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
         InputChip(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
-            onClick = {onRideButtonClicked()}
+            onClick = {
+                addRideToDatabase(createRide(destinationViewModel), driverFirestore = displayDriver)
+                onRideButtonClicked()
+            }
         )
         InputChip(
             label = { Text(text = stringResource(R.string.cancel)) },
@@ -77,4 +84,11 @@ fun distanceAndTimeText(distance: Int, time: String): String {
     val timeInHoursMinutes = secondsToHoursMinutes(time.filter { it.isDigit() }.toInt())
     val distanceInMiles = metersToMiles(distance)
     return "$distanceInMiles miles, $timeInHoursMinutes"
+}
+
+fun createRide(destinationViewModel: DestinationViewModel): Ride {
+    val ride = Ride(duration = destinationViewModel.durationOfRoute,
+        distance = destinationViewModel.distanceOfRoute,
+        encodedPolyline = destinationViewModel.encodedPolyline)
+    return ride
 }

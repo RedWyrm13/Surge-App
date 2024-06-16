@@ -2,20 +2,18 @@ package com.example.surge_app.network
 
 import android.content.Context
 import android.util.Log
+import com.example.surge_app.data.Ride
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.tasks.await
 
 object FirebaseManager {
 
-    private var passengerAppInitialized= false
+    private var passengerAppInitialized = false
     private lateinit var passengerApp: FirebaseApp
     private lateinit var passengerDb: FirebaseFirestore
 
-    private var driverAppInitialized= false
+    private var driverAppInitialized = false
     private lateinit var driverApp: FirebaseApp
     private lateinit var driverDb: FirebaseFirestore
 
@@ -29,16 +27,22 @@ object FirebaseManager {
 
     private fun initializeDriverApp(context: Context) {
         if (!driverAppInitialized) {
-            val options = FirebaseOptions.Builder()
-                .setApplicationId("1:201633923016:android:617388de46b571d4774afd")
-                .setApiKey("AIzaSyDsSGmGIHxU-BMU-R0XB3DsvjQ0jGBXFhM ")
-                .setProjectId("surgedatabasefordrivers")
-                .build()
-            driverApp = FirebaseApp.initializeApp(context, options, "DriverApp" )
-            driverDb = FirebaseFirestore.getInstance(driverApp)
-            driverAppInitialized = true
+            try {
+                val options = FirebaseOptions.Builder()
+                    .setApplicationId("1:201633923016:android:617388de46b571d4774afd")
+                    .setApiKey("AIzaSyDsSGmGIHxU-BMU-R0XB3DsvjQ0jGBXFhM")
+                    .setProjectId("surgedatabasefordrivers")
+                    .build()
+                driverApp = FirebaseApp.initializeApp(context, options, "DriverApp")!!
+                driverDb = FirebaseFirestore.getInstance(driverApp)
+                driverAppInitialized = true
+                Log.d("FirebaseManager", "DriverApp initialized successfully")
+            } catch (e: Exception) {
+                Log.e("FirebaseManager", "Error initializing DriverApp: ${e.message}", e)
+            }
         }
     }
+
     // Accessor for the default Firestore
     fun getPassengerFirestore(context: Context): FirebaseFirestore {
         if (!passengerAppInitialized) {
@@ -54,23 +58,22 @@ object FirebaseManager {
         }
         return driverDb
     }
-    fun getDriverTest(context: Context, driverName: String): Flow<Result<Map<String, Any>>> = flow {
-        try {
-            if (!driverAppInitialized) initializeDriverApp(context) // Context needs to be provided correctly
-            val snapshot = driverDb.collection("Drivers").document(driverName).get().await()
-            if (snapshot.exists()) {
-                emit(Result.success(snapshot.data!!))
-            }
-            else {
-                emit(Result.failure(Exception("User not found")))
-            }
-        }
-        catch (e: Exception) {
-            Log.e("FirebaseManager", "Error fetching document: ${e.message}", e)
-            emit(Result.failure(e))
-        }
 
+}
+
+// When this button is clicked, add the ride to the database. This allows the drivers to see the ride on their app
+fun addRideToDatabase(ride: Ride, driverFirestore: FirebaseFirestore) {
+    Log.d("My Tag", "Add ride to database function started")
+
+    try {
+        driverFirestore.collection("Rides").document(ride.rideId).set(ride)
+            .addOnSuccessListener {
+                Log.d("My Tag", "Ride added to database successfully")
+            }
+            .addOnFailureListener { exception ->
+                Log.e("My Tag", "Error adding ride to database", exception)
+            }
+    } catch (e: Exception) {
+        Log.e("My Tag", "Exception caught: ${e.message}", e)
     }
-
-
 }

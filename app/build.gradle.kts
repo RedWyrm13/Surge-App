@@ -4,6 +4,8 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("com.google.firebase.crashlytics")
+
 
 }
 
@@ -83,6 +85,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:<version>")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")

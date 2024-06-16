@@ -33,6 +33,7 @@ open class DestinationViewModel: ViewModel(){
 
 
 
+
     fun getPredictions(query: String) {
 
             viewModelScope.launch {
