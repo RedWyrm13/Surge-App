@@ -25,32 +25,7 @@ fun StartRideScreen(rideViewModel: RideViewModel, locationViewModel: LocationVie
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        val context = LocalContext.current
-        // Use remember to retain state across recompositions and mutableStateOf to make it observable
-        val text = remember { mutableStateOf("Loading...") }
-
-        val displayDriver = FirebaseManager.getDriverFirestore(context)
-        val displayPassenger = FirebaseManager.getPassengerFirestore(context)
-
-
-
-        // Fetch the data once. To avoid fetching data on every recomposition, use LaunchedEffect or similar approach
-        LaunchedEffect(key1 = Unit) {
-            Log.d("AuthDebug", "User logged in: ${FirebaseAuth.getInstance().currentUser != null}")
-            displayDriver.collection("Drivers").document("Stark Tony").get().addOnSuccessListener { document ->
-                if (document.exists()) {
-                    text.value = document.data.toString()  // Update state here
-                    Log.d("FirebaseManager", text.value)
-                } else {
-                    text.value = "Driver not found"
-                }
-            }.addOnFailureListener {
-                text.value = "Error fetching driver"
-            }
-        }
-
-        // Text will recompose when text.value changes
-        Text(text = text.value)
+        Text(text = "SUCCESS! YOU HAVE REQUESTED A RIDE!")
 
     }
 }

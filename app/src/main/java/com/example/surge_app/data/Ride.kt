@@ -15,6 +15,8 @@ class Ride(
     //This data will be updated once a driver has been determined
     var paxIdNumber = ""
     var driverIdNumber = ""
+    val pickupLocationAddress: String = "" // Using the coordinates, the address will be obtained
+    val destinationLocationAddress: String = "" // We can directly pass the address since the user confirms the address before starting the ride
 
 
 
