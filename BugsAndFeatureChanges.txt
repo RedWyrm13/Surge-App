@@ -13,6 +13,7 @@ Features to Fix/change/add - Pax
       drivers to be sent the trip request to.
  -Add error handling for incorrect username/password
  -Add travel advisory to the routes api request. This information can then be added to the ride and displayed to the driver
+ -Add a class for user/passenger
 
 Features to fix/change/add -Driver
  -Change birthdate entry to a textfield that takes a string in the form MMDDYYYY instead of dropdown boxes
