@@ -1,0 +1,27 @@
+Surge - Ride Sharing App for Android and iOS - High Level Model
+*************************************************		
+
+
+1) Create Rider App
+	a) Create user authentication
+	b) Create user data type for name, password, etc.
+	c) Location permission to access user's location
+	d) Input destination
+	e) Pull driver data from driver app
+		a) Display different rates and estimated time untill pickup and drop off
+	f) Rider chooses driver
+	g) Rider waits for pickup
+	h) Driver confirms ride has started after pickup
+	I) Passenger gets dropped off. Driver confirms passenger arrived at destination. Ride terminates
+
+2) Create Driver App
+	a) Create account
+	b) Onboard Driver
+		a) Needs to be explored more
+	c) Establish pay rates
+		a) Could show suggested rates based on area and other metrics
+	d) Activate account (Requires purchasing subscription
+	e) Receive ride requests based
+		a) Based on distance from pickup point and pricing
+	f) Start Ride
+	g) End Ride after completion

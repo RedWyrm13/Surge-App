@@ -1,0 +1,18 @@
+Bugs that need to be fixed in Surge
+ - When opening the app and requesting permission to access the user's location for the first time, the map will not load without
+	having to restart the app.
+
+
+Bugs that need to be fixed in Surge Driver
+
+Features to Fix/change/add - Pax
+ -Add autocomplete suggestions to the destination search bar. Should eb a way to implement this right from the google maps routes API
+ -Make entire signup process less clunky and more seamless
+ -Allow pax to set $$ amounts for their rides as filters
+    -A passenger sets a ride to be worth to them no more than $20. So the pax is shown drivers that can make the ride within that price range. They can request specific
+      drivers to be sent the trip request to.
+
+Features to fix/change/add -Driver
+ -Change birthdate entry to a textfield that takes a string in the form MMDDYYYY instead of dropdown boxes
+    -The user should type MMDDYYYY and the screen should display MM/DD/YYYY seamlessly
+ -Make entire signup process less clunky and more seamless

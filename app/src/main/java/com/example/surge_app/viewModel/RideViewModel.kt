@@ -21,8 +21,6 @@ class RideViewModel(destinationViewModel: DestinationViewModel, locationViewMode
             longitude = currentLongitude
         }
 
-        // Now you can use the pickupLocation as needed in your RideViewModel
-        // For example, you can pass it to the ride class
-        // ride.pickupLocation = pickupLocation
+
     }
 }
