@@ -11,14 +11,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.AutocompleteResponse
-import com.example.surge_app.data.GeocodingResponse
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.repositories.RideRepoImpl
-import com.example.surge_app.network.GeocodingApiService
 import com.example.surge_app.network.PlacesApiService
 import kotlinx.coroutines.launch
 
-open class DestinationViewModel : ViewModel() {
+open class DestinationViewModel(val rideRepoImpl: RideRepoImpl) : ViewModel() {
     private val placesApiService = RetrofitClient.retrofit.create(PlacesApiService::class.java)
     private val _predictions = mutableStateOf(AutocompleteResponse(predictions = emptyList(), status = "Initializer"))
     val predictions: State<AutocompleteResponse> = _predictions
@@ -26,7 +24,7 @@ open class DestinationViewModel : ViewModel() {
     var distanceOfRoute by mutableIntStateOf(0)
     var durationOfRoute by mutableStateOf("0")
     var encodedPolyline: String? = null
-    private val rideRepoImpl = RideRepoImpl()
+
 
     fun getPredictions(query: String) {
         viewModelScope.launch {

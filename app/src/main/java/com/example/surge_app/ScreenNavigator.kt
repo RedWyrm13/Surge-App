@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.ui.theme.screens.GoogleAccountSignUpScreen
 import com.example.surge_app.ui.theme.screens.LogInOrCreateAccount
 import com.example.surge_app.ui.theme.screens.LoginScreen
@@ -72,19 +73,21 @@ fun SurgeApp(
 fun SurgeMain(
     navController: NavHostController = rememberNavController(),
     context: Context) {
+    val rideRepoImpl = RideRepoImpl()
     val locationViewModel = viewModel<LocationViewModel>()
-    val destinationViewModel = viewModel<DestinationViewModel>()
+    val destinationViewModel = DestinationViewModel(rideRepoImpl = rideRepoImpl)
+
+
 
 
     NavHost(navController = navController,
         startDestination = Screens.MainScreen.name){
         composable(route = Screens.MainScreen.name){
             SurgeMainScreen(onRideButtonClicked = { navController.navigate(Screens.StartRideScreen.name) },
-                locationViewModel = locationViewModel, destinationViewModel = destinationViewModel)
+                locationViewModel = locationViewModel, destinationViewModel = destinationViewModel, rideRepoImpl = rideRepoImpl)
         }
         composable(route = Screens.StartRideScreen.name){
-            val rideViewModel = RideViewModel(destinationViewModel = destinationViewModel, locationViewModel = locationViewModel)
-            StartRideScreen (rideViewModel = rideViewModel, locationViewModel = locationViewModel, destinationViewModel = destinationViewModel)
+            StartRideScreen (rideRepoImpl = rideRepoImpl)
         }
     }
 }

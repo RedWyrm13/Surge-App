@@ -28,7 +28,8 @@ import com.example.surge_app.viewModel.LocationViewModel
 fun SurgeMainScreen(
     locationViewModel: LocationViewModel,
     destinationViewModel: DestinationViewModel = viewModel(),
-    onRideButtonClicked: () -> Unit
+    onRideButtonClicked: () -> Unit,
+    rideRepoImpl: RideRepoImpl
 ) {
 
     // State variables
@@ -46,7 +47,6 @@ fun SurgeMainScreen(
 
     // Location initialization check
     val isLocationInitialized = userLocation != null && userLocation != defaultLocation
-    val rideRepoImpl = RideRepoImpl()
 
     // LaunchedEffect to observe destination changes
     LaunchedEffect(destination) {
@@ -101,6 +101,8 @@ fun SurgeMainScreenPreview() {
     val locationViewModel: LocationViewModel = viewModel()
     SurgeMainScreen(
         locationViewModel = locationViewModel,
-        onRideButtonClicked = {}
+        onRideButtonClicked = {},
+        destinationViewModel = viewModel(),
+        rideRepoImpl = RideRepoImpl()
     )
 }

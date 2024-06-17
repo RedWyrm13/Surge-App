@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
+//Might have to add location view model information to you to pass to the ride screen. We shall see
 interface RideRepo {
 
     suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String
