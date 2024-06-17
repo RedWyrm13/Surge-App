@@ -30,7 +30,6 @@ import com.example.surge_app.viewModel.LocationViewModel
 fun SurgeMainScreen(
     locationViewModel: LocationViewModel,
     destinationViewModel: DestinationViewModel = viewModel(),
-    context: Context,
     onRideButtonClicked: () -> Unit
 ) {
 
@@ -101,7 +100,6 @@ fun SurgeMainScreenPreview() {
     val context = LocalContext.current // Get the current Context using LocalContext
     val locationViewModel: LocationViewModel = viewModel()
     SurgeMainScreen(
-        context = context,
         locationViewModel = locationViewModel,
         onRideButtonClicked = {}
     )

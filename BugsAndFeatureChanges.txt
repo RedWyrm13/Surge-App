@@ -1,6 +1,7 @@
 Bugs that need to be fixed in Surge
  - When opening the app and requesting permission to access the user's location for the first time, the map will not load without
 	having to restart the app.
+ - The app requires users to log in every time. Not sure how to fix that yet, but it needs to be fixed.
 
 
 Bugs that need to be fixed in Surge Driver

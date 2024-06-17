@@ -5,7 +5,7 @@ import java.util.Random
 
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase
 class Ride(
-    val rideId: String = generateRideId(),
+    val rideId: String = generateUniqueId("ride"),
     val pickupLocation: Location =  Location(36.0831, -115.1473),     //Harry reid international airport
     val destination: Location =  Location(36.1694, -115.1387),     //El cortez hotel and casino
     val duration: String = "",
@@ -18,22 +18,26 @@ class Ride(
     val pickupLocationAddress: String = "" // Using the coordinates, the address will be obtained
     val destinationLocationAddress: String = "" // We can directly pass the address since the user confirms the address before starting the ride
 
-
-
-
-
-
-
 }
 
-
-
-fun generateRideId(): String {
-    val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+//Used to create a unique id for rides, pax, and drivers
+fun generateUniqueId(method: String): String {
+    val chars = "ABCEFGHIJKLMNOQSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     val random = Random()
-    val sb = StringBuilder(12)
-    for (i in 0 until 12) {
+    val sb = StringBuilder(15)
+    for (i in 0 until 15) {
         sb.append(chars[random.nextInt(chars.length)])
+    }
+    when (method.lowercase().trim()) {
+        "ride" -> {
+            return "R" + sb.toString()
+        }
+        "pax" -> {
+            return "P" + sb.toString()
+        }
+        "driver" -> {
+            return "D" + sb.toString()
+        }
     }
     return sb.toString()
 }
