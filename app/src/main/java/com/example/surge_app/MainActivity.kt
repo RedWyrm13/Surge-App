@@ -1,6 +1,7 @@
 package com.example.surge_app
 
 import android.accounts.AccountManager
+import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -11,9 +12,35 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.surge_app.network.PlacesApiManager
 import com.example.surge_app.ui.theme.SurgeAppTheme
 import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.app
 
+
+class MyApplication: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        initializePassengerApp()
+        initializeDriverApp()
+    }
+    private fun initializePassengerApp(){
+        if (FirebaseApp.getApps(this).isEmpty()){
+            FirebaseApp.initializeApp(this)
+            FirebaseFirestore.getInstance()
+        }
+    }
+    private fun initializeDriverApp(){
+        if(FirebaseApp.getApps(this).none{it.name == "DriverApp"}){
+            val options = FirebaseOptions.Builder()
+                .setApplicationId("1:201633923016:android:617388de46b571d4774afd")
+                .setApiKey("AIzaSyDsSGmGIHxU-BMU-R0XB3DsvjQ0jGBXFhM")
+                .setProjectId("surgedatabasefordrivers")
+                .build()
+            FirebaseApp.initializeApp(this, options, "DriverApp")
+            FirebaseFirestore.getInstance(FirebaseApp.getInstance("DriverApp"))
+        }
+    }
+}
 class LoginCreateAccountActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

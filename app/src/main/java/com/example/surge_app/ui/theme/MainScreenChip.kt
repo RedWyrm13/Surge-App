@@ -29,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 @Composable
 fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                         onRideButtonClicked: () -> Unit,
-                        displayDriver: FirebaseFirestore
 ) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
@@ -42,7 +41,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, displayDriver)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -55,7 +54,6 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
 fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
     onRideButtonClicked: () -> Unit,
-    displayDriver: FirebaseFirestore
 ) {
 
     Row(modifier = Modifier.fillMaxWidth(),
@@ -64,7 +62,7 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
-                addRideToDatabase(createRide(destinationViewModel), driverFirestore = displayDriver)
+                addRideToDatabase(createRide(destinationViewModel))
                 onRideButtonClicked()
             }
         )
