@@ -15,13 +15,12 @@ Features to Fix/change/add - Pax
  -Add error handling for incorrect username/password
  -Add travel advisory to the routes api request. This information can then be added to the ride and displayed to the driver
  -Add a class for user/passenger
- -Add unique id for each user
-    -Each id can start with p for pax
+ -Add something to the bottom bar that displays the find ride button
+
 
 Features to fix/change/add -Driver
  -Change birthdate entry to a textfield that takes a string in the form MMDDYYYY instead of dropdown boxes
     -The user should type MMDDYYYY and the screen should display MM/DD/YYYY seamlessly
  -Make entire signup process less clunky and more seamless
  -Add error handling for incorrect username/password
- -Add unique id for each user
-    -Each id can start with a d for driver
+

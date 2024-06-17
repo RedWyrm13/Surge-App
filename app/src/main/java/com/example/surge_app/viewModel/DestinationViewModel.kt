@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 open class DestinationViewModel: ViewModel(){
     //Mutable variable to keep the state of the coroutine that is fetching the destination
     var encodedPolyline: String? = null
-    private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
     private val placesApiService = RetrofitClient.retrofit.create(PlacesApiService::class.java)
     private val _predictions = mutableStateOf(AutocompleteResponse(predictions = emptyList(), status = "Initializer"))
     val predictions: State<AutocompleteResponse> = _predictions
@@ -57,7 +56,7 @@ open class DestinationViewModel: ViewModel(){
         viewModelScope.launch {
 
             try {
-                 coordinatesOfDestination = geocodingApiService.getCoordinates(query, ApiKey.apiKey)
+                 coordinatesOfDestination = rideRepoImpl.getCoordinates(query, ApiKey.apiKey)
                 val routesResponse = convertFromJsonStringToRoutesResponse(rideRepoImpl.routesPostRequest(coordinatesOfDestination, userLocation))
                 encodedPolyline = routesResponse.routes[0].polyline.encodedPolyline
                 distanceOfRoute = routesResponse.routes[0].distanceMeters

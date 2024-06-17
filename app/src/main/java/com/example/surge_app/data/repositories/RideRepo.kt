@@ -4,11 +4,15 @@ import android.location.Location
 import android.util.Log
 import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.GeocodingResponse
+import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.Ride
 import com.example.surge_app.network.FirebaseManager
+import com.example.surge_app.network.GeocodingApiService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
@@ -17,9 +21,18 @@ import java.net.URL
 interface RideRepo {
     suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String
     fun addRideToDatabase(ride: Ride)
+
+    @GET("maps/api/geocode/json")
+    suspend fun getCoordinates(
+        //These parameters marked with the @Query annotation are added onto the end of the full url
+        @Query("address") address: String,
+        @Query("key") apiKey: String
+    ): GeocodingResponse
 }
 
-class RideRepoImpl: RideRepo {
+class RideRepoImpl(): RideRepo {
+    private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
+
     override suspend fun routesPostRequest(
         geocodingResponse: GeocodingResponse,
         userLocation: Location?
@@ -112,4 +125,9 @@ class RideRepoImpl: RideRepo {
             Log.e("My Tag", "Exception caught: ${e.message}", e)
         }
     }
+
+    override suspend fun getCoordinates(
+        @Query("address") address: String,
+        @Query("key") apiKey: String
+    ): GeocodingResponse = geocodingApiService.getCoordinates(address, apiKey)
 }
