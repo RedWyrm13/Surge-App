@@ -1,6 +1,5 @@
 package com.example.surge_app.ui.theme
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,19 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.surge_app.R
-import com.example.surge_app.data.Pax
 import com.example.surge_app.data.Ride
 import com.example.surge_app.data.metersToMiles
+import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.secondsToHoursMinutes
-import com.example.surge_app.network.addRideToDatabase
 import com.example.surge_app.viewModel.DestinationViewModel
-import com.google.firebase.firestore.FirebaseFirestore
 
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                         onRideButtonClicked: () -> Unit,
+                        rideRepoImpl: RideRepoImpl,
 ) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
@@ -41,7 +39,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -54,6 +52,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
 fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
     onRideButtonClicked: () -> Unit,
+    rideRepoImpl: RideRepoImpl,
 ) {
 
     Row(modifier = Modifier.fillMaxWidth(),
@@ -62,7 +61,7 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
-                addRideToDatabase(createRide(destinationViewModel))
+                rideRepoImpl.addRideToDatabase(createRide(destinationViewModel))
                 onRideButtonClicked()
             }
         )

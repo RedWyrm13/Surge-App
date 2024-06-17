@@ -35,20 +35,4 @@ object FirebaseManager {
 }
 
 
-fun addRideToDatabase(ride: Ride) {
-    Log.d("My Tag", "Add ride to database function started")
 
-    val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
-
-    try {
-        driverFirestore.collection("Rides").document(ride.rideId).set(ride)
-            .addOnSuccessListener {
-                Log.d("My Tag", "Ride added to database successfully")
-            }
-            .addOnFailureListener { exception ->
-                Log.e("My Tag", "Error adding ride to database", exception)
-            }
-    } catch (e: Exception) {
-        Log.e("My Tag", "Exception caught: ${e.message}", e)
-    }
-}

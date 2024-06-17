@@ -14,9 +14,9 @@ import com.example.surge_app.data.AutocompleteResponse
 import com.example.surge_app.data.GeocodingResponse
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.convertFromJsonStringToRoutesResponse
+import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.network.GeocodingApiService
 import com.example.surge_app.network.PlacesApiService
-import com.example.surge_app.network.routesPostRequest
 import kotlinx.coroutines.launch
 
 
@@ -30,6 +30,8 @@ open class DestinationViewModel: ViewModel(){
     var isSheetAvailable by mutableStateOf(false)
     var distanceOfRoute by mutableIntStateOf(0)
     var durationOfRoute by mutableStateOf("0")
+    val rideRepoImpl = RideRepoImpl()
+
 
 
 
@@ -56,7 +58,7 @@ open class DestinationViewModel: ViewModel(){
 
             try {
                  coordinatesOfDestination = geocodingApiService.getCoordinates(query, ApiKey.apiKey)
-                val routesResponse = convertFromJsonStringToRoutesResponse(routesPostRequest(coordinatesOfDestination, userLocation))
+                val routesResponse = convertFromJsonStringToRoutesResponse(rideRepoImpl.routesPostRequest(coordinatesOfDestination, userLocation))
                 encodedPolyline = routesResponse.routes[0].polyline.encodedPolyline
                 distanceOfRoute = routesResponse.routes[0].distanceMeters
                 durationOfRoute = routesResponse.routes[0].duration

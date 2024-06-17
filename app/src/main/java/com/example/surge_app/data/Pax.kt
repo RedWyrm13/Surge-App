@@ -8,5 +8,5 @@ class Pax(
     val email: String = "",
     val password: String = "",
     val phoneNumber: String = "",
-    val paxId: String = "P" + generateUniqueId()
+    val paxId: String = "P" + generateUniqueId("pax")
 )

@@ -1,8 +1,6 @@
 package com.example.surge_app.ui.theme.screens
 
-import android.content.Context
 import android.location.Location
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
-import com.example.surge_app.network.FirebaseManager
+import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.ui.theme.MainScreenBottomBar
 import com.example.surge_app.viewModel.DestinationViewModel
@@ -48,6 +46,7 @@ fun SurgeMainScreen(
 
     // Location initialization check
     val isLocationInitialized = userLocation != null && userLocation != defaultLocation
+    val rideRepoImpl = RideRepoImpl()
 
     // LaunchedEffect to observe destination changes
     LaunchedEffect(destination) {
@@ -78,6 +77,7 @@ fun SurgeMainScreen(
             MainScreenBottomBar(
                 destinationViewModel = destinationViewModel,
                 onRideButtonClicked = onRideButtonClicked,
+                rideRepoImpl = rideRepoImpl
 
             )
         }
