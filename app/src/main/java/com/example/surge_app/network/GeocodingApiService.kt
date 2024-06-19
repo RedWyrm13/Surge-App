@@ -16,6 +16,7 @@ interface GeocodingApiService {
         @Query("key") apiKey: String = ApiKey.apiKey
     ): GeocodingResponse
 
+    @GET("maps/api/geocode/json")
     suspend fun reverseGeocode(
         @Query("latlng") latLng: String,
         @Query("key") apiKey: String = ApiKey.apiKey

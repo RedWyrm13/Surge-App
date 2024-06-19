@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.RetrofitClient
+import com.example.surge_app.data.repositories.GeocodingRepoImpl
 import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
 
@@ -18,6 +18,8 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     // Store the most recent location data in these variables
     private var latestLatitude: Double = 0.0
     private var latestLongitude: Double = 0.0
+
+    val geocodingRepo = GeocodingRepoImpl(RetrofitClient.retrofit.create(GeocodingApiService::class.java))
 
     // LiveData to observe changes in the location data
     val userLocation = MutableLiveData<Location>()
@@ -29,8 +31,6 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         latestLongitude = location.longitude
         userLocation.postValue(location)
     }
-
-    private val geocodingApiService = RetrofitClient.retrofit.create(GeocodingApiService::class.java)
 
     init {
         fetchLocation()
@@ -63,7 +63,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         val resultLocation = MutableLiveData<Location>()
         viewModelScope.launch {
             try {
-                val response = geocodingApiService.getCoordinates(address, ApiKey.apiKey)
+                val response = geocodingRepo.getCoordinates(address)
                 if (response.status == "OK" && response.results.isNotEmpty()) {
                     val location = response.results[0].geometry.location
                     resultLocation.postValue(Location("").apply {
@@ -78,6 +78,22 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
             }
         }
         return resultLocation
+    }
+    fun reverseGeocodeAddress(latlng: String = getLatestLocation().toString()): String{
+        var address = ""
+        viewModelScope.launch {
+            try {
+                val response = geocodingRepo.reverseGeocode(latlng)
+                if (response.results.isNotEmpty()) {
+                    address = response.results[0].formattedAddress
+                } else {
+                    // Handle no result found or error
+                }
+            } catch (e: Exception) {
+                // Handle network or other errors
+            }
+        }
+        return address
     }
 
     // Function to provide the most recent latitude

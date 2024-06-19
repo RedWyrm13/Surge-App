@@ -1,4 +1,11 @@
 package com.example.surge_app.data.apiResponseData
 
-class ReverseGeocodingResponse {
-}
+import com.google.gson.annotations.SerializedName
+
+data class ReverseGeocodingResponse(
+    val results: List<ReverseGeocodingResult>
+)
+
+data class ReverseGeocodingResult(
+    @SerializedName("formatted_address") val formattedAddress: String
+)
