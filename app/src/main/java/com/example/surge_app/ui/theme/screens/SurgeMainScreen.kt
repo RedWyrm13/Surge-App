@@ -77,8 +77,8 @@ fun SurgeMainScreen(
             MainScreenBottomBar(
                 destinationViewModel = destinationViewModel,
                 onRideButtonClicked = onRideButtonClicked,
-                rideRepoImpl = rideRepoImpl
-
+                rideRepoImpl = rideRepoImpl,
+                locationViewModel = locationViewModel
             )
         }
 

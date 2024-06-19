@@ -89,6 +89,13 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     fun getLatestLongitude(): Double {
         return latestLongitude
     }
+    fun getLatestLocation(): com.example.surge_app.data.apiResponseData.Location {
+        val currentLocation = com.example.surge_app.data.apiResponseData.Location(
+            getLatestLatitude(),
+            getLatestLongitude()
+        )
+        return currentLocation
+    }
 
     override fun onCleared() {
         super.onCleared()

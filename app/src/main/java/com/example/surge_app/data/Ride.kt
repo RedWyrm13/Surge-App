@@ -7,8 +7,8 @@ import java.util.Random
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase
 class Ride(
     val rideId: String = generateUniqueId("ride"),
-    val pickupLocation: Location =  Location(36.0831, -115.1473),     //Harry reid international airport
-    val destination: Location =  Location(36.1694, -115.1387),     //El cortez hotel and casino
+    val pickupLocation: Location = Location(0.0, 0.0)   ,  //Harry reid international airport
+    val destination: Location =  Location(36.1694, -115.1387), //El cortez hotel and casino
     val duration: String = "",
     val distance: Int = 0,
     val encodedPolyline: String? = null,

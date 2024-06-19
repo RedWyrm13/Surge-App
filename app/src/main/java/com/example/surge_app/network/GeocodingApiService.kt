@@ -1,6 +1,8 @@
 package com.example.surge_app.network
 
+import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.apiResponseData.GeocodingResponse
+import com.example.surge_app.data.apiResponseData.ReverseGeocodingResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,8 +13,13 @@ interface GeocodingApiService {
     suspend fun getCoordinates(
         //These parameters marked with the @Query annotation are added onto the end of the full url
         @Query("address") address: String,
-        @Query("key") apiKey: String
+        @Query("key") apiKey: String = ApiKey.apiKey
     ): GeocodingResponse
+
+    suspend fun reverseGeocode(
+        @Query("latlng") latLng: String,
+        @Query("key") apiKey: String = ApiKey.apiKey
+    ): ReverseGeocodingResponse
     // The full url with parameters included takes the form of
     // https://maps.googleapis.com/maps/api/geocode/json?address=address&key=apiKey
 

@@ -20,6 +20,7 @@ import com.example.surge_app.data.apiResponseData.metersToMiles
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
 import com.example.surge_app.viewModel.DestinationViewModel
+import com.example.surge_app.viewModel.LocationViewModel
 
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,6 +28,7 @@ import com.example.surge_app.viewModel.DestinationViewModel
 fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                         onRideButtonClicked: () -> Unit,
                         rideRepoImpl: RideRepoImpl,
+                        locationViewModel: LocationViewModel,
 ) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
@@ -39,7 +41,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl, locationViewModel)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -53,6 +55,7 @@ fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
     onRideButtonClicked: () -> Unit,
     rideRepoImpl: RideRepoImpl,
+    locationViewModel: LocationViewModel,
 ) {
 
     Row(modifier = Modifier.fillMaxWidth(),
@@ -61,7 +64,7 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
-                rideRepoImpl.addRideToDatabase(createRide(destinationViewModel))
+                rideRepoImpl.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
                 onRideButtonClicked()
             }
         )
@@ -83,9 +86,11 @@ fun distanceAndTimeText(distance: Int, time: String): String {
     return "$distanceInMiles miles, $timeInHoursMinutes"
 }
 
-fun createRide(destinationViewModel: DestinationViewModel): Ride {
+fun createRide(destinationViewModel: DestinationViewModel,
+               locationViewModel: LocationViewModel): Ride {
     val ride = Ride(duration = destinationViewModel.durationOfRoute,
         distance = destinationViewModel.distanceOfRoute,
-        encodedPolyline = destinationViewModel.encodedPolyline)
+        encodedPolyline = destinationViewModel.encodedPolyline,
+        pickupLocation = locationViewModel.getLatestLocation())
     return ride
 }
