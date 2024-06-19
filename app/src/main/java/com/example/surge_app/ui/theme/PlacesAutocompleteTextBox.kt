@@ -69,7 +69,7 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
             dialogTitle = stringResource(id = R.string.address_confirmation),
             dialogText = stringResource(
                 R.string.did_you_mean,
-                predictions.predictions[0].description.toString()
+                predictions.predictions[0].description
             )
             )
     }

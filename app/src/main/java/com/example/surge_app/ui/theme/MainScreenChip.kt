@@ -93,7 +93,8 @@ fun createRide(destinationViewModel: DestinationViewModel,
         distance = destinationViewModel.distanceOfRoute,
         encodedPolyline = destinationViewModel.encodedPolyline,
         pickupLocation = locationViewModel.getLatestLocation(),
-        pickupLocationAddress = locationViewModel.reverseGeocodeAddress())
+        pickupLocationAddress = locationViewModel.reverseGeocodeAddress(),
+        destinationLocationAddress = destinationViewModel.predictions.value.predictions[0].description)
 
 
     return ride
