@@ -1,9 +1,11 @@
 package com.example.surge_app.viewModel
+
 import android.app.Application
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +14,7 @@ import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.repositories.GeocodingRepoImpl
 import com.example.surge_app.network.GeocodingApiService
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +22,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private var latestLatitude: Double = 0.0
     private var latestLongitude: Double = 0.0
 
-    val geocodingRepo = GeocodingRepoImpl(RetrofitClient.retrofit.create(GeocodingApiService::class.java))
+    private val geocodingRepo = GeocodingRepoImpl(RetrofitClient.retrofit.create(GeocodingApiService::class.java))
 
     // LiveData to observe changes in the location data
     val userLocation = MutableLiveData<Location>()
@@ -79,32 +82,37 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         }
         return resultLocation
     }
-    fun reverseGeocodeAddress(latlng: String = getLatestLocation().toString()): String{
+
+    fun reverseGeocodeAddress(latlng: String = formatLocationString(getLatestLocation().toString())): String {
         var address = ""
-        viewModelScope.launch {
+        runBlocking {
             try {
                 val response = geocodingRepo.reverseGeocode(latlng)
                 if (response.results.isNotEmpty()) {
                     address = response.results[0].formattedAddress
                 } else {
                     // Handle no result found or error
+                    //User can type in address manually
                 }
             } catch (e: Exception) {
-                // Handle network or other errors
+                Log.e("MyTag_locationViewModel", "Error: ${e.message}")
             }
         }
+
         return address
     }
 
+
     // Function to provide the most recent latitude
-    fun getLatestLatitude(): Double {
+    private fun getLatestLatitude(): Double {
         return latestLatitude
     }
 
     // Function to provide the most recent longitude
-    fun getLatestLongitude(): Double {
+    private fun getLatestLongitude(): Double {
         return latestLongitude
     }
+
     fun getLatestLocation(): com.example.surge_app.data.apiResponseData.Location {
         val currentLocation = com.example.surge_app.data.apiResponseData.Location(
             getLatestLatitude(),
@@ -116,5 +124,17 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     override fun onCleared() {
         super.onCleared()
         locationManager.removeUpdates(locationListener)
+    }
+}
+
+fun formatLocationString(locationString: String): String {
+    val latLngRegex = Regex("""Location\(lat=(-?\d+\.\d+), lng=(-?\d+\.\d+)\)""")
+    val matchResult = latLngRegex.find(locationString)
+
+    return if (matchResult != null) {
+        val (lat, lng) = matchResult.destructured
+        "$lat,$lng"
+    } else {
+        throw IllegalArgumentException("Invalid location string format")
     }
 }

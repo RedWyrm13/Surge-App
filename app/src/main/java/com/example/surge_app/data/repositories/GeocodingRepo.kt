@@ -1,5 +1,6 @@
 package com.example.surge_app.data.repositories
 
+import android.util.Log
 import com.example.surge_app.data.apiResponseData.GeocodingResponse
 import com.example.surge_app.data.apiResponseData.ReverseGeocodingResponse
 import com.example.surge_app.network.GeocodingApiService

@@ -1,5 +1,6 @@
 package com.example.surge_app.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -91,6 +92,9 @@ fun createRide(destinationViewModel: DestinationViewModel,
     val ride = Ride(duration = destinationViewModel.durationOfRoute,
         distance = destinationViewModel.distanceOfRoute,
         encodedPolyline = destinationViewModel.encodedPolyline,
-        pickupLocation = locationViewModel.getLatestLocation())
+        pickupLocation = locationViewModel.getLatestLocation(),
+        pickupLocationAddress = locationViewModel.reverseGeocodeAddress())
+
+
     return ride
 }
