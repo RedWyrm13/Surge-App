@@ -2,6 +2,8 @@ package com.example.surge_app.ui.theme
 
 import android.location.Location
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -15,9 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 import com.example.surge_app.R
 import com.example.surge_app.viewModel.DestinationViewModel
-
+import androidx.compose.ui.Modifier
 
 @Composable
 fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
@@ -52,6 +55,7 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
                 //destinationViewModel.getDestination(searchText, userLocation)
                 onGoFunctionCall()
             }),
+
         )
     //
 
@@ -61,7 +65,7 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
         DestinationConfirmationAlertDialog(
             onDismissRequest = {showDialog = false},
             onConfirmRequest = {
-                searchText = predictions.predictions[0].description.toString()
+                searchText = predictions.predictions[0].description
             destinationViewModel.getDestination(userLocation = userLocation, query = searchText)
                 showDialog = false
 

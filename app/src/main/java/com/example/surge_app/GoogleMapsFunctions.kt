@@ -32,7 +32,12 @@ import com.google.maps.android.PolyUtil
 
 
 @Composable
-fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = null) {
+fun GoogleMapComposable(
+    lat: Double,
+    lon: Double,
+    encodedPolyline: String? = null,
+    modifier: Modifier = Modifier // Add modifier parameter with default value
+) {
 
     val context = LocalContext.current
     val mapView = remember {
@@ -79,9 +84,10 @@ fun GoogleMapComposable(lat: Double, lon: Double, encodedPolyline: String? = nul
             Text("Map Preview", modifier = Modifier.align(Alignment.Center))
         }
     } else {
-        AndroidView({ mapView }, Modifier.fillMaxSize())
+        AndroidView({ mapView }, modifier) // Pass the modifier here
     }
 }
+
 
 // Companion object to encapsulate the currentPolyline variable
 class PolylineManager {
