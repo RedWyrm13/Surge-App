@@ -12,22 +12,5 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun PaxSettingNavigationDrawer() {
-    ModalNavigationDrawer(
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Drawer title", modifier = Modifier.padding(16.dp))
-                Divider()
-                NavigationDrawerItem(
-                    label = { Text(text = "Drawer Item") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
-                )
-                // ...other drawer items
-            }
-        }
-    ){
-        Text(text = "Main content")
-    }
-
 
 }
