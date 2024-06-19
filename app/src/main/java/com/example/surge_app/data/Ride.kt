@@ -1,6 +1,7 @@
 package com.example.surge_app.data
 
 
+import com.example.surge_app.data.apiResponseData.Location
 import java.util.Random
 
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase

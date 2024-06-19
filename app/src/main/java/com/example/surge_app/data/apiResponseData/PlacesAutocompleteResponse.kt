@@ -1,4 +1,4 @@
-package com.example.surge_app.data
+package com.example.surge_app.data.apiResponseData
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

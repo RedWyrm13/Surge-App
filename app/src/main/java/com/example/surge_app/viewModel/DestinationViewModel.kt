@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.surge_app.data.ApiKey
-import com.example.surge_app.data.AutocompleteResponse
+import com.example.surge_app.data.apiResponseData.AutocompleteResponse
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.network.PlacesApiService

@@ -2,7 +2,7 @@ package com.example.surge_app.network
 
 import android.content.Context
 import com.example.surge_app.ApiKey
-import com.example.surge_app.data.AutocompleteResponse
+import com.example.surge_app.data.apiResponseData.AutocompleteResponse
 import com.google.android.libraries.places.api.Places
 import retrofit2.http.GET
 import retrofit2.http.Query

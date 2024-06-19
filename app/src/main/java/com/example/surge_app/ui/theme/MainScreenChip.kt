@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.surge_app.R
 import com.example.surge_app.data.Ride
-import com.example.surge_app.data.metersToMiles
+import com.example.surge_app.data.apiResponseData.metersToMiles
 import com.example.surge_app.data.repositories.RideRepoImpl
-import com.example.surge_app.data.secondsToHoursMinutes
+import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
 import com.example.surge_app.viewModel.DestinationViewModel
 
 //This function is used to create the bottom sheet after the user has entered their destination

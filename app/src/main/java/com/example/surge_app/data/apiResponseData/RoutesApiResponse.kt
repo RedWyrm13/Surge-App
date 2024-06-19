@@ -1,7 +1,7 @@
-package com.example.surge_app.data
+package com.example.surge_app.data.apiResponseData
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
+
 //Routes kotlin object to hold the information obtained from the Routes API.
 
 @Serializable
@@ -17,7 +17,7 @@ data class Route(
     val warnings: List<String>? = null,
     val description: String,
 
-)
+    )
 
 @Serializable
 data class Polyline(

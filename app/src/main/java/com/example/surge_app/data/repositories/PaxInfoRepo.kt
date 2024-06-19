@@ -10,6 +10,8 @@ interface PaxInfoRepo {
     suspend fun setAddPaxInfo(pax: Pax): Boolean
     suspend fun setUpdatePaxInfo(pax: Pax): Boolean
     suspend fun getPaxInfo(paxId: String): Pax?
+
+
 }
 
 class PaxInfoRepoImpl(val driverFirestore: FirebaseFirestore): PaxInfoRepo {
