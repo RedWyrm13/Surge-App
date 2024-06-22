@@ -87,6 +87,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.firebase:geofire-android-common:3.2.0")
+
 
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")

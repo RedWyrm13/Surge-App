@@ -2,6 +2,8 @@ package com.example.surge_app.data
 
 
 import com.example.surge_app.data.apiResponseData.Location
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import java.util.Random
 
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase
@@ -19,6 +21,7 @@ class Ride(
     //This data will be updated once a driver has been determined
     var paxIdNumber = ""
     var driverIdNumber = ""
+    val geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(pickupLocation.lat, pickupLocation.lng))
 
 }
 
