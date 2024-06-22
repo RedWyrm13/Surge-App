@@ -88,7 +88,7 @@ fun CheckAndRequestPermission(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            onPermissionGranted()
+            onPermissionGranted() //This is why the app needs to be restarted after granting permission. The app does not do anything once permission is granted.
         } else {
             onPermissionDenied()
         }
