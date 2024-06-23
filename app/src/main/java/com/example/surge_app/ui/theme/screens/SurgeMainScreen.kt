@@ -38,7 +38,7 @@ import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.ui.theme.MainScreenBottomBar
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
-
+//Everything has stopped working :/
 @Composable
 fun SurgeMainScreen(
     locationViewModel: LocationViewModel,
