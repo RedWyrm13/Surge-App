@@ -2,6 +2,7 @@ package com.example.surge_app.ui.theme.screens
 
 import android.app.Application
 import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,8 +52,9 @@ fun SurgeMainScreen(
 
     var geocodedLocation by remember { mutableStateOf<Location?>(null) }
 
+    Log.d("SurgeMainScreen", "Right Before User Location definiton")
     val userLocation by locationViewModel.userLocation.observeAsState()
-
+    Log.d("SurgeMainScreen", "User Location is $userLocation")
     // Default location
     val defaultLocation = Location("").apply {
         latitude = 36.114647

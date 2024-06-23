@@ -2,19 +2,18 @@ package com.example.surge_app
 
 import android.accounts.AccountManager
 import android.app.Application
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.surge_app.network.PlacesApiManager
 import com.example.surge_app.ui.theme.SurgeAppTheme
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.app
 
 
 class MyApplication: Application() {
