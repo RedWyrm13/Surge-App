@@ -22,6 +22,7 @@ import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
+import com.example.surge_app.viewModel.RideViewModel
 
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,6 +59,7 @@ fun ChipInsideBottomBar(
     rideRepoImpl: RideRepoImpl,
     locationViewModel: LocationViewModel,
 ) {
+    val rideViewModel = RideViewModel(rideRepoImpl)
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -65,8 +67,9 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
-                rideRepoImpl.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
                 onRideButtonClicked()
+                rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
+
             }
         )
         InputChip(

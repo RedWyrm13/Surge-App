@@ -3,6 +3,7 @@ package com.example.surge_app.data.repositories
 import android.location.Location
 import android.util.Log
 import com.example.surge_app.data.ApiKey
+import com.example.surge_app.data.Driver
 import com.example.surge_app.data.apiResponseData.GeocodingResponse
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.Ride
@@ -23,7 +24,7 @@ import java.net.URL
 interface RideRepo {
 
     suspend fun routesPostRequest(geocodingResponse: GeocodingResponse, userLocation: Location?): String
-    fun addRideToDatabase(ride: Ride)
+    suspend fun addRideToDatabase(ride: Ride)
 
     @GET("maps/api/geocode/json")
     suspend fun getCoordinates(
@@ -34,6 +35,8 @@ interface RideRepo {
     fun fetchEncodedPolyline(): String?
     fun fetchDistanceOfRoute(): Int
     fun fetchDurationOfRoute(): String
+
+    //fun fetchDriversInArea(): List<Driver>
 }
 
 class RideRepoImpl : RideRepo {
@@ -126,7 +129,7 @@ class RideRepoImpl : RideRepo {
     }
 
 
-    override fun addRideToDatabase(ride: Ride) {
+    suspend override fun addRideToDatabase(ride: Ride) {
         Log.d("My Tag", "Add ride to database function started")
 
         val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
