@@ -4,13 +4,17 @@ import android.location.Location
 import android.util.Log
 import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.Driver
-import com.example.surge_app.data.apiResponseData.GeocodingResponse
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.Ride
+import com.example.surge_app.data.apiResponseData.GeocodingResponse
 import com.example.surge_app.data.apiResponseData.RouteResponse
 import com.example.surge_app.network.FirebaseManager
 import com.example.surge_app.network.GeocodingApiService
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
@@ -36,7 +40,7 @@ interface RideRepo {
     fun fetchDistanceOfRoute(): Int
     fun fetchDurationOfRoute(): String
 
-    //fun fetchDriversInArea(): List<Driver>
+    suspend fun fetchDriversInArea(pickupLocation: Location): List<Driver>
 }
 
 class RideRepoImpl : RideRepo {
@@ -129,6 +133,13 @@ class RideRepoImpl : RideRepo {
     }
 
 
+
+
+    override suspend fun getCoordinates(
+        address: String,
+        apiKey: String
+    ): GeocodingResponse = geocodingApiService.getCoordinates(address, apiKey)
+
     suspend override fun addRideToDatabase(ride: Ride) {
         Log.d("My Tag", "Add ride to database function started")
 
@@ -147,18 +158,45 @@ class RideRepoImpl : RideRepo {
         }
     }
 
-    override suspend fun getCoordinates(
-        address: String,
-        apiKey: String
-    ): GeocodingResponse = geocodingApiService.getCoordinates(address, apiKey)
+    override suspend fun fetchDriversInArea(pickupLocation: Location): List<Driver> {
+        generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation)
 
+
+        return TODO("Provide the return value")
+    }
     override fun fetchEncodedPolyline(): String? = encodedPolyline
 
     override fun fetchDistanceOfRoute(): Int = distanceOfRoute
 
     override fun fetchDurationOfRoute(): String = durationOfRoute
 
-    fun convertFromJsonStringToRoutesResponse(jsonString: String): RouteResponse {
+    private fun convertFromJsonStringToRoutesResponse(jsonString: String): RouteResponse {
         return Json.decodeFromString<RouteResponse>(jsonString)
     }
+    private fun generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation: Location): List<Task<QuerySnapshot>> {
+        val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
+
+        val center = GeoLocation(pickupLocation.latitude, pickupLocation.longitude)
+        val radius = 11266.0 // 7 miles in meters
+        val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radius)
+
+        val listOfGeoHashes: MutableList<Task<QuerySnapshot>> = ArrayList()
+        for (bound in bounds){
+            val query = driverFirestore.collection("Drivers")
+                .orderBy("geohash")
+                .startAt(bound.startHash)
+                .endAt(bound.endHash)
+
+            listOfGeoHashes.add(query.get())
+        }
+        return listOfGeoHashes
+    }
+
+    private fun calculateDistanceBetweenDriverAndPickupLocation(
+        driver: Driver,
+        pickupLocation: Location
+    ): Double {
+        return TODO()
+    }
+
 }
