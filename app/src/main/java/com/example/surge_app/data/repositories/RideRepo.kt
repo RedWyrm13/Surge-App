@@ -6,6 +6,7 @@ import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.Driver
 import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.Ride
+import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.apiResponseData.GeocodingResponse
 import com.example.surge_app.data.apiResponseData.RouteResponse
 import com.example.surge_app.network.FirebaseManager
@@ -40,7 +41,7 @@ interface RideRepo {
     fun fetchDistanceOfRoute(): Int
     fun fetchDurationOfRoute(): String
 
-    suspend fun fetchDriversInArea(pickupLocation: Location): List<Driver>
+    suspend fun fetchDriversInArea(pickupLocation: SimpleLocation): List<Driver>
 }
 
 class RideRepoImpl : RideRepo {
@@ -141,24 +142,24 @@ class RideRepoImpl : RideRepo {
     ): GeocodingResponse = geocodingApiService.getCoordinates(address, apiKey)
 
     suspend override fun addRideToDatabase(ride: Ride) {
-        Log.d("My Tag", "Add ride to database function started")
+        Log.d("MyTag", "Add ride to database function started")
 
         val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
 
         try {
             driverFirestore.collection("Rides").document(ride.rideId).set(ride)
                 .addOnSuccessListener {
-                    Log.d("My Tag", "Ride added to database successfully")
+                    Log.d("MyTag", "Ride added to database successfully")
                 }
                 .addOnFailureListener { exception ->
-                    Log.e("My Tag", "Error adding ride to database", exception)
+                    Log.e("MyTag", "Error adding ride to database", exception)
                 }
         } catch (e: Exception) {
-            Log.e("My Tag", "Exception caught: ${e.message}", e)
+            Log.e("MyTag", "Exception caught: ${e.message}", e)
         }
     }
 
-    override suspend fun fetchDriversInArea(pickupLocation: Location): List<Driver> {
+    override suspend fun fetchDriversInArea(pickupLocation: SimpleLocation): List<Driver> {
         generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation)
 
 
@@ -173,7 +174,7 @@ class RideRepoImpl : RideRepo {
     private fun convertFromJsonStringToRoutesResponse(jsonString: String): RouteResponse {
         return Json.decodeFromString<RouteResponse>(jsonString)
     }
-    private fun generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation: Location): List<Task<QuerySnapshot>> {
+    private fun generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation: SimpleLocation): List<Task<QuerySnapshot>> {
         val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
 
         val center = GeoLocation(pickupLocation.latitude, pickupLocation.longitude)

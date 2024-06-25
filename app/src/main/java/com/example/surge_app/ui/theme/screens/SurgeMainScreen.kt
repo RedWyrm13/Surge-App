@@ -6,14 +6,10 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -28,10 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.surge_app.GoogleMapComposable
 import com.example.surge_app.data.repositories.RideRepoImpl
@@ -39,6 +33,7 @@ import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.ui.theme.MainScreenBottomBar
 import com.example.surge_app.viewModel.DestinationViewModel
 import com.example.surge_app.viewModel.LocationViewModel
+
 //Everything has stopped working :/
 @Composable
 fun SurgeMainScreen(
@@ -64,14 +59,15 @@ fun SurgeMainScreen(
     // Location initialization check
     val isLocationInitialized = userLocation != null && userLocation != defaultLocation
 
+    //I am not sure why this is here. I commented it out and nothing changed, but I am not going to delete it just yet
     // LaunchedEffect to observe destination changes
-    LaunchedEffect(destination) {
-        if (destination.isNotEmpty()) {
-            locationViewModel.geocodeAddress(destination).observeForever {
-                geocodedLocation = it
-            }
-        }
-    }
+//    LaunchedEffect(destination) {
+//        if (destination.isNotEmpty()) {
+//            locationViewModel.geocodeAddress(destination).observeForever {
+//                geocodedLocation = it
+//            }
+//        }
+//    }
 
     Box(
         modifier = Modifier.fillMaxSize()

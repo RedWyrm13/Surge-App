@@ -1,7 +1,7 @@
 package com.example.surge_app.data
 
 
-import com.example.surge_app.data.apiResponseData.Location
+import android.location.Location
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import java.util.Random
@@ -9,8 +9,8 @@ import java.util.Random
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase
 class Ride(
     val rideId: String = generateUniqueId("ride"),
-    val pickupLocation: Location = Location(0.0, 0.0)   ,  //Harry reid international airport
-    val destination: Location =  Location(36.1694, -115.1387), //El cortez hotel and casino
+    val pickupLocation: SimpleLocation = SimpleLocation(latitude = 0.0, longitude = 0.0),
+    val destinationLocation: SimpleLocation = SimpleLocation(latitude = 0.0, longitude = 0.0),
     val duration: String = "",
     val distance: Int = 0,
     val encodedPolyline: String? = null,
@@ -21,7 +21,11 @@ class Ride(
     //This data will be updated once a driver has been determined
     var paxIdNumber = ""
     var driverIdNumber = ""
-    val geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(pickupLocation.lat, pickupLocation.lng))
+    val geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(pickupLocation.latitude, pickupLocation.longitude))
+
+    override fun toString(): String {
+        return "Ride(rideId='$rideId', pickupLocation=$pickupLocation, destination=$destinationLocation, duration='$duration', distance=$distance, encodedPolyline=$encodedPolyline, pickupLocationAddress='$pickupLocationAddress', destinationLocationAddress='$destinationLocationAddress', paxIdNumber='$paxIdNumber', driverIdNumber='$driverIdNumber', geohash='$geohash')"
+    }
 
 }
 
@@ -46,5 +50,15 @@ fun generateUniqueId(method: String): String {
     }
     return sb.toString()
 }
+data class SimpleLocation(
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
+)
+
+fun Location.toSimpleLocation(): SimpleLocation {
+    return SimpleLocation(latitude = this.latitude, longitude = this.longitude)
+}
+
+
 
 

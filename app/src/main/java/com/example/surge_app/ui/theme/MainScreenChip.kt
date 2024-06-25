@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.example.surge_app.R
 import com.example.surge_app.data.Ride
+import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.apiResponseData.metersToMiles
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
@@ -60,6 +61,7 @@ fun ChipInsideBottomBar(
     locationViewModel: LocationViewModel,
 ) {
     val rideViewModel = RideViewModel(rideRepoImpl)
+    val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -67,9 +69,11 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
+                Log.d("MyTag_MainScreenChip", "Before")
                 onRideButtonClicked()
+                Log.d("MyTag_MainScreenChip", "After")
                 rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
-                rideViewModel.fetchDriversInArea()
+                /*rideViewModel.fetchDriversInArea(pickupLocation)*/
 
             }
         )
@@ -93,13 +97,25 @@ fun distanceAndTimeText(distance: Int, time: String): String {
 
 fun createRide(destinationViewModel: DestinationViewModel,
                locationViewModel: LocationViewModel): Ride {
-    val ride = Ride(duration = destinationViewModel.durationOfRoute,
-        distance = destinationViewModel.distanceOfRoute,
-        encodedPolyline = destinationViewModel.encodedPolyline,
-        pickupLocation = locationViewModel.getLatestLocation(),
-        pickupLocationAddress = locationViewModel.reverseGeocodeAddress(),
-        destinationLocationAddress = destinationViewModel.predictions.value.predictions[0].description)
+    val pickupLocation: SimpleLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
+
+    try {
+        val ride = Ride(duration = destinationViewModel.durationOfRoute,
+            distance = destinationViewModel.distanceOfRoute,
+            encodedPolyline = destinationViewModel.encodedPolyline,
+            pickupLocation = pickupLocation,
+            pickupLocationAddress = locationViewModel.reverseGeocodeAddress(),
+            destinationLocationAddress = destinationViewModel.predictions.value.predictions[0].description,
+            destinationLocation = locationViewModel.geocodeAddress(destinationViewModel.predictions.value.predictions[0].description))
+        return ride
+
+    }
+    catch (e: Exception) {
+        Log.d("MyTag_MainScreenChip", "createRide: $e")
+        return Ride()
+    }
 
 
-    return ride
+
+
 }
