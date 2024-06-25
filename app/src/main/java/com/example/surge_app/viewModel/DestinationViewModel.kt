@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.surge_app.data.ApiKey
 import com.example.surge_app.data.apiResponseData.AutocompleteResponse
 import com.example.surge_app.data.RetrofitClient
+import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.network.PlacesApiService
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ open class DestinationViewModel(val rideRepoImpl: RideRepoImpl) : ViewModel() {
     var distanceOfRoute by mutableIntStateOf(0)
     var durationOfRoute by mutableStateOf("0")
     var encodedPolyline: String? = null
+    var destinationLocation: SimpleLocation? = null
 
 
     fun getPredictions(query: String) {

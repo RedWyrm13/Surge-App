@@ -111,6 +111,7 @@ fun SurgeMainScreen(
                     userLocation?.let {
                         AutocompleteTextView(
                             destinationViewModel = destinationViewModel,
+                            locationViewModel = locationViewModel,
                             userLocation = it
                         )
                     }

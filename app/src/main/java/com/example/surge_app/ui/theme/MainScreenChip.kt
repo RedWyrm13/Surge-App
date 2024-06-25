@@ -69,9 +69,7 @@ fun ChipInsideBottomBar(
             label = { Text(text = stringResource(R.string.find_ride)) },
             selected = true,
             onClick = {
-                Log.d("MyTag_MainScreenChip", "Before")
                 onRideButtonClicked()
-                Log.d("MyTag_MainScreenChip", "After")
                 rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
                 /*rideViewModel.fetchDriversInArea(pickupLocation)*/
 
@@ -98,7 +96,7 @@ fun distanceAndTimeText(distance: Int, time: String): String {
 fun createRide(destinationViewModel: DestinationViewModel,
                locationViewModel: LocationViewModel): Ride {
     val pickupLocation: SimpleLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
-
+    Log.d("MyTag_MainScreenChip", destinationViewModel.destinationLocation.toString())
     try {
         val ride = Ride(duration = destinationViewModel.durationOfRoute,
             distance = destinationViewModel.distanceOfRoute,
@@ -106,7 +104,7 @@ fun createRide(destinationViewModel: DestinationViewModel,
             pickupLocation = pickupLocation,
             pickupLocationAddress = locationViewModel.reverseGeocodeAddress(),
             destinationLocationAddress = destinationViewModel.predictions.value.predictions[0].description,
-            destinationLocation = locationViewModel.geocodeAddress(destinationViewModel.predictions.value.predictions[0].description))
+            destinationLocation = destinationViewModel.destinationLocation!!)
         return ride
 
     }

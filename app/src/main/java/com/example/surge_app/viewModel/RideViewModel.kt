@@ -22,13 +22,10 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
 
     private val rideRepoImpl: RideRepoImpl = rideRepoImpl
     fun addRideToDatabase(ride: Ride) {
-        Log.d("MyTag_RideViewModel", "111before ViewModel1")
         viewModelScope.launch {
             rideRepoImpl.addRideToDatabase(ride)
-            Log.d("MyTag_RideViewModel", "111During ViewModel")
 
         }
-        Log.d("MyTag_RideViewModel", "111After ViewModel")
 
 
     }
@@ -37,15 +34,12 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
     val driverList: LiveData<List<Driver>> get() = _driverList
 
     fun fetchDriversInArea(pickupLocation: SimpleLocation) {
-        Log.d("MyTag_RideViewModel", "Before ViewModel")
         viewModelScope.launch {
             try {
                 val drivers = rideRepoImpl.fetchDriversInArea(pickupLocation)
-                Log.d("MyTag_RideViewModel", "During ViewModel")
                 _driverList.postValue(drivers)
 
             } catch (e: Exception) {
-                Log.d("MyTag_RideViewModel", e.toString())
             }
 
         }

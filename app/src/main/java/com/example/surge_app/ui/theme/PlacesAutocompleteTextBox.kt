@@ -21,9 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.example.surge_app.R
 import com.example.surge_app.viewModel.DestinationViewModel
 import androidx.compose.ui.Modifier
+import com.example.surge_app.viewModel.LocationViewModel
 
 @Composable
 fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
+                         locationViewModel: LocationViewModel,
                           userLocation: Location
 ) {
     // Variable for text field that will be sent to getDestination function
@@ -68,6 +70,8 @@ fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
                 searchText = predictions.predictions[0].description
             destinationViewModel.getDestination(userLocation = userLocation, query = searchText)
                 showDialog = false
+                destinationViewModel.destinationLocation = locationViewModel.GeocodeAddress(searchText)
+                Log.d("MyTag_PlacesAutocompleteTexBox", destinationViewModel.destinationLocation.toString())
 
             },
             dialogTitle = stringResource(id = R.string.address_confirmation),

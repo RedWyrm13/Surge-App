@@ -14,8 +14,10 @@ import com.example.surge_app.data.RetrofitClient
 import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.repositories.GeocodingRepoImpl
 import com.example.surge_app.network.GeocodingApiService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -63,12 +65,21 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun geocodeAddress(address: String): SimpleLocation {
+    fun GeocodeAddress(address: String): SimpleLocation {
+        var simpleLocation = SimpleLocation(10.0, 10.0)
+        runBlocking {
+            Log.d("MyTag_locationViewModel", "Before: " + simpleLocation.toString())
+            simpleLocation = geocodeAddress(address)
+            Log.d("MyTag_locationViewModel", "After: "+ simpleLocation.toString())
+
+        }
+        return simpleLocation
+    }
+    suspend fun geocodeAddress(address: String): SimpleLocation {
         val resultLocation = MutableLiveData<Location>()
         var simpleLocation = SimpleLocation(0.0, 0.0)
-        viewModelScope.launch {
             try {
-                val response = geocodingRepo.getCoordinates(address)
+                val response = withContext(Dispatchers.IO) { geocodingRepo.getCoordinates(address)}
                 if (response.status == "OK" && response.results.isNotEmpty()) {
                     val location = response.results[0].geometry.location
                     resultLocation.postValue(Location("").apply {
@@ -81,7 +92,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
                 }
             } catch (e: Exception) {
                 Log.e("MyTag_locationViewModel", "Error: ${e.message}")
-            }
+
         }
         return simpleLocation
     }

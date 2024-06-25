@@ -53,10 +53,12 @@ fun generateUniqueId(method: String): String {
 data class SimpleLocation(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0
-)
+){
+    override fun toString(): String {
+        return this.latitude.toString() + ", " + this.longitude.toString()
+    }
 
-fun Location.toSimpleLocation(): SimpleLocation {
-    return SimpleLocation(latitude = this.latitude, longitude = this.longitude)
+
 }
 
 
