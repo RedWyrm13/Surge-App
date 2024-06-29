@@ -25,12 +25,14 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private var latestLatitude: Double = 0.0
     private var latestLongitude: Double = 0.0
 
-    private val geocodingRepo = GeocodingRepoImpl(RetrofitClient.retrofit.create(GeocodingApiService::class.java))
+    private val geocodingRepo =
+        GeocodingRepoImpl(RetrofitClient.retrofit.create(GeocodingApiService::class.java))
 
     // LiveData to observe changes in the location data
     val userLocation = MutableLiveData<Location>()
 
-    private val locationManager = application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    private val locationManager =
+        application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     private val locationListener = LocationListener { location ->
         latestLatitude = location.latitude
@@ -70,34 +72,35 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         runBlocking {
             Log.d("MyTag_locationViewModel", "Before: " + simpleLocation.toString())
             simpleLocation = geocodeAddress(address)
-            Log.d("MyTag_locationViewModel", "After: "+ simpleLocation.toString())
+            Log.d("MyTag_locationViewModel", "After: " + simpleLocation.toString())
 
         }
         return simpleLocation
     }
+
     suspend fun geocodeAddress(address: String): SimpleLocation {
         val resultLocation = MutableLiveData<Location>()
         var simpleLocation = SimpleLocation(0.0, 0.0)
-            try {
-                val response = withContext(Dispatchers.IO) { geocodingRepo.getCoordinates(address)}
-                if (response.status == "OK" && response.results.isNotEmpty()) {
-                    val location = response.results[0].geometry.location
-                    resultLocation.postValue(Location("").apply {
-                        latitude = location.lat
-                        longitude = location.lng
-                    })
-                    simpleLocation = SimpleLocation(location.lat, location.lng)
-                } else {
-                    // Handle no result found or error
-                }
-            } catch (e: Exception) {
-                Log.e("MyTag_locationViewModel", "Error: ${e.message}")
+        try {
+            val response = withContext(Dispatchers.IO) { geocodingRepo.getCoordinates(address) }
+            if (response.status == "OK" && response.results.isNotEmpty()) {
+                val location = response.results[0].geometry.location
+                resultLocation.postValue(Location("").apply {
+                    latitude = location.lat
+                    longitude = location.lng
+                })
+                simpleLocation = SimpleLocation(location.lat, location.lng)
+            } else {
+                // Handle no result found or error
+            }
+        } catch (e: Exception) {
+            Log.e("MyTag_locationViewModel", "Error: ${e.message}")
 
         }
         return simpleLocation
     }
 
-    fun reverseGeocodeAddress(latlng: String = getLatestLatitude().toString() + "," + getLatestLongitude().toString()  ): String {
+    fun reverseGeocodeAddress(latlng: String = getLatestLatitude().toString() + "," + getLatestLongitude().toString()): String {
         Log.d("MyTag_locationViewModel", latlng)
         var address = ""
         runBlocking {
@@ -119,17 +122,18 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
 
 
     // Function to provide the most recent latitude
-     fun getLatestLatitude(): Double {
+    fun getLatestLatitude(): Double {
         return latestLatitude
     }
 
     // Function to provide the most recent longitude
-     fun getLatestLongitude(): Double {
+    fun getLatestLongitude(): Double {
         return latestLongitude
     }
 
     fun getLatestLocation(): Location {
-        val currentLocation = Location("provider") // Replace "provider" with your actual provider name
+        val currentLocation =
+            Location("provider") // Replace "provider" with your actual provider name
         currentLocation.latitude = getLatestLatitude()
         currentLocation.longitude = getLatestLongitude()
         return currentLocation
