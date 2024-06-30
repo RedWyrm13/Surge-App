@@ -61,7 +61,6 @@ fun ChipInsideBottomBar(
     locationViewModel: LocationViewModel,
 ) {
     val rideViewModel = RideViewModel(rideRepoImpl)
-    val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -95,7 +94,7 @@ fun distanceAndTimeText(distance: Int, time: String): String {
 
 fun createRide(destinationViewModel: DestinationViewModel,
                locationViewModel: LocationViewModel): Ride {
-    val pickupLocation: SimpleLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
+    val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
     Log.d("MyTag_MainScreenChip", destinationViewModel.destinationLocation.toString())
     try {
         val ride = Ride(duration = destinationViewModel.durationOfRoute,

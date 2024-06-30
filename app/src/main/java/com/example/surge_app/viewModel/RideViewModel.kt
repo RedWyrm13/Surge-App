@@ -43,7 +43,6 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
             }
 
         }
-        Log.d("MyTag_RideViewModel", "After ViewModel")
     }
 }
 
