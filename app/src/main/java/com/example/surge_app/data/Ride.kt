@@ -1,10 +1,8 @@
 package com.example.surge_app.data
 
 
-import android.location.Location
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
-import java.util.Random
 
 //This class will hold all the data for a ride and will contain methods to upload the ride to firebase
 class Ride(
@@ -30,26 +28,7 @@ class Ride(
 }
 
 //Used to create a unique id for rides, pax, and drivers
-fun generateUniqueId(method: String): String {
-    val chars = "ABCEFGHIJKLMNOQSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    val random = Random()
-    val sb = StringBuilder(15)
-    for (i in 0 until 15) {
-        sb.append(chars[random.nextInt(chars.length)])
-    }
-    when (method.lowercase().trim()) {
-        "ride" -> {
-            return "R$sb"
-        }
-        "pax" -> {
-            return "P$sb"
-        }
-        "driver" -> {
-            return "D$sb"
-        }
-    }
-    return sb.toString()
-}
+
 data class SimpleLocation(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0

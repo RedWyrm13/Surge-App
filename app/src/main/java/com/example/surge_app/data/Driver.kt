@@ -1,6 +1,7 @@
 package com.example.surge_app.data
 
 import java.text.DecimalFormat
+import java.util.Random
 
 class Driver(
     val firstName: String = "",
@@ -27,4 +28,24 @@ class Fare(
         val df = DecimalFormat("#.##")
         return df.format(price).toDouble()
     }
+}
+fun generateUniqueId(method: String): String {
+    val chars = "ABCEFGHIJKLMNOQSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    val random = Random()
+    val sb = StringBuilder(15)
+    for (i in 0 until 15) {
+        sb.append(chars[random.nextInt(chars.length)])
+    }
+    when (method.lowercase().trim()) {
+        "ride" -> {
+            return "R_$sb"
+        }
+        "pax" -> {
+            return "P_$sb"
+        }
+        "driver" -> {
+            return "D_$sb"
+        }
+    }
+    return sb.toString()
 }
