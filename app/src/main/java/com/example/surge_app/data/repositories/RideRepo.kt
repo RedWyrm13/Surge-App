@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import retrofit2.http.GET
@@ -41,7 +42,7 @@ interface RideRepo {
     fun fetchDistanceOfRoute(): Int
     fun fetchDurationOfRoute(): String
 
-    suspend fun fetchDriversInArea(pickupLocation: SimpleLocation): List<Driver>
+    suspend fun fetchNearbyDrivers(pickupLocation: SimpleLocation): List<Driver>
 }
 
 class RideRepoImpl : RideRepo {
@@ -158,13 +159,6 @@ class RideRepoImpl : RideRepo {
             Log.e("MyTag", "Exception caught: ${e.message}", e)
         }
     }
-
-    override suspend fun fetchDriversInArea(pickupLocation: SimpleLocation): List<Driver> {
-        generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation)
-
-
-        return TODO("Provide the return value")
-    }
     override fun fetchEncodedPolyline(): String? = encodedPolyline
 
     override fun fetchDistanceOfRoute(): Int = distanceOfRoute
@@ -174,23 +168,31 @@ class RideRepoImpl : RideRepo {
     private fun convertFromJsonStringToRoutesResponse(jsonString: String): RouteResponse {
         return Json.decodeFromString<RouteResponse>(jsonString)
     }
-    private fun generateListOfGeoHashesToFetchNearbyDrivers(pickupLocation: SimpleLocation): List<Task<QuerySnapshot>> {
+
+     override suspend fun fetchNearbyDrivers(pickupLocation: SimpleLocation): List<Driver> {
         val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
 
         val center = GeoLocation(pickupLocation.latitude, pickupLocation.longitude)
         val radius = 11266.0 // 7 miles in meters
         val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radius)
 
-        val listOfGeoHashes: MutableList<Task<QuerySnapshot>> = ArrayList()
-        for (bound in bounds){
+        val drivers: MutableList<Driver> = ArrayList()
+        for (bound in bounds) {
             val query = driverFirestore.collection("Drivers")
                 .orderBy("geohash")
                 .startAt(bound.startHash)
                 .endAt(bound.endHash)
 
-            listOfGeoHashes.add(query.get())
+            // Await the Task<QuerySnapshot> and add to the list
+            val querySnapshot = query.get().await()
+            for (document in querySnapshot.documents) {
+                val driver = document.toObject(Driver::class.java)
+                if (driver != null) {
+                    drivers.add(driver)
+                }
+            }
         }
-        return listOfGeoHashes
+        return drivers
     }
 
     private fun calculateDistanceBetweenDriverAndPickupLocation(
