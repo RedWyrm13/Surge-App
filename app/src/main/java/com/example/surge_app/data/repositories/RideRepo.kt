@@ -50,6 +50,7 @@ class RideRepoImpl : RideRepo {
     var encodedPolyline: String? = null
     var distanceOfRoute: Int = 0
     var durationOfRoute: String = ""
+    var potentialDrivers: List<Driver> = listOf()
 
     override suspend fun routesPostRequest(
         geocodingResponse: GeocodingResponse,

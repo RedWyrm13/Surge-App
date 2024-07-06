@@ -33,6 +33,7 @@ import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.ui.theme.MainScreenBottomBar
 import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
 import com.example.surge_app.ui.theme.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.RideViewModel
 
 //Everything has stopped working :/
 @Composable
@@ -40,7 +41,8 @@ fun SurgeMainScreen(
     locationViewModel: LocationViewModel,
     destinationViewModel: DestinationViewModel = viewModel(),
     onRideButtonClicked: () -> Unit,
-    rideRepoImpl: RideRepoImpl
+    rideRepoImpl: RideRepoImpl,
+    rideViewModel: RideViewModel
 ) {
     // State variables
     val destination by remember { mutableStateOf("") }
@@ -126,7 +128,8 @@ fun SurgeMainScreen(
                     destinationViewModel = destinationViewModel,
                     onRideButtonClicked = onRideButtonClicked,
                     rideRepoImpl = rideRepoImpl,
-                    locationViewModel = locationViewModel
+                    locationViewModel = locationViewModel,
+                    rideViewModel = rideViewModel
                 )
             }
         }
@@ -142,6 +145,7 @@ fun SurgeMainScreenPreview() {
         locationViewModel = locationViewModel,
         onRideButtonClicked = {},
         destinationViewModel = DestinationViewModel(rideRepoImpl = RideRepoImpl()),
-        rideRepoImpl = RideRepoImpl()
+        rideRepoImpl = RideRepoImpl(),
+        rideViewModel = RideViewModel(rideRepoImpl = RideRepoImpl())
     )
 }

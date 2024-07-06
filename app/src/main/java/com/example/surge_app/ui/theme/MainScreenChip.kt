@@ -32,6 +32,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                         onRideButtonClicked: () -> Unit,
                         rideRepoImpl: RideRepoImpl,
                         locationViewModel: LocationViewModel,
+                        rideViewModel: RideViewModel
 ) {
     ModalBottomSheet(
         onDismissRequest = { destinationViewModel.isSheetAvailable = false },
@@ -44,7 +45,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl, locationViewModel)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl, locationViewModel, rideViewModel)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -59,9 +60,9 @@ fun ChipInsideBottomBar(
     onRideButtonClicked: () -> Unit,
     rideRepoImpl: RideRepoImpl,
     locationViewModel: LocationViewModel,
+    rideViewModel: RideViewModel
 ) {
-    val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
-    val rideViewModel = RideViewModel(rideRepoImpl)
+     rideViewModel.pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
 
     Row(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -71,8 +72,7 @@ fun ChipInsideBottomBar(
             onClick = {
                 onRideButtonClicked()
                 rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
-                rideViewModel.fetchDriversInArea(pickupLocation)
-
+                rideViewModel.fetchDriversInArea()
             }
         )
         InputChip(

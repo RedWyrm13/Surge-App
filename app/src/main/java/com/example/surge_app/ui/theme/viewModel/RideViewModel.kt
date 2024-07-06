@@ -1,9 +1,6 @@
 package com.example.surge_app.ui.theme.viewModel
 
-import android.location.Location
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.surge_app.data.Driver
@@ -18,7 +15,7 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
     val durationOfRoute = rideRepoImpl.fetchDurationOfRoute()
 
     var potentialDrivers = listOf<Driver>()
-
+    var pickupLocation: SimpleLocation? = null
 
     private val rideRepoImpl: RideRepoImpl = rideRepoImpl
     fun addRideToDatabase(ride: Ride) {
@@ -30,20 +27,17 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
 
     }
 
-    private val _driverList = MutableLiveData<List<Driver>>()
-    val driverList: LiveData<List<Driver>> get() = _driverList
-
-    fun fetchDriversInArea(pickupLocation: SimpleLocation) {
+    fun fetchDriversInArea() {
         viewModelScope.launch {
             try {
-                val drivers = rideRepoImpl.fetchNearbyDrivers(pickupLocation)
-                _driverList.postValue(drivers)
-
+                Log.e("MyTag_RideViewModel", "fetchDriversInArea: $pickupLocation. If this value is null, that is why it is crashing.")
+                potentialDrivers = rideRepoImpl.fetchNearbyDrivers(pickupLocation!!)
             } catch (e: Exception) {
                 Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
             }
 
         }
+
     }
 }
 
