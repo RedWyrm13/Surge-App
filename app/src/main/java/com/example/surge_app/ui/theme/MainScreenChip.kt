@@ -21,9 +21,9 @@ import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.apiResponseData.metersToMiles
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
-import com.example.surge_app.viewModel.DestinationViewModel
-import com.example.surge_app.viewModel.LocationViewModel
-import com.example.surge_app.viewModel.RideViewModel
+import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
+import com.example.surge_app.ui.theme.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.RideViewModel
 
 //This function is used to create the bottom sheet after the user has entered their destination
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,6 +60,7 @@ fun ChipInsideBottomBar(
     rideRepoImpl: RideRepoImpl,
     locationViewModel: LocationViewModel,
 ) {
+    val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
     val rideViewModel = RideViewModel(rideRepoImpl)
 
     Row(modifier = Modifier.fillMaxWidth(),
@@ -70,7 +71,7 @@ fun ChipInsideBottomBar(
             onClick = {
                 onRideButtonClicked()
                 rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
-                /*rideViewModel.fetchDriversInArea(pickupLocation)*/
+                rideViewModel.fetchDriversInArea(pickupLocation)
 
             }
         )
@@ -93,9 +94,9 @@ fun distanceAndTimeText(distance: Int, time: String): String {
 }
 
 fun createRide(destinationViewModel: DestinationViewModel,
-               locationViewModel: LocationViewModel): Ride {
+               locationViewModel: LocationViewModel
+): Ride {
     val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
-    Log.d("MyTag_MainScreenChip", destinationViewModel.destinationLocation.toString())
     try {
         val ride = Ride(duration = destinationViewModel.durationOfRoute,
             distance = destinationViewModel.distanceOfRoute,
@@ -108,7 +109,7 @@ fun createRide(destinationViewModel: DestinationViewModel,
 
     }
     catch (e: Exception) {
-        Log.d("MyTag_MainScreenChip", "createRide: $e")
+        Log.e("MyTag_MainScreenChip", "createRide: $e")
         return Ride()
     }
 

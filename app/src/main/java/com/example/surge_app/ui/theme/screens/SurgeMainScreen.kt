@@ -31,8 +31,8 @@ import com.example.surge_app.GoogleMapComposable
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.ui.theme.AutocompleteTextView
 import com.example.surge_app.ui.theme.MainScreenBottomBar
-import com.example.surge_app.viewModel.DestinationViewModel
-import com.example.surge_app.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
+import com.example.surge_app.ui.theme.viewModel.LocationViewModel
 
 //Everything has stopped working :/
 @Composable

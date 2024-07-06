@@ -15,10 +15,10 @@ import com.example.surge_app.ui.theme.screens.LoginScreen
 import com.example.surge_app.ui.theme.screens.SignUpScreen
 import com.example.surge_app.ui.theme.screens.StartRideScreen
 import com.example.surge_app.ui.theme.screens.SurgeMainScreen
-import com.example.surge_app.viewModel.DestinationViewModel
-import com.example.surge_app.viewModel.LocationViewModel
-import com.example.surge_app.viewModel.LoginCreateAccountViewModel
-import com.example.surge_app.viewModel.RideViewModel
+import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
+import com.example.surge_app.ui.theme.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.LoginCreateAccountViewModel
+import com.example.surge_app.ui.theme.viewModel.RideViewModel
 
 
 enum class Screens{

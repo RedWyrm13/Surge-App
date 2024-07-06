@@ -1,4 +1,4 @@
-package com.example.surge_app.viewModel
+package com.example.surge_app.ui.theme.viewModel
 
 import android.location.Location
 import android.util.Log

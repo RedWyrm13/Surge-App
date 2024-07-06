@@ -17,15 +17,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
-import com.example.surge_app.viewModel.LoginCreateAccountViewModel
+import com.example.surge_app.ui.theme.viewModel.LoginCreateAccountViewModel
 
 @Composable
 //Renders the login page that takes in the users email and password then navigates to the
 // main page. Alternatively users can navigate to the signup page if they realize they do
 // not have an account.
 fun LoginScreen(loginCreateAccountViewModel: LoginCreateAccountViewModel,
-    onSignUpButtonClicked: () -> Unit,
-    onLoginButtonClicked: (String, String) -> Unit
+                onSignUpButtonClicked: () -> Unit,
+                onLoginButtonClicked: (String, String) -> Unit
 ){
 
     val isFormValid = loginCreateAccountViewModel.email!= "" && loginCreateAccountViewModel.password != ""

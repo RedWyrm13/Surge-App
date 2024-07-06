@@ -1,4 +1,4 @@
-package com.example.surge_app.viewModel
+package com.example.surge_app.ui.theme.viewModel
 
 import android.location.Location
 import android.util.Log
@@ -36,10 +36,11 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
     fun fetchDriversInArea(pickupLocation: SimpleLocation) {
         viewModelScope.launch {
             try {
-                val drivers = rideRepoImpl.fetchDriversInArea(pickupLocation)
+                val drivers = rideRepoImpl.fetchNearbyDrivers(pickupLocation)
                 _driverList.postValue(drivers)
 
             } catch (e: Exception) {
+                Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
             }
 
         }

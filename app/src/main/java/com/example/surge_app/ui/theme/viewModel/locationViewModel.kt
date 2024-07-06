@@ -1,4 +1,4 @@
-package com.example.surge_app.viewModel
+package com.example.surge_app.ui.theme.viewModel
 
 import android.app.Application
 import android.content.Context
@@ -70,10 +70,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     fun GeocodeAddress(address: String): SimpleLocation {
         var simpleLocation = SimpleLocation(10.0, 10.0)
         runBlocking {
-            Log.d("MyTag_locationViewModel", "Before: " + simpleLocation.toString())
             simpleLocation = geocodeAddress(address)
-            Log.d("MyTag_locationViewModel", "After: " + simpleLocation.toString())
-
         }
         return simpleLocation
     }
@@ -101,7 +98,6 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun reverseGeocodeAddress(latlng: String = getLatestLatitude().toString() + "," + getLatestLongitude().toString()): String {
-        Log.d("MyTag_locationViewModel", latlng)
         var address = ""
         runBlocking {
             try {

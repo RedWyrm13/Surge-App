@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.network.FirebaseManager
-import com.example.surge_app.viewModel.DestinationViewModel
-import com.example.surge_app.viewModel.LocationViewModel
-import com.example.surge_app.viewModel.RideViewModel
+import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
+import com.example.surge_app.ui.theme.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.RideViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 

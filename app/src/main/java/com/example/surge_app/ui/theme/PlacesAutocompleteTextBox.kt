@@ -19,14 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.surge_app.R
-import com.example.surge_app.viewModel.DestinationViewModel
+import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
 import androidx.compose.ui.Modifier
-import com.example.surge_app.viewModel.LocationViewModel
+import com.example.surge_app.ui.theme.viewModel.LocationViewModel
 
 @Composable
 fun AutocompleteTextView(destinationViewModel: DestinationViewModel,
                          locationViewModel: LocationViewModel,
-                          userLocation: Location
+                         userLocation: Location
 ) {
     // Variable for text field that will be sent to getDestination function
     var searchText by remember { mutableStateOf("") }

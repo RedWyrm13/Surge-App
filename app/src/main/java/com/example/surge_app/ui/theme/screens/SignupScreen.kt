@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
-import com.example.surge_app.viewModel.LoginCreateAccountViewModel
+import com.example.surge_app.ui.theme.viewModel.LoginCreateAccountViewModel
 
 
 @Composable
