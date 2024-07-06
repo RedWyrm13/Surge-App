@@ -7,6 +7,8 @@ import com.example.surge_app.data.Driver
 import com.example.surge_app.data.Ride
 import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.repositories.RideRepoImpl
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
@@ -14,13 +16,21 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
     val distanceOfRoute = rideRepoImpl.fetchDistanceOfRoute()
     val durationOfRoute = rideRepoImpl.fetchDurationOfRoute()
 
-    var potentialDrivers = listOf<Driver>()
+    private val _potentialDrivers = MutableStateFlow<List<Driver>>(emptyList())
+    val potentialDrivers: StateFlow<List<Driver>> = _potentialDrivers
     var pickupLocation: SimpleLocation? = null
 
     private val rideRepoImpl: RideRepoImpl = rideRepoImpl
-    fun addRideToDatabase(ride: Ride) {
+    var ride: Ride? = null
+    fun addRideToDatabase() {
         viewModelScope.launch {
-            rideRepoImpl.addRideToDatabase(ride)
+            try {
+                Log.e("MyTag_RideViewModel", "addRideToDatabase: $ride. If this value is null, that is why it is crashing.")
+                rideRepoImpl.addRideToDatabase(ride!!)
+            }
+            catch (e: Exception) {
+                Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
+            }
 
         }
 
@@ -31,7 +41,7 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
         viewModelScope.launch {
             try {
                 Log.e("MyTag_RideViewModel", "fetchDriversInArea: $pickupLocation. If this value is null, that is why it is crashing.")
-                potentialDrivers = rideRepoImpl.fetchNearbyDrivers(pickupLocation!!)
+                _potentialDrivers.value = rideRepoImpl.fetchNearbyDrivers(pickupLocation!!)
             } catch (e: Exception) {
                 Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
             }

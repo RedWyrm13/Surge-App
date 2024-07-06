@@ -21,6 +21,7 @@ import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.apiResponseData.metersToMiles
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
+import com.example.surge_app.data.stringToInt
 import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
 import com.example.surge_app.ui.theme.viewModel.LocationViewModel
 import com.example.surge_app.ui.theme.viewModel.RideViewModel
@@ -71,7 +72,8 @@ fun ChipInsideBottomBar(
             selected = true,
             onClick = {
                 onRideButtonClicked()
-                rideViewModel.addRideToDatabase(createRide(destinationViewModel, locationViewModel))
+                rideViewModel.ride= createRide(destinationViewModel, locationViewModel)
+                rideViewModel.addRideToDatabase()
                 rideViewModel.fetchDriversInArea()
             }
         )
@@ -98,7 +100,7 @@ fun createRide(destinationViewModel: DestinationViewModel,
 ): Ride {
     val pickupLocation = SimpleLocation(locationViewModel.getLatestLatitude(), locationViewModel.getLatestLongitude())
     try {
-        val ride = Ride(duration = destinationViewModel.durationOfRoute,
+        val ride = Ride(duration = stringToInt(destinationViewModel.durationOfRoute),
             distance = destinationViewModel.distanceOfRoute,
             encodedPolyline = destinationViewModel.encodedPolyline,
             pickupLocation = pickupLocation,

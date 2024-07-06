@@ -11,7 +11,7 @@ class Ride(
     val rideId: String = generateUniqueId("ride"),
     val pickupLocation: SimpleLocation = SimpleLocation(latitude = 0.0, longitude = 0.0),
     val destinationLocation: SimpleLocation = SimpleLocation(latitude = 0.0, longitude = 0.0),
-    val duration: String = "",
+    val duration: Int = 0,
     val distance: Int = 0,
     val encodedPolyline: String? = null,
     val pickupLocationAddress: String = "", // Using the coordinates, the address will be obtained
@@ -39,13 +39,13 @@ fun generateUniqueId(method: String): String {
     }
     when (method.lowercase().trim()) {
         "ride" -> {
-            return "R" + sb.toString()
+            return "R$sb"
         }
         "pax" -> {
-            return "P" + sb.toString()
+            return "P$sb"
         }
         "driver" -> {
-            return "D" + sb.toString()
+            return "D$sb"
         }
     }
     return sb.toString()
@@ -60,7 +60,23 @@ data class SimpleLocation(
 
 
 }
+fun stringToInt(input: String): Int {
+    // Check if the input ends with 's'
+    if (input.endsWith("s")) {
+        // Remove the 's' at the end and parse the remaining string to an integer
+        return input.dropLast(1).toIntOrNull() ?: throw IllegalArgumentException("Invalid input format")
+    } else {
+        throw IllegalArgumentException("Input should end with 's'")
+    }
+}
 
-
-
-
+fun Int.minutesHours(): String{
+    val totalMinutes = this / 60
+    val hours = totalMinutes / 60
+    val minutes = totalMinutes % 60
+    return if (hours > 0) {
+        "$hours hours, $minutes minutes"
+    } else {
+        "$minutes minutes"
+    }
+}
