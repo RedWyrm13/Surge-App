@@ -12,6 +12,13 @@ import com.example.surge_app.data.Driver
 import com.example.surge_app.data.Ride
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.InputChip
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
@@ -42,10 +49,26 @@ fun DriverCard(driver: Driver, ride: Ride) {
             Text("(${driver.rating.ratingCount})")
         }
 
+        RequestRideChip()
+
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RequestRideChip() {
+    var label by remember { mutableStateOf("Request Ride") }
+    var selected by remember { mutableStateOf(true) }
 
+    InputChip(
+        label = { Text(label) },
+        selected = selected,
+        onClick = {
+            label = "Request Sent"
+            selected = false
+        }
+    )
+}
 @Preview
 @Composable
 fun DriverCardPreview() {

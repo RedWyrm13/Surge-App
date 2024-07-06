@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -43,8 +44,13 @@ fun StartRideScreen(rideRepoImpl: RideRepoImpl, rideViewModel: RideViewModel) {
             if (potentialDrivers.isEmpty()) {
                 Text(text = "Searching For Drivers", fontSize = 24.sp)
             } else {
-                Text(text = "Pickup Location: ${rideViewModel.ride!!.pickupLocationAddress}")
-                Text(text = "Dropoff Location: ${rideViewModel.ride!!.destinationLocationAddress}")
+                Text(
+                    text = "Pickup Location: ${rideViewModel.ride!!.pickupLocationAddress}",
+                    modifier = Modifier.padding(8.dp)
+                )
+                Text(
+                    text = "Dropoff Location: ${rideViewModel.ride!!.destinationLocationAddress}",
+                    modifier = Modifier.padding(8.dp))
 
                 Text(text = "Drivers Near You", fontSize = 24.sp)
 
