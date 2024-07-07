@@ -13,9 +13,7 @@ import com.example.surge_app.network.FirebaseManager
 import com.example.surge_app.network.GeocodingApiService
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -44,7 +42,7 @@ interface RideRepo {
 
     suspend fun fetchNearbyDrivers(pickupLocation: SimpleLocation): List<Driver>
 
-    suspend fun updateRide(ride: Ride)
+    suspend fun addRequestedDriverToList(rideId: String, driverId: String)
 }
 
 class RideRepoImpl : RideRepo {
@@ -54,15 +52,19 @@ class RideRepoImpl : RideRepo {
     var durationOfRoute: String = ""
     var potentialDrivers: List<Driver> = listOf()
 
-    override suspend fun updateRide(ride: Ride) {
+    override suspend fun addRequestedDriverToList(rideId: String, driverId: String) {
+        val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
+        val rideRef = driverFirestore.collection("Rides").document(rideId)
+
         try {
-            val db = FirebaseFirestore.getInstance()
-            db.collection("rides").document(ride.rideId)
-                .update(mapOf("driverIdNumber" to ride.driverIdNumber))
-        }catch(e: Exception){
+            rideRef.update("requestedDrivers", com.google.firebase.firestore.FieldValue.arrayUnion(driverId))
+        }
+        catch (e: Exception) {
             Log.e("MyTag_RideRepo", "Exception caught: ${e.message}", e)
         }
+
     }
+
     override suspend fun routesPostRequest(
         geocodingResponse: GeocodingResponse,
         userLocation: Location?

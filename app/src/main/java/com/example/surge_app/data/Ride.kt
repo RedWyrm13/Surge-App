@@ -20,6 +20,7 @@ class Ride(
     var paxIdNumber = ""
     var driverIdNumber =  ""
     val geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(pickupLocation.latitude, pickupLocation.longitude))
+    val requestedDrivers = mutableListOf<String>()
 
     override fun toString(): String {
         return "Ride(rideId='$rideId', pickupLocation=$pickupLocation, destination=$destinationLocation, duration='$duration', distance=$distance, encodedPolyline=$encodedPolyline, pickupLocationAddress='$pickupLocationAddress', destinationLocationAddress='$destinationLocationAddress', paxIdNumber='$paxIdNumber', driverIdNumber='$driverIdNumber', geohash='$geohash')"

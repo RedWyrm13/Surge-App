@@ -33,7 +33,7 @@ fun DriverCard(driver: Driver, rideViewModel: RideViewModel) {
 
     val onClick: () -> Unit = {
         Log.d("MyTag_DriverCard", "DriverBefore: ${driver}")
-        ride.driverIdNumber = driver.driverIdNumber
+        ride.requestedDrivers.add(driver.driverIdNumber)
         rideViewModel.addRideToDatabase()
 
     }

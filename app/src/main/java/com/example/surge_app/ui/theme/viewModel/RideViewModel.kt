@@ -36,20 +36,19 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
 
 
     }
-
-    fun updateRide(dbRide: Ride) {
+    fun addRequestedDriverToList(driverId: String) {
         viewModelScope.launch {
             try {
-                Log.d("MyTag_RideViewModel", "dbRide: $dbRide.")
-                rideRepoImpl.updateRide(dbRide)
-                ride = dbRide
-                Log.d("MyTag_RideViewModel", "ride: $ride.")
-
+                rideRepoImpl.addRequestedDriverToList(ride!!.rideId, driverId)
             }
             catch (e: Exception) {
                 Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
             }
         }
+    }
+
+    fun updatePickupLocation(pickupLocation: SimpleLocation) {
+        this.pickupLocation = pickupLocation
     }
 
     fun fetchDriversInArea() {
