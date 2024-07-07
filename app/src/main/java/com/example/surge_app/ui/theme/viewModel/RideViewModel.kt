@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
+class RideViewModel(val rideRepoImpl: RideRepoImpl): ViewModel(){
     val encodedPolyline = rideRepoImpl.fetchEncodedPolyline()
     val distanceOfRoute = rideRepoImpl.fetchDistanceOfRoute()
     val durationOfRoute = rideRepoImpl.fetchDurationOfRoute()
@@ -20,7 +20,6 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
     val potentialDrivers: StateFlow<List<Driver>> = _potentialDrivers
     var pickupLocation: SimpleLocation? = null
 
-    private val rideRepoImpl: RideRepoImpl = rideRepoImpl
     var ride: Ride? = null
     fun addRideToDatabase() {
         viewModelScope.launch {
