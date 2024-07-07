@@ -19,7 +19,6 @@ import com.example.surge_app.R
 import com.example.surge_app.data.Ride
 import com.example.surge_app.data.SimpleLocation
 import com.example.surge_app.data.apiResponseData.metersToMiles
-import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.data.apiResponseData.secondsToHoursMinutes
 import com.example.surge_app.data.stringToInt
 import com.example.surge_app.ui.theme.viewModel.DestinationViewModel
@@ -31,7 +30,6 @@ import com.example.surge_app.ui.theme.viewModel.RideViewModel
 @Composable
 fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
                         onRideButtonClicked: () -> Unit,
-                        rideRepoImpl: RideRepoImpl,
                         locationViewModel: LocationViewModel,
                         rideViewModel: RideViewModel
 ) {
@@ -46,7 +44,7 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
             Text(text = distanceAndTimeText(destinationViewModel.distanceOfRoute, destinationViewModel.durationOfRoute),
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 color = Color.Green)
-            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, rideRepoImpl, locationViewModel, rideViewModel)
+            ChipInsideBottomBar(destinationViewModel, onRideButtonClicked, locationViewModel, rideViewModel)
             Text(text = "Fill with images of place you want to go to", modifier = Modifier.align(Alignment.CenterHorizontally))
 
         }
@@ -59,7 +57,6 @@ fun MainScreenBottomBar(destinationViewModel: DestinationViewModel,
 fun ChipInsideBottomBar(
     destinationViewModel: DestinationViewModel,
     onRideButtonClicked: () -> Unit,
-    rideRepoImpl: RideRepoImpl,
     locationViewModel: LocationViewModel,
     rideViewModel: RideViewModel
 ) {

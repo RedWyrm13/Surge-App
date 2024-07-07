@@ -1,28 +1,26 @@
 package com.example.surge_app.ui.theme
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.surge_app.data.Driver
-import com.example.surge_app.data.Ride
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.InputChip
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
+import com.example.surge_app.data.Driver
 import com.example.surge_app.data.minutesHours
 import com.example.surge_app.data.repositories.RideRepoImpl
 import com.example.surge_app.ui.theme.viewModel.RideViewModel
@@ -32,7 +30,7 @@ fun DriverCard(driver: Driver, rideViewModel: RideViewModel) {
     val ride = rideViewModel.ride!!
 
     val onClick: () -> Unit = {
-        Log.d("MyTag_DriverCard", "DriverBefore: ${driver}")
+        Log.d("MyTag_DriverCard", "DriverBefore: $driver")
         ride.requestedDrivers.add(driver.driverIdNumber)
         rideViewModel.addRideToDatabase()
 
