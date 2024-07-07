@@ -53,7 +53,7 @@ class RideRepoImpl : RideRepo {
     var potentialDrivers: List<Driver> = listOf()
 
     override suspend fun addRequestedDriverToList(rideId: String, driverId: String) {
-        val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
+        val driverFirestore: FirebaseFirestore = FirebaseManager.fetchDriverFirestore()
         val rideRef = driverFirestore.collection("Rides").document(rideId)
 
         try {
@@ -159,7 +159,7 @@ class RideRepoImpl : RideRepo {
     suspend override fun addRideToDatabase(ride: Ride) {
         Log.d("MyTag", "Add ride to database function started")
 
-        val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
+        val driverFirestore: FirebaseFirestore = FirebaseManager.fetchDriverFirestore()
 
         try {
             driverFirestore.collection("Rides").document(ride.rideId).set(ride)
@@ -184,7 +184,7 @@ class RideRepoImpl : RideRepo {
     }
 
      override suspend fun fetchNearbyDrivers(pickupLocation: SimpleLocation): List<Driver> {
-        val driverFirestore: FirebaseFirestore = FirebaseManager.getDriverFirestore()
+        val driverFirestore: FirebaseFirestore = FirebaseManager.fetchDriverFirestore()
 
         val center = GeoLocation(pickupLocation.latitude, pickupLocation.longitude)
         val radius = 11266.0 // 7 miles in meters

@@ -24,12 +24,12 @@ object FirebaseManager {
     }
 
     // Accessor for the default Firestore
-    fun getPassengerFirestore(): FirebaseFirestore {
+    fun fetchPassengerFirestore(): FirebaseFirestore {
         return passengerDb
     }
 
     // Accessor for the secondary Firestore
-    fun getDriverFirestore(): FirebaseFirestore {
+    fun fetchDriverFirestore(): FirebaseFirestore {
         return driverDb
     }
 }
