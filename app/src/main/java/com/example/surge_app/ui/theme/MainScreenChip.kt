@@ -73,7 +73,6 @@ fun ChipInsideBottomBar(
             onClick = {
                 onRideButtonClicked()
                 rideViewModel.ride= createRide(destinationViewModel, locationViewModel)
-                rideViewModel.addRideToDatabase()
                 rideViewModel.fetchDriversInArea()
             }
         )

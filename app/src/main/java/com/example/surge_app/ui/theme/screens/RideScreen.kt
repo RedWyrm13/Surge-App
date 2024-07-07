@@ -57,11 +57,10 @@ fun StartRideScreen(rideRepoImpl: RideRepoImpl, rideViewModel: RideViewModel) {
                 // Render list of drivers if available
                 for (driver in potentialDrivers) {
                     Spacer(modifier = Modifier.height(10.dp))
-                    DriverCard(driver, rideViewModel.ride!!)
+                    DriverCard(driver, rideViewModel) }
                 }
             }
         }
-    }
 
     // Trigger fetching drivers when the screen appears or based on user interaction
     LaunchedEffect(Unit) {

@@ -43,6 +43,8 @@ interface RideRepo {
     fun fetchDurationOfRoute(): String
 
     suspend fun fetchNearbyDrivers(pickupLocation: SimpleLocation): List<Driver>
+
+    suspend fun updateRide(ride: Ride)
 }
 
 class RideRepoImpl : RideRepo {
@@ -52,6 +54,15 @@ class RideRepoImpl : RideRepo {
     var durationOfRoute: String = ""
     var potentialDrivers: List<Driver> = listOf()
 
+    override suspend fun updateRide(ride: Ride) {
+        try {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("rides").document(ride.rideId)
+                .update(mapOf("driverIdNumber" to ride.driverIdNumber))
+        }catch(e: Exception){
+            Log.e("MyTag_RideRepo", "Exception caught: ${e.message}", e)
+        }
+    }
     override suspend fun routesPostRequest(
         geocodingResponse: GeocodingResponse,
         userLocation: Location?

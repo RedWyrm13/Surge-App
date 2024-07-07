@@ -18,7 +18,7 @@ class Ride(
 ) {
     //This data will be updated once a driver has been determined
     var paxIdNumber = ""
-    var driverIdNumber = ""
+    var driverIdNumber =  ""
     val geohash = GeoFireUtils.getGeoHashForLocation(GeoLocation(pickupLocation.latitude, pickupLocation.longitude))
 
     override fun toString(): String {

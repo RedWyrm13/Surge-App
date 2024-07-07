@@ -37,6 +37,21 @@ class RideViewModel(rideRepoImpl: RideRepoImpl): ViewModel(){
 
     }
 
+    fun updateRide(dbRide: Ride) {
+        viewModelScope.launch {
+            try {
+                Log.d("MyTag_RideViewModel", "dbRide: $dbRide.")
+                rideRepoImpl.updateRide(dbRide)
+                ride = dbRide
+                Log.d("MyTag_RideViewModel", "ride: $ride.")
+
+            }
+            catch (e: Exception) {
+                Log.e("MyTag_RideViewModel", "Exception caught: ${e.message}", e)
+            }
+        }
+    }
+
     fun fetchDriversInArea() {
         viewModelScope.launch {
             try {

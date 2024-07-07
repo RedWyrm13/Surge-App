@@ -1,5 +1,6 @@
 package com.example.surge_app.ui.theme
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,16 +24,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import com.example.surge_app.R
 import com.example.surge_app.data.minutesHours
+import com.example.surge_app.data.repositories.RideRepoImpl
+import com.example.surge_app.ui.theme.viewModel.RideViewModel
 
 @Composable
-fun DriverCard(driver: Driver, ride: Ride) {
+fun DriverCard(driver: Driver, rideViewModel: RideViewModel) {
+    val ride = rideViewModel.ride!!
 
+    val onClick: () -> Unit = {
+        Log.d("MyTag_DriverCard", "DriverBefore: ${driver}")
+        ride.driverIdNumber = driver.driverIdNumber
+        rideViewModel.addRideToDatabase()
+
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     )
+
     {
         Text(text = driver.firstName, fontSize = 20.sp)
 
@@ -49,14 +60,14 @@ fun DriverCard(driver: Driver, ride: Ride) {
             Text("(${driver.rating.ratingCount})")
         }
 
-        RequestRideChip()
+        RequestRideChip(onClick)
 
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RequestRideChip() {
+fun RequestRideChip(onClick: () -> Unit = {}) {
     var label by remember { mutableStateOf("Request Ride") }
     var selected by remember { mutableStateOf(true) }
 
@@ -64,6 +75,7 @@ fun RequestRideChip() {
         label = { Text(label) },
         selected = selected,
         onClick = {
+            onClick()
             label = "Request Sent"
             selected = false
         }
@@ -72,5 +84,5 @@ fun RequestRideChip() {
 @Preview
 @Composable
 fun DriverCardPreview() {
-    DriverCard(driver = Driver(), ride = Ride())
+    DriverCard(driver = Driver(), rideViewModel = RideViewModel(rideRepoImpl = RideRepoImpl()))
 }

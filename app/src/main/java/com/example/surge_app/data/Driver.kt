@@ -7,9 +7,13 @@ class Driver(
     val firstName: String = "",
     val rating: DriverRating = DriverRating(),
     val fare: Fare = Fare(),
+    val driverIdNumber: String = ""
 
 ){
-    constructor() : this("", DriverRating(), Fare())
+    constructor() : this("", DriverRating(), Fare(), "")
+
+    override fun toString(): String {
+        return "Driver(firstName='$firstName', rating=$rating, fare=$fare, driverIdNumber='$driverIdNumber')"}
 }
 
 class DriverRating(
@@ -18,8 +22,8 @@ class DriverRating(
 )
 
 class Fare(
-    private val pricePerMile: Double = 1.0,
-    private val pricePerMinute: Double = 1.0
+     val pricePerMile: Double = 1.0,
+     val pricePerMinute: Double = 1.0
 ){
     fun calculatePriceOfRide(distance: Int, time: Int): Double {
         //convert distance to miles from meters and time from seconds to minutes
