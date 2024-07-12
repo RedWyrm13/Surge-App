@@ -85,10 +85,10 @@ fun SurgeMain(
         startDestination = Screens.MainScreen.name){
         composable(route = Screens.MainScreen.name){
             SurgeMainScreen(onRideButtonClicked = { navController.navigate(Screens.StartRideScreen.name) },
-                locationViewModel = locationViewModel, destinationViewModel = destinationViewModel, rideRepoImpl = rideRepoImpl,rideViewModel = rideViewModel)
+                locationViewModel = locationViewModel, destinationViewModel = destinationViewModel,rideViewModel = rideViewModel)
         }
         composable(route = Screens.StartRideScreen.name){
-            StartRideScreen (rideRepoImpl = rideRepoImpl, rideViewModel = rideViewModel)
+            StartRideScreen (rideViewModel = rideViewModel)
         }
     }
 }
