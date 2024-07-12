@@ -104,9 +104,9 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation ("com.google.maps.android:places-ktx:2.0.0")
     implementation ("com.google.maps.android:android-maps-utils:2.2.2")
-    implementation ("com.google.android.gms:play-services-auth:21.0.0")
-    implementation ("com.google.android.libraries.places:places:3.4.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation ("com.google.android.gms:play-services-auth:21.2.0")
+    implementation ("com.google.android.libraries.places:places:3.5.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
 
 
@@ -114,9 +114,9 @@ dependencies {
 
 
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
