@@ -1,4 +1,5 @@
 package com.example.surge_app
+
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.compose.foundation.layout.Box

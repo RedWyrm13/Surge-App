@@ -1,7 +1,6 @@
 package com.example.surge_app
 
 import android.Manifest
-import android.accounts.Account
 import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
@@ -20,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -51,6 +52,17 @@ class AuthenticationManager(private val context: Context, private val currentAct
             .addOnCompleteListener(currentActivity) { task ->
                 if (task.isSuccessful) {
                     // User login successful, start new activity
+                    // We create a JWT for the user which is managed by Firebase
+                    val user = auth.currentUser
+                    user?.getIdToken(true)?.addOnCompleteListener{tokenTask ->
+                        if (tokenTask.isSuccessful){
+                            val idToken = tokenTask.result?.token
+                            saveToken(token = idToken.toString(), context = currentActivity)
+                        }
+                        else{
+                            Log.e("MyTag_AuthenticationManager.kt", "Error getting token: ", tokenTask.exception)
+                        }
+                    }
                     val intent = Intent(context, nextActivityClass)
                     context.startActivity(intent)
                     // Finish the current activity
@@ -121,4 +133,66 @@ fun launchAccountPicker(context: android.content.Context, chooseAccountLauncher:
 
     val intent = AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), null, null, null, null)
     chooseAccountLauncher.launch(intent)
+}
+
+fun saveToken(context: Context, token: String?) {
+    if (token != null) {
+        // Create or retrieve the MasterKey for encryption
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        // Initialize EncryptedSharedPreferences with the MasterKey
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        // Save the token securely
+        sharedPreferences.edit().putString("auth_token", token).apply()
+    }
+}
+
+fun getToken(context: Context): String? {
+    // Create or retrieve the MasterKey for decryption
+    val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    // Retrieve EncryptedSharedPreferences with the MasterKey
+    val sharedPreferences = EncryptedSharedPreferences.create(
+        context,
+        "secure_prefs",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+    // Retrieve the token securely
+    return sharedPreferences.getString("auth_token", null)
+}
+
+fun logout(context: Context) {
+    val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+
+    val sharedPreferences = EncryptedSharedPreferences.create(
+        context,
+        "secure_prefs",
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+
+    // Clear the token
+    sharedPreferences.edit().remove("auth_token").apply()
+
+    // Redirect to login screen
+    val intent = Intent(context, LoginCreateAccountActivity::class.java)
+    context.startActivity(intent)
+    (context as Activity).finish()
 }

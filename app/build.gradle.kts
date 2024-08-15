@@ -90,6 +90,8 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.firebase:geofire-android-common:3.2.0")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha03")
+
 
 
     implementation("com.google.android.gms:play-services-maps:18.2.0")

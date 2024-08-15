@@ -2,6 +2,7 @@ package com.example.surge_app
 
 import android.accounts.AccountManager
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,6 +44,11 @@ class MyApplication: Application() {
 class LoginCreateAccountActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val token = getToken(this)
+        if(token != null){
+            startActivity(Intent(this, MainScreenActivity::class.java))
+            finish()
+        }
 
          val chooseAccountLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
