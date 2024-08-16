@@ -25,12 +25,12 @@ class Fare(
      val pricePerMile: Double = 1.0,
      val pricePerMinute: Double = 1.0
 ){
-    fun calculatePriceOfRide(distance: Int, time: Int): Double {
+    fun calculatePriceOfRide(distance: Int, time: Int): String {
         //convert distance to miles from meters and time from seconds to minutes
         val price = distance *0.000621371 * pricePerMile + time / 60 * pricePerMinute
 
-        val df = DecimalFormat("#.##")
-        return df.format(price).toDouble()
+        val df = DecimalFormat("0.00")
+        return df.format(price).toString()
     }
 }
 fun generateUniqueId(method: String): String {
